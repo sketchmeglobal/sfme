@@ -21,20 +21,16 @@ class Login extends My_Controller {
         $this->load->library('form_validation');
         //if already logged-in
         if($this->user_type != null) {
-            echo 'here 1'; 
             redirect(base_url('admin/dashboard')); //redirect to dashboard
         }
         //if login form submitted
         elseif($this->input->post('submit') == 'login') {
-            echo 'here 2'; 
             $this->load->model('Login_m');
             $data = $this->Login_m->admin_login();
 
             if( $data['type'] == 'load_view') {
-                echo 'here 3'; 
                 $this->load->view($data['page']); //loading admin login page
             } else if( $data['type'] == 'redirect') {
-                echo 'here 4'; die;
                 redirect(base_url($data['page']));
             }
 
