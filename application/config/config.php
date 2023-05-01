@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 
-$config['base_url'] = 'http://localhost/gitHub/sfme/';
+$config['base_url'] = 'http://localhost/sfme/';
 
 // $config['base_url'] = 'http://seafoodmiddleeast.net/';
 
