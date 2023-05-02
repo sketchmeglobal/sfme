@@ -63,12 +63,171 @@
                         </div> -->
 
                         <div class="panel-body" style="text-align: left;">
-                            <h4>Folders</h4>
-                            <i class="fas fa-folder"></i>
+                            <h3>Folders</h3>
+
+                            <!-- https://www.w3schools.com/icons/fontawesome_icons_webapp.asp -->
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Documents</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Files</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Photoes</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Music</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Videos</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Projects</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>Downloads</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Payslip</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                </br>
+                                <span>My Folder</span>
+                            </div>
+                            
+
+                            
+
                         </div>
 
+                        
+
                         <div class="panel-body" style="text-align: left;">
-                            <h4>Files</h4>
+                            <h3>Files</h3>
+                            <!-- https://www.w3schools.com/icons/fontawesome_icons_filetype.asp -->
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-pdf-o" style="font-size:24px"></i>
+                                </br>
+                                <span>myCV.pdf</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-excel-o" style="font-size:24px"></i>
+                                </br>
+                                <span>student_list.xlsx</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-image-o" style="font-size:24px"></i>
+                                </br>
+                                <span>img-01:02:12.jpeg</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-movie-o" style="font-size:24px"></i>
+                                </br>
+                                <span>screen-record.mp4</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-text-o" style="font-size:24px"></i>
+                                </br>
+                                <span>data.txt</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-word-o" style="font-size:24px"></i>
+                                </br>
+                                <span>holiday.docs</span>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <i class="fa fa-file-zip-o" style="font-size:24px"></i>
+                                </br>
+                                <span>all-documents.zip</span>
+                            </div>
+
                         </div>
 
                     </section>
