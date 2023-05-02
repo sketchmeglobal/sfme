@@ -66,6 +66,11 @@
  	$route['admin/form-edit-user'] = 'admin_panel/User/form_edit_user';
  	$route['admin/ajax-unique-username-edit'] = 'admin_panel/User/ajax_unique_username_edit';
 
+	//For Document manager types user START
+	$route['admin/my-documents'] = 'admin_panel/Documents/my_documents';
+	$route['admin/add-document'] = 'admin_panel/Documents/add_document';	
+	//For Document manager types user END
+
 		/*delete*/
 	$route['admin/ajax-delete-user'] = 'admin_panel/User/ajax_delete_user';	
 
