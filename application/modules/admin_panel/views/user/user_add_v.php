@@ -59,6 +59,7 @@
                                             <option value="2">Resource Developer</option>
                                             <option value="3">Marketing Personnel</option>
                                             <option value="4">Exporter</option>
+                                            <option value="5">Doc. Mgr.</option>
                                         </select>
 
                                     </div>
@@ -173,8 +174,7 @@
 
 <script>
     //add-item-form validation and submit
-    $("#form_add_user").validate({
-        
+    $("#form_add_user").validate({        
         rules: {
             username: {
                 required: true,
