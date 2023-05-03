@@ -46,17 +46,18 @@
                 <div class="col-lg-12">
                     <section class="panel">
                         <div class="panel-body">
-                            <form autocomplete="off" id="form_add_user" method="post" action="<?=base_url('admin/form-add-user')?>" enctype="multipart/form-data" class="cmxform form-horizontal tasi-form">
+                            <form autocomplete="off" id="form_add_document" method="post" action="<?=base_url('admin/form-add-document')?>" enctype="multipart/form-data" class="cmxform form-horizontal tasi-form">
                                 
                                 <div class="form-group ">
                                     <div class="col-lg-3">
-                                        <label for="foldername" class="control-label text-danger">Folder Name*</label>
-                                        <input value="" id="foldername" name="foldername" type="text" placeholder="Folder Name" class="form-control round-input" />
+                                        <label for="folderName" class="control-label text-danger">Folder Name*</label>
+                                        <input value="" id="folderName" name="folderName" type="text" placeholder="Folder Name" class="form-control round-input" />
+                                        <input type="hidden" name="parentFolderId" id="parentFolderId" value="0">
                                     </div>  
 
                                     <div class="col-lg-3">
                                         <label for="" class="control-label">Upload Files</label>
-                                        <input type="file" name="userfile" id="userfile" accept=".jpg,.jpeg,.png,.bmp,.txt,.docx,.xlsx,.csv,.pdf" class="file">
+                                        <input type="file" name="userfile[]" id="userfile" accept=".jpg,.jpeg,.png,.bmp,.txt,.docx,.xlsx,.csv,.pdf,.zip" class="file" multiple>
                                      </div>
                                 </div>  
 
@@ -102,47 +103,33 @@
 
 <script>
     //add-item-form validation and submit
-    $("#form_add_user").validate({        
+    $("#form_add_document").validate({        
         rules: {
-            username: {
-                required: true,
-                remote: {
-                    url: "<?=base_url('admin/ajax-unique-username')?>",
-                    type: "post",
-                    data: {
-                        username: function() {
-                          return $("#username").val();
-                        }
-                    },
-                }
-            },            
-            user_type:{
+            folderName: {
                 required: true
-            },
-            pass : {
-                required: true
-            }   
+            }  
         },
         messages: {
 
         }
     });
-    $('#form_add_user').ajaxForm({
+    $('#form_add_document').ajaxForm({
         beforeSubmit: function () {
-            return $("#form_add_user").valid(); // TRUE when form is valid, FALSE will cancel submit
+            return $("#form_add_document").valid(); // TRUE when form is valid, FALSE will cancel submit
         },
         success: function (returnData) {
             console.log(returnData);
             obj = JSON.parse(returnData);
             notification(obj);
 			if(parseInt(obj.insert_id) > 0){
-                if(obj.type == 'error'){
-                    setTimeout(function(){ 
-                        window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id; 
-                        }, 3000);
-                }else{
-                    window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id;
-                }            	
+                console.log(JSON.stringify(obj));
+                // if(obj.type == 'error'){
+                //     setTimeout(function(){ 
+                //         window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id; 
+                //     }, 3000);
+                // }else{
+                //     window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id;
+                // }            	
 			}
 		}
     });

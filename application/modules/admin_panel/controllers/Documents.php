@@ -69,15 +69,13 @@ class Documents extends My_Controller {
 
     }
 
-    public function ajax_unique_username(){
-        
+    public function ajax_unique_foldername(){        
         if($this->check_permission(array()) == true) {
             $this->load->model('Documents_m');
-            $data = $this->Documents_m->ajax_unique_username();
+            $data = $this->Documents_m->ajax_unique_foldername();
             echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
             exit();
-        }        
-
+        } 
     }
 
     public function ajax_delete_user(){
@@ -102,15 +100,13 @@ class Documents extends My_Controller {
 
     }
 
-    public function form_add_user(){
-        
+    public function form_add_document(){        
         if($this->check_permission(array()) == true) {
             $this->load->model('Documents_m');
-            $data = $this->Documents_m->form_add_user();
+            $data = $this->Documents_m->form_add_document();
             echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
             exit();
         }
-
     }
 
     public function edit_user($user_id){

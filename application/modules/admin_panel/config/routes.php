@@ -69,6 +69,8 @@
 	//For Document manager types user START
 	$route['admin/my-documents'] = 'admin_panel/Documents/my_documents';
 	$route['admin/add-document'] = 'admin_panel/Documents/add_document';	
+	$route['admin/ajax-unique-folderName'] = 'admin_panel/Documents/ajax_unique_foldername';	
+	$route['admin/form-add-document'] = 'admin_panel/Documents/form_add_document';		
 	//For Document manager types user END
 
 		/*delete*/

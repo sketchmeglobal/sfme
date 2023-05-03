@@ -150,9 +150,8 @@ class documents_m extends CI_Model {
         return array('page'=>'documents/document_add_v', 'data'=>$data);
     }
 
-    public function ajax_unique_username(){
-        
-        $username = $this->input->post('username');
+    public function ajax_unique_foldername(){        
+        $folderName = $this->input->post('folderName');
         $rs = $this->db->get_where('users', array('username' => $username))->num_rows();
         // echo $this->db->last_query();die;
         
@@ -196,10 +195,69 @@ class documents_m extends CI_Model {
 
     }
 
-    public function form_add_user(){
+    public function form_add_document(){  
+        $daya = array();
+        $status = true;
+
+        $folderName = $this->input->post('folderName');
+        $parentFolderId = $this->input->post('parentFolderId');
+        $created_by = 0;
+        $fold_id = rand(1000, 9999);
+
+        $documents = new stdClass();
+        $folders = array();
+        $files = array();
+
+        $folder = new stdClass();
+        $folder->fold_id = $fold_id;
+        $folder->folderName = $folderName;
+        $folder->parentFolderId = $parentFolderId;
+        array_push($folders, $folder);
         
-        if( $this->input->post('user_type') == 4){
+        $documents->folders = $folders;
+        $documents->files = $files;
+
+        $data['documents'] = $documents;
+
+        $insertArray = array(
+            'created_by' => $created_by,
+            'documents' => json_encode($documents)
+        );
+        
+        if($this->db->insert('document_master', $insertArray)){
+            $data['insert_id'] = $this->db->insert_id();
+            if (!empty($_FILES['userfile']['name'][0])) {
+                $return_data = array(); 
+
+                $upload_path = './upload/documents/' ; 
+                $file_type = 'jpg|jpeg|png|bmp';
+                $user_file_name = 'userfile';
+
+                $return_data = $this->_upload_files($_FILES['userfile'], $upload_path, $file_type, $user_file_name);
+
+                echo json_encode($return_data);die;
+                // print_r($return_data);die;
+
+                foreach ($return_data as $datam) {
+                    if ($datam['status'] != 'error') {                        
+                        // Insert filename to db
+                        
+                        /*$insertArray1 = array(
+                            'user_id' => $data['insert_id'],
+                            'firstname' => $this->input->post('firstname'),
+                            'lastname' => $this->input->post('lastname'),
+                            'contact' => $this->input->post('contact'),
+                            'img' => $datam['filename']
+                        );
+                        $this->db->insert('user_details', $insertArray1);*/
+                    }//end if
+                }//end foreach
+            }//end file upload
             
+        }//end if
+
+        /*
+        if( $this->input->post('user_type') == 4){            
             if(count($this->input->post('offer_values[]')) > 0){
                 $accn = join(',',$this->input->post('offer_values[]'));
             }else{
@@ -295,16 +353,17 @@ class documents_m extends CI_Model {
         }else{
             $data['type'] = 'error';
             $data['msg'] = 'Database Insert Error';
-        }
+        }*/
 
+        $data['type'] = 'success';
+        $data['msg'] = 'Document Saved Properly';
+        $data['title'] = 'Add Document';
         return $data;
 
     }
 
     private function _upload_files($files, $upload_path, $file_type, $user_file_name){
-
         // date_default_timezone_set("Asia/Kolkata");  
-
         $uploadedFileData = array();
         $key = 0;
 
@@ -317,38 +376,37 @@ class documents_m extends CI_Model {
         $this->load->library('upload', $config);
 
         // print_r($_FILES[$user_file_name]);
+        $filesCount = count($_FILES[$user_file_name]['name']); 
+        for($i = 0; $i < $filesCount; $i++){ 
+            $_FILES['file']['name']       = $_FILES[$user_file_name]['name'][$i];
+            $_FILES['file']['type']       = $_FILES[$user_file_name]['type'][$i];
+            $_FILES['file']['tmp_name']   = $_FILES[$user_file_name]['tmp_name'][$i];
+            $_FILES['file']['error']      = $_FILES[$user_file_name]['error'][$i];
+            $_FILES['file']['size']       = $_FILES[$user_file_name]['size'][$i];
 
-        $_FILES['file']['name']       = $_FILES[$user_file_name]['name'];
-        $_FILES['file']['type']       = $_FILES[$user_file_name]['type'];
-        $_FILES['file']['tmp_name']   = $_FILES[$user_file_name]['tmp_name'];
-        $_FILES['file']['error']      = $_FILES[$user_file_name]['error'];
-        $_FILES['file']['size']       = $_FILES[$user_file_name]['size'];
+            // $config['file_name'] = date('His') .'_'. $image;
 
-        // $config['file_name'] = date('His') .'_'. $image;
+            $this->upload->initialize($config);
 
-        $this->upload->initialize($config);
-
-        if ($this->upload->do_upload('file')) {
-            
-            $imageData = $this->upload->data();
-
-            $new_array[] = array(
-                'filename' => $imageData['file_name'], 
-                'status' => 'success',
-                'msg' => 'OK'
-            );
-
-            $final_array = array_merge($uploadedFileData, $new_array);
-
-        } else {
-            $new_array[] = array(
-                'filename' => null, 
-                'status' => 'error',
-                'msg' => 'Type or Size Mismatch' //$this->upload->display_errors() .
-            );
-
-            $final_array = array_merge($uploadedFileData, $new_array);
-        }
+            if ($this->upload->do_upload('file')) {                
+                $imageData = $this->upload->data();
+                //echo json_encode($imageData);
+                $new_array[] = array(
+                    'filename' => $imageData['file_name'], 
+                    'meta_data' => $imageData, 
+                    'status' => 'success',
+                    'msg' => 'OK'
+                );
+                $final_array = array_merge($uploadedFileData, $new_array);
+            } else {
+                $new_array[] = array(
+                    'filename' => null, 
+                    'status' => 'error',
+                    'msg' => 'Type or Size Mismatch' //$this->upload->display_errors() .
+                );
+                $final_array = array_merge($uploadedFileData, $new_array);
+            }
+        }//end for
 
         return $final_array;
     }
