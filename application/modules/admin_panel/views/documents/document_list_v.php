@@ -44,7 +44,7 @@
 
             <div class="row">
                 <div class="col-lg-12 text-right">
-                    <a href="<?= base_url('admin/add-document') ?>" class="btn btn-success  mx-auto"><i class="fa fa-plus"></i> Add <?=$menu?></a>
+                    <a href="<?= base_url('admin/add-document/'.$parentFolderId.'') ?>" class="btn btn-success  mx-auto"><i class="fa fa-plus"></i> Add <?=$menu?></a>
                     <section class="panel">
                         <!-- <div class="panel-body">
                             <table id="user_table" class="table data-table dataTable">
@@ -62,121 +62,58 @@
                             </table>
                         </div> -->
 
+                        <?php
+                         if(sizeof($documents) > 0){
+                            $document_id = $documents[0]->document_id;
+                            $documents1 = $documents[0]->documents;
+                            $documents = json_decode($documents1);
+                            //echo json_encode($documents);
+                            //echo gettype($documents);
+                            $folders = $documents->folders;
+                            //print_r($folders);
+                            //echo json_encode($folders);
+
+                            $files = $documents->files;
+                            //print_r($files);
+                         }else{
+                            $folders = array();
+                            $files = array();
+                         }
+                         
+                         //echo 'parentFolderId: '. $parentFolderId;
+                        ?>
+
                         <div class="panel-body" style="text-align: left;">
                             <h3>Folders</h3>
 
                             <!-- https://www.w3schools.com/icons/fontawesome_icons_webapp.asp -->
 
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Documents</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Files</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Photoes</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Music</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Videos</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Projects</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>Downloads</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Payslip</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-folder-o" style="font-size:24px"></i>
-                                </br>
-                                <span>My Folder</span>
-                            </div>
+                            <?php
+                            if(sizeof($folders) > 0){
+                                $fdc = 0;
+                            for($i = 0; $i < sizeof($folders); $i++){
+                                if($folders[$i]->parentFolderId == $parentFolderId){
+                                    $fdc++;
+                            ?>
+                            <a href="<?= base_url('admin/my-documents/'.$folders[$i]->fold_id.'') ?>" >
+                                <div class="col-lg-2">
+                                    <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                    </br>
+                                    <span><?=$folders[$i]->folderName?> </span>
+                                </div>
+                            </a>
+                            <?php }//end if
+                            }//end for
                             
+                            if($fdc == 0){
+                                ?>
+                                <h5>No Folders available, please add new.</h5>
+                               <?php
+                           }
+                            }else{ ?>
+                                <h5>No Folders available, please add new.</h5>
 
-                            
+                            <?php } ?>
 
                         </div>
 
@@ -185,14 +122,32 @@
                         <div class="panel-body" style="text-align: left;">
                             <h3>Files</h3>
                             <!-- https://www.w3schools.com/icons/fontawesome_icons_filetype.asp -->
-
+                            <?php
+                            if(sizeof($files) > 0){
+                                $fc = 0;
+                            for($j = 0; $j < sizeof($files); $j++){                                
+                                if($files[$j]->parentFolderId == $parentFolderId){
+                                    $fc++;
+                            ?>
                             <div class="col-lg-2">
-                                <i class="fa fa-file-pdf-o" style="font-size:24px"></i>
+                                <i class="fa fa-file-text-o" style="font-size:24px"></i>
                                 </br>
-                                <span>myCV.pdf</span>
+                                <span><?=$files[$j]->file_name?></span>
                             </div>
+                            <?php }//end if
+                            }//end for
 
-                            <div class="col-lg-2">
+                            if($fc == 0){
+                                ?>
+                                 <h5>No Files available, please add new.</h5>
+                                <?php
+                            }
+                            }else{ ?>
+                                <h5>No Files available, please add new.</h5>
+
+                            <?php } ?>
+
+                            <!-- <div class="col-lg-2">
                                 <i class="fa fa-file-excel-o" style="font-size:24px"></i>
                                 </br>
                                 <span>student_list.xlsx</span>
@@ -226,7 +181,7 @@
                                 <i class="fa fa-file-zip-o" style="font-size:24px"></i>
                                 </br>
                                 <span>all-documents.zip</span>
-                            </div>
+                            </div> -->
 
                         </div>
 

@@ -52,7 +52,7 @@
                                     <div class="col-lg-3">
                                         <label for="folderName" class="control-label text-danger">Folder Name*</label>
                                         <input value="" id="folderName" name="folderName" type="text" placeholder="Folder Name" class="form-control round-input" />
-                                        <input type="hidden" name="parentFolderId" id="parentFolderId" value="0">
+                                        <input type="hidden" name="parentFolderId" id="parentFolderId" value="<?=$parentFolderId?>">
                                     </div>  
 
                                     <div class="col-lg-3">
@@ -106,7 +106,7 @@
     $("#form_add_document").validate({        
         rules: {
             folderName: {
-                required: true
+                required: false
             }  
         },
         messages: {
@@ -121,15 +121,15 @@
             console.log(returnData);
             obj = JSON.parse(returnData);
             notification(obj);
-			if(parseInt(obj.insert_id) > 0){
+			if(parseInt(obj.update_id) > 0){
                 console.log(JSON.stringify(obj));
-                // if(obj.type == 'error'){
-                //     setTimeout(function(){ 
-                //         window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id; 
-                //     }, 3000);
-                // }else{
-                //     window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id;
-                // }            	
+                if(obj.type == 'error'){
+                    // setTimeout(function(){ 
+                    //     window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id; 
+                    // }, 3000);
+                }else{
+                    window.location.href = '<?=base_url()?>admin/my-documents/'+obj.parentFolderId;
+                }            	
 			}
 		}
     });

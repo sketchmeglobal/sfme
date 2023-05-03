@@ -308,7 +308,7 @@ $user_type = $this->session->usertype;
             <li class="menu-list <?=($class_name == 'Documents') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-text-o"></i> <span>Documents</span></a>
                 <ul class="child-list">
                     <li class="<?=(($class_name == 'Documents')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/my-documents"><i class="fa fa-caret-right"></i> <span>My Documents</span></a>
+                        <a href="<?=base_url();?>admin/my-documents/0"><i class="fa fa-caret-right"></i> <span>My Documents</span></a>
                     </li>
         
                     <!-- <li class="<?=(($class_name == 'Documents')) ? 'active' : ''; ?>">

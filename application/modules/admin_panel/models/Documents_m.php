@@ -5,9 +5,13 @@ class documents_m extends CI_Model {
         parent::__construct();
     }
 
-    public function my_documents() {
+    public function my_documents($parentFolderId) {
         $data['title'] = 'My Documents';
         $data['menu'] = 'Documents';
+        $created_by = $_SESSION['user_id'];
+        $data['documents'] = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
+        $data['parentFolderId'] = $parentFolderId;
+        
         return array('page' => 'documents/document_list_v', 'data'=>$data);
     }
 
@@ -144,9 +148,10 @@ class documents_m extends CI_Model {
 
     }
 
-    public function add_document(){  
+    public function add_document($parentFolderId){  
         $data['title'] = 'Document Management';
-        $data['menu'] = 'Add Document';
+        $data['menu'] = 'Add Document';  
+        $data['parentFolderId'] = $parentFolderId;      
         return array('page'=>'documents/document_add_v', 'data'=>$data);
     }
 
@@ -201,31 +206,59 @@ class documents_m extends CI_Model {
 
         $folderName = $this->input->post('folderName');
         $parentFolderId = $this->input->post('parentFolderId');
-        $created_by = 0;
+        $created_by = $_SESSION['user_id'];
         $fold_id = rand(1000, 9999);
 
-        $documents = new stdClass();
-        $folders = array();
-        $files = array();
+        //check existing data
+        $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
 
-        $folder = new stdClass();
-        $folder->fold_id = $fold_id;
-        $folder->folderName = $folderName;
-        $folder->parentFolderId = $parentFolderId;
-        array_push($folders, $folder);
+        if(count($result) > 0){
+            //print_r($result);
+            $update_id = $result[0]->document_id;
+            $documents1 = $result[0]->documents;
+            $documents = json_decode($documents1);            
+            $folders = $documents->folders;
+            $files = $documents->files;
+
+            if($folderName != ''){
+                $folder = new stdClass();
+                $folder->fold_id = $fold_id;
+                $folder->folderName = $folderName;
+                $folder->parentFolderId = $parentFolderId;
+                array_push($folders, $folder);
+            }           
+            $documents->folders = $folders;
+        }else{
+            $documents = new stdClass();
+            $folders = array();
+            $files = array();
+
+            if($folderName != ''){
+                $folder = new stdClass();
+                $folder->fold_id = $fold_id;
+                $folder->folderName = $folderName;
+                $folder->parentFolderId = $parentFolderId;
+                array_push($folders, $folder);
+            }
+            
+            $documents->folders = $folders;
+            $documents->files = $files;
+
+            $insertArray = array(
+                'created_by' => $created_by,
+                'documents' => json_encode($documents)
+            );
+            
+            if($this->db->insert('document_master', $insertArray)){
+                $update_id = $this->db->insert_id();            
+            }//end if
+
+        }//end if
+
+        //echo 'count: '. count($result);
+        //die;
         
-        $documents->folders = $folders;
-        $documents->files = $files;
-
-        $data['documents'] = $documents;
-
-        $insertArray = array(
-            'created_by' => $created_by,
-            'documents' => json_encode($documents)
-        );
-        
-        if($this->db->insert('document_master', $insertArray)){
-            $data['insert_id'] = $this->db->insert_id();
+        if($update_id > 0){
             if (!empty($_FILES['userfile']['name'][0])) {
                 $return_data = array(); 
 
@@ -235,126 +268,37 @@ class documents_m extends CI_Model {
 
                 $return_data = $this->_upload_files($_FILES['userfile'], $upload_path, $file_type, $user_file_name);
 
-                echo json_encode($return_data);die;
+                //echo json_encode($return_data);die;
                 // print_r($return_data);die;
 
                 foreach ($return_data as $datam) {
-                    if ($datam['status'] != 'error') {                        
-                        // Insert filename to db
+                    if ($datam['status'] != 'error') { 
+                        $file_id = rand(1000, 9999);
+                        $file = new stdClass();
+                        $file->parentFolderId = $parentFolderId;
+                        $file->file_id = $file_id;
+                        $file->file_name = $datam['filename'];
+                        $file->file_type = $datam['meta_data']['file_type'];
+                        $file->meta_data = $datam['meta_data'];
                         
-                        /*$insertArray1 = array(
-                            'user_id' => $data['insert_id'],
-                            'firstname' => $this->input->post('firstname'),
-                            'lastname' => $this->input->post('lastname'),
-                            'contact' => $this->input->post('contact'),
-                            'img' => $datam['filename']
-                        );
-                        $this->db->insert('user_details', $insertArray1);*/
+                        array_push($files, $file);
                     }//end if
-                }//end foreach
+                }//end foreach 
+                $documents->files = $files;
             }//end file upload
-            
-        }//end if
+                
+            $updateArray = array(
+                'documents' => json_encode($documents)
+            );
 
-        /*
-        if( $this->input->post('user_type') == 4){            
-            if(count($this->input->post('offer_values[]')) > 0){
-                $accn = join(',',$this->input->post('offer_values[]'));
-            }else{
-                $accn = NULL;
-            }
-         
-            $insertArray = array(
-                'usertype' => $this->input->post('user_type'),
-                'username' => $this->input->post('username'),
-                'email' => $this->input->post('email'),
-                'pass' => hash('sha256', $this->input->post('pass')),
-                'acc_masters' => NULL,
-                'offer_ids' => $accn,
-                'verified' => 1
-            );
-            
-        }else{
-            
-             if(count($this->input->post('acc_masters[]')) > 0){
-                $accn = join(',',$this->input->post('acc_masters[]'));
-            }else{
-                $accn = NULL;
-            }
-            
-            $insertArray = array(
-                'usertype' => $this->input->post('user_type'),
-                'username' => $this->input->post('username'),
-                'email' => $this->input->post('email'),
-                'pass' => hash('sha256', $this->input->post('pass')),
-                'acc_masters' => $accn,
-                'offer_ids' => NULL,
-                'verified' => 1
-            );
-            
-        }
-        
+            $val = $this->db->update('document_master', $updateArray, array('document_id' => $update_id));
+            $data['file_updated'] = $val;
+        }//end 
 
         
-
-        if($this->db->insert('users', $insertArray)){
-
-            $data['insert_id'] = $this->db->insert_id();
-
-            // image upload
-            if (!empty($_FILES['userfile']['name'][0])) {
-
-                $return_data = array(); 
-
-                $upload_path = './upload/users/' ; 
-                $file_type = 'jpg|jpeg|png|bmp';
-                $user_file_name = 'userfile';
-
-                $return_data = $this->_upload_files($_FILES['userfile'], $upload_path, $file_type, $user_file_name);
-
-                // print_r($return_data);die;
-
-                foreach ($return_data as $datam) {
-
-                    if ($datam['status'] != 'error') {
-                        
-                        // Insert filename to db
-                        
-                        $insertArray1 = array(
-                            'user_id' => $data['insert_id'],
-                            'firstname' => $this->input->post('firstname'),
-                            'lastname' => $this->input->post('lastname'),
-                            'contact' => $this->input->post('contact'),
-                            'img' => $datam['filename']
-                        );
-
-                        $this->db->insert('user_details', $insertArray1);
-                    }
-                }
-
-                $data['type'] = 'success';
-                $data['msg'] = 'Image Files Uploaded<hr>User added successfully.'; 
-
-            }else{
-
-                $insertArray1 = array(
-                    'user_id' => $data['insert_id'],
-                    'firstname' => $this->input->post('firstname'),
-                    'lastname' => $this->input->post('lastname'),
-                    'contact' => $this->input->post('contact')
-                );
-
-                $this->db->insert('user_details', $insertArray1);
-
-                $data['type'] = 'success';
-                $data['msg'] = 'No Files Uploaded<hr>User added successfully.'; 
-            }          
-
-        }else{
-            $data['type'] = 'error';
-            $data['msg'] = 'Database Insert Error';
-        }*/
-
+        $data['update_id'] = $update_id;
+        $data['documents'] = $documents;
+        $data['parentFolderId'] = $parentFolderId;
         $data['type'] = 'success';
         $data['msg'] = 'Document Saved Properly';
         $data['title'] = 'Add Document';

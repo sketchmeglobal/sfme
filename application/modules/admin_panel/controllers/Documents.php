@@ -40,10 +40,10 @@ class Documents extends My_Controller {
         }
     }
 
-    public function my_documents(){        
+    public function my_documents($parentFolderId){        
         if($this->check_permission(array()) == true) {
             $this->load->model('Documents_m');
-            $data = $this->Documents_m->my_documents();
+            $data = $this->Documents_m->my_documents($parentFolderId);
             $this->load->view($data['page'], $data['data']);
         }
     }
@@ -60,10 +60,10 @@ class Documents extends My_Controller {
     }
 
 
-    public function add_document(){        
+    public function add_document($parentFolderId){        
         if($this->check_permission(array()) == true) {
             $this->load->model('Documents_m');
-            $data = $this->Documents_m->add_document();
+            $data = $this->Documents_m->add_document($parentFolderId);
             $this->load->view($data['page'], $data['data']);
         }        
 
