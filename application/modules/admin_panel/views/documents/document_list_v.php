@@ -29,48 +29,15 @@
     $document_id = $documents[0]->document_id;
     $documents1 = $documents[0]->documents;
     $documents = json_decode($documents1);
-    //echo json_encode($documents);
-    //echo gettype($documents);
+    
     $folders = $documents->folders;
-    //print_r($folders);
-    //echo json_encode($folders);
 
     $files = $documents->files;
-    //print_r($files);
     }else{
         $folders = array();
         $files = array();
-    }
-    
-    //echo 'parentFolderId: '. $parentFolderId;
+    }  
 
-    /*if($parentFolderId == 0){
-        $_SESSION['breadCumName'] = '';
-    }
-
-    if(sizeof($folders) > 0){
-        $breadCumName = '';
-
-        for($i = 0; $i < sizeof($folders); $i++){
-            //echo $folders[$i]->fold_id.' == '.$parentFolderId;
-            //echo "</br>";
-            if($folders[$i]->fold_id == $parentFolderId){
-                $breadCumName = $folders[$i]->folderName;
-                //echo 'breadCumName: '.$breadCumName;
-                if($breadCumName != ''){
-                    if($_SESSION['breadCumName'] == ''){
-                        $_SESSION['breadCumName'] = 'Home/'.$breadCumName;
-                    }else{
-                        $oldBreadCumName = $_SESSION['breadCumName'];
-                        $_SESSION['breadCumName'] = $oldBreadCumName.'/'.$breadCumName;
-                    }
-                }
-            }//end if
-        }//end for
-    }
-    echo 'breadCumName >> '. $_SESSION['breadCumName'];*/
- 
-    
 ?>
 
 <body class="sticky-header">
@@ -93,9 +60,7 @@
             <?php if($parentFolderId == 0){?>
             <li><a href="#">Home</a></li>
             <?php } else if($parentFolderId > 0){
-                if(isset($_SESSION['breadCumName'])){
-                    //echo $_SESSION['breadCumName'];
-                }
+                echo "<li><a href='".base_url().'admin/my-documents/0'."'>Home</a></li>".$breadcum_ul_li;
             }
             ?>
             
@@ -105,23 +70,6 @@
                 <div class="col-lg-12 text-right">
                     <a href="<?= base_url('admin/add-document/'.$parentFolderId.'') ?>" class="btn btn-success  mx-auto"><i class="fa fa-plus"></i> Add <?=$menu?></a>
                     <section class="panel">
-                        <!-- <div class="panel-body">
-                            <table id="user_table" class="table data-table dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>Usertype</th>
-                                        <th>Name</th>
-                                        <th>Username</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div> -->
-
-                        
 
                         <div class="panel-body" style="text-align: left;">
                             <h3>Folders</h3>
@@ -131,20 +79,32 @@
                             <?php
                             if(sizeof($folders) > 0){
                                 $fdc = 0;
-                                $breadCumName = '';
-
+                                
                             for($i = 0; $i < sizeof($folders); $i++){
                                 if($folders[$i]->parentFolderId == $parentFolderId){
                                     $fdc++;
 
                             ?>
-                            <a href="<?= base_url('admin/my-documents/'.$folders[$i]->fold_id.'') ?>" >
+                            
                                 <div class="col-lg-2">
-                                    <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                    <a href="<?= base_url('admin/my-documents/'.$folders[$i]->fold_id.'') ?>" >
+                                        <i class="fa fa-folder-o" style="font-size:24px"></i>
+                                    </a>
                                     </br>
                                     <span><?=$folders[$i]->folderName?> </span>
+                                    </br>
+                                    <span>
+                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                            <i class='fa fa-edit'></i>
+                                        </a>
+                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                            <i class='fa fa-trash'></i>
+                                        </a>
+                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                            <i class='fa fa-share'></i>
+                                        </a>
+                                    </span>
                                 </div>
-                            </a>
                             <?php }//end if
                             }//end for
                             
@@ -168,14 +128,43 @@
                             <?php
                             if(sizeof($files) > 0){
                                 $fc = 0;
+                                $extType = '';
                             for($j = 0; $j < sizeof($files); $j++){                                
                                 if($files[$j]->parentFolderId == $parentFolderId){
                                     $fc++;
+                                    $file_ext = $files[$j]->meta_data->file_ext;
+                                    if($file_ext == '.xlsx'){
+                                        $extType = '-excel';
+                                    }else if($file_ext == '.png' || $file_ext == '.jpg' || $file_ext == '.jpeg' || $file_ext == '.bmp'){
+                                        $extType = '-image';
+                                    }else if($file_ext == '.mp4'){
+                                        $extType = '-movie';
+                                    }else if($file_ext == '.docx'){
+                                        $extType = '-word';
+                                    }else if($file_ext == '.zip'){
+                                        $extType = '-zip';
+                                    }else if($file_ext == '.pdf'){
+                                        $extType = '-pdf';
+                                    }else if($file_ext == '.txt'){
+                                        $extType = '-text';
+                                    }else{
+                                        $extType = '';
+                                    }    
+
                             ?>
                             <div class="col-lg-2">
-                                <i class="fa fa-file-text-o" style="font-size:24px"></i>
+                                <i class="fa fa-file<?=$extType?>-o" style="font-size:24px"></i>
                                 </br>
                                 <span><?=$files[$j]->file_name?></span>
+                                </br>
+                                <span>
+                                    <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                        <i class='fa fa-trash'></i>
+                                    </a>
+                                    <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                        <i class='fa fa-share'></i>
+                                    </a>
+                                </span>
                             </div>
                             <?php }//end if
                             }//end for
@@ -189,42 +178,6 @@
                                 <h5>No Files available, please add new.</h5>
 
                             <?php } ?>
-
-                            <!-- <div class="col-lg-2">
-                                <i class="fa fa-file-excel-o" style="font-size:24px"></i>
-                                </br>
-                                <span>student_list.xlsx</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-file-image-o" style="font-size:24px"></i>
-                                </br>
-                                <span>img-01:02:12.jpeg</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-file-movie-o" style="font-size:24px"></i>
-                                </br>
-                                <span>screen-record.mp4</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-file-text-o" style="font-size:24px"></i>
-                                </br>
-                                <span>data.txt</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-file-word-o" style="font-size:24px"></i>
-                                </br>
-                                <span>holiday.docs</span>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <i class="fa fa-file-zip-o" style="font-size:24px"></i>
-                                </br>
-                                <span>all-documents.zip</span>
-                            </div> -->
 
                         </div>
 
@@ -273,65 +226,7 @@
 <script src="<?=base_url();?>assets/admin_panel/js/jquery.form.min.js"></script>
 
 
-<script>
-    /*$(document).ready(function() {
-        $('#user_table').DataTable( {
-            // "scrollX": true,
-            "processing": true,
-            "language": {
-                processing: '<img src="<?=base_url('assets/img/ellipsis.gif')?>"><span class="sr-only">Processing...</span>',
-            },
-            "serverSide": true,
-            "ajax": {
-                "url": "<?=base_url('admin/ajax-user-table-data')?>",
-                "type": "POST",
-                "dataType": "json",
-            },
-            "rowCallback": function (row, data) {
-                // console.log(data);
-                if (data.usertype == 'Resource Developer') {
-                    $(row).addClass('bg-green1');
-                }
-                if (data.usertype == 'Exporter') {
-                    $(row).addClass('bg-green2');
-                }
-                if (data.usertype == 'Marketing') {
-                    $(row).addClass('bg-green3');
-                }
-            },
-            //will get these values from JSON 'data' variable
-            "columns": [
-                { "data": "usertype" },
-                { "data": "name" },
-                { "data": "username" },
-                { "data": "action" }
-            ],
-            //column initialisation properties
-            "columnDefs": [{
-                "targets": [1,2,3], //disable 'Image','Actions' column sorting
-                "orderable": false,
-            },
-            // {
-            //     "targets": [10],
-            //     "visible": false
-            // },
-            { 
-                "className": "nowrap", 
-                "targets": [ 3 ] 
-            },
-            { 
-                "className": "ut", 
-                "targets": [ 0 ] 
-            },
-            ],
-           
-            "initComplete": function(settings, json) {   
-
-              }
-        } );
-    });*/
-
-   
+<script>  
 
     $(document).on('click', '.delete', function(){
         $this = $(this);

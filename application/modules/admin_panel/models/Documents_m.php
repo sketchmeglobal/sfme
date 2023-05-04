@@ -9,9 +9,51 @@ class documents_m extends CI_Model {
         $data['title'] = 'My Documents';
         $data['menu'] = 'Documents';
         $created_by = $_SESSION['user_id'];
-        $data['documents'] = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
+        $documents = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
+        $data['documents'] = $documents;
         $data['parentFolderId'] = $parentFolderId;
         
+        if(sizeof($documents) > 0){
+            $document_id = $documents[0]->document_id;
+            $documents1 = $documents[0]->documents;
+            $documents = json_decode($documents1);
+            $folders = $documents->folders;
+        
+            $files = $documents->files;
+            }else{
+                $folders = array();
+                $files = array();
+            }
+        
+            if(sizeof($folders) > 0){
+                if($parentFolderId > 0){
+                    $breadCumName = array();
+                    $breadCumNameNew = array();
+                    $temp_parentFolderId = $parentFolderId;
+                    
+                    do{
+                        for($i = 0; $i , sizeof($folders); $i++){
+                            if($folders[$i]->fold_id == $temp_parentFolderId){
+                                $folderObj = new stdClass();
+                                $folderObj->folderName = $folders[$i]->folderName;
+                                $folderObj->fold_id = $folders[$i]->fold_id;
+                                array_push($breadCumName, $folderObj);
+
+                                $temp_parentFolderId = $folders[$i]->parentFolderId;
+                                break;
+                            }
+                        }
+                    }while($temp_parentFolderId != 0);
+                    $breadCumNameNew =  array_reverse($breadCumName);
+
+                    $breadcum_ul_li = '';
+                    for($j = 0; $j < sizeof($breadCumNameNew); $j++){
+                        $breadcum_ul_li .= "<li><a href='".base_url().'admin/my-documents/'.$breadCumNameNew[$j]->fold_id."'>".$breadCumNameNew[$j]->folderName."</a></li>";
+                    }//end for
+                    $data['breadcum_ul_li'] = $breadcum_ul_li;
+                }//enif
+            }//end if
+
         return array('page' => 'documents/document_list_v', 'data'=>$data);
     }
 
@@ -263,7 +305,7 @@ class documents_m extends CI_Model {
                 $return_data = array(); 
 
                 $upload_path = './upload/documents/' ; 
-                $file_type = 'jpg|jpeg|png|bmp';
+                $file_type = 'jpg|jpeg|png|bmp|mp4|csv|pdf|docx|txt|zip|xlsx';
                 $user_file_name = 'userfile';
 
                 $return_data = $this->_upload_files($_FILES['userfile'], $upload_path, $file_type, $user_file_name);
