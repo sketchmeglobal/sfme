@@ -24,6 +24,54 @@
     </style>
 
 </head>
+<?php
+    if(sizeof($documents) > 0){
+    $document_id = $documents[0]->document_id;
+    $documents1 = $documents[0]->documents;
+    $documents = json_decode($documents1);
+    //echo json_encode($documents);
+    //echo gettype($documents);
+    $folders = $documents->folders;
+    //print_r($folders);
+    //echo json_encode($folders);
+
+    $files = $documents->files;
+    //print_r($files);
+    }else{
+        $folders = array();
+        $files = array();
+    }
+    
+    //echo 'parentFolderId: '. $parentFolderId;
+
+    /*if($parentFolderId == 0){
+        $_SESSION['breadCumName'] = '';
+    }
+
+    if(sizeof($folders) > 0){
+        $breadCumName = '';
+
+        for($i = 0; $i < sizeof($folders); $i++){
+            //echo $folders[$i]->fold_id.' == '.$parentFolderId;
+            //echo "</br>";
+            if($folders[$i]->fold_id == $parentFolderId){
+                $breadCumName = $folders[$i]->folderName;
+                //echo 'breadCumName: '.$breadCumName;
+                if($breadCumName != ''){
+                    if($_SESSION['breadCumName'] == ''){
+                        $_SESSION['breadCumName'] = 'Home/'.$breadCumName;
+                    }else{
+                        $oldBreadCumName = $_SESSION['breadCumName'];
+                        $_SESSION['breadCumName'] = $oldBreadCumName.'/'.$breadCumName;
+                    }
+                }
+            }//end if
+        }//end for
+    }
+    echo 'breadCumName >> '. $_SESSION['breadCumName'];*/
+ 
+    
+?>
 
 <body class="sticky-header">
 
@@ -41,6 +89,17 @@
 
         <!--body wrapper start-->
         <div class="wrapper">
+        <ul class="breadcrumb">
+            <?php if($parentFolderId == 0){?>
+            <li><a href="#">Home</a></li>
+            <?php } else if($parentFolderId > 0){
+                if(isset($_SESSION['breadCumName'])){
+                    //echo $_SESSION['breadCumName'];
+                }
+            }
+            ?>
+            
+        </ul>
 
             <div class="row">
                 <div class="col-lg-12 text-right">
@@ -62,26 +121,7 @@
                             </table>
                         </div> -->
 
-                        <?php
-                         if(sizeof($documents) > 0){
-                            $document_id = $documents[0]->document_id;
-                            $documents1 = $documents[0]->documents;
-                            $documents = json_decode($documents1);
-                            //echo json_encode($documents);
-                            //echo gettype($documents);
-                            $folders = $documents->folders;
-                            //print_r($folders);
-                            //echo json_encode($folders);
-
-                            $files = $documents->files;
-                            //print_r($files);
-                         }else{
-                            $folders = array();
-                            $files = array();
-                         }
-                         
-                         //echo 'parentFolderId: '. $parentFolderId;
-                        ?>
+                        
 
                         <div class="panel-body" style="text-align: left;">
                             <h3>Folders</h3>
@@ -91,9 +131,12 @@
                             <?php
                             if(sizeof($folders) > 0){
                                 $fdc = 0;
+                                $breadCumName = '';
+
                             for($i = 0; $i < sizeof($folders); $i++){
                                 if($folders[$i]->parentFolderId == $parentFolderId){
                                     $fdc++;
+
                             ?>
                             <a href="<?= base_url('admin/my-documents/'.$folders[$i]->fold_id.'') ?>" >
                                 <div class="col-lg-2">
