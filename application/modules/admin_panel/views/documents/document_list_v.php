@@ -159,6 +159,9 @@
                                 </br>
                                 <span>
                                     <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                        <i class='fa fa-download'></i>
+                                    </a>
+                                    <a href="javascript:void(0)" id="fileDelete" file_id="<?=$files[$j]->file_id?>" parentFolderId="<?=$parentFolderId?>">
                                         <i class='fa fa-trash'></i>
                                     </a>
                                     <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
@@ -228,24 +231,29 @@
 
 <script>  
 
-    $(document).on('click', '.delete', function(){
+    $(document).on('click', '#fileDelete', function(){
         $this = $(this);
         if(confirm("Are You Sure? This Process Can\'t be Undone.")){
 
-            $user_id = $(this).data('user_id');           
+            $file_id = $(this).attr('file_id');  
+            $parentfolderid = $(this).attr('parentfolderid');         
 
             $.ajax({
-                url: "<?= base_url('admin/ajax-delete-user/') ?>",
+                url: "<?= base_url('admin/ajax-delete-document/') ?>",
                 dataType: 'json',
                 type: 'POST',
-                data: {user_id: $user_id},
+                data: {file_id: $file_id, parentfolderid: $parentfolderid},
                 success: function (returnData) {
-                    console.log(returnData);
-                   
+                    console.log(returnData);  
+                    //obj = JSON.parse(returnData);                 
                     notification(returnData);
-
-                    //refresh table
-                    $("#user_table").DataTable().ajax.reload();
+                    if(returnData.type == 'success'){
+                    console.log('parentFolderId: '+returnData.parentfolderid);
+                        //refresh table Files
+                        setTimeout(function(){
+                            window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentfolderid;
+                        }, 3000);
+                    }
 
                 },
                 error: function (returnData) {

@@ -599,23 +599,61 @@ class documents_m extends CI_Model {
 
     }
 
-    public function ajax_delete_user(){
+    public function ajax_delete_document(){
+        $file_id = $this->input->post('file_id');
+        $parentfolderid = $this->input->post('parentfolderid');
+        $created_by = $_SESSION['user_id'];
 
-        $user_id = $this->input->post('user_id');
-        $delClause = array(
+        $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
+
+        if(count($result) > 0){
+            $update_id = $result[0]->document_id;
+            $documents1 = $result[0]->documents;
+            $documents = json_decode($documents1);            
+            $folders = $documents->folders;
+            $files = $documents->files;
+
+            if(sizeof($folders) > 0){
+                
+            } 
+
+            if($file_id > 0){
+                $temp_files = array();
+                if(sizeof($files) > 0){
+                    for($j = 0; $j < sizeof($files); $j++){
+                        if($files[$j]->file_id != $file_id){
+                            array_push($temp_files, $files[$j]);
+                        }//end if
+                    }//end for                    
+                }//end if   
+                $documents->files = $temp_files;   
+            }//end if file    
+
+            $documents->folders = $folders;
+        }//end if result
+        
+        $updateArray = array(
+            'documents' => json_encode($documents)
+        );
+
+        $val = $this->db->update('document_master', $updateArray, array('document_id' => $update_id));
+        $data['file_updated'] = $val;
+
+       /* $delClause = array(
             'user_id' => $user_id
         );
 
         $this->db->where($delClause)->delete('user_details');
-        $this->db->where($delClause)->delete('users');
+        $this->db->where($delClause)->delete('users');*/
 
         $data['type'] = 'success';
         $data['title'] = 'Deletion!';
-        $data['msg'] = 'User deleted successfully'; 
+        $data['msg'] = 'Document deleted successfully'; 
+        $data['parentfolderid'] = $parentfolderid;
 
         return $data;
         
-    }
+    }//end fun
 
     
 

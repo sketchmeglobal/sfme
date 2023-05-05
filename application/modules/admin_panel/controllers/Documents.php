@@ -78,11 +78,11 @@ class Documents extends My_Controller {
         } 
     }
 
-    public function ajax_delete_user(){
+    public function ajax_delete_document(){
         
         if($this->check_permission(array()) == true) {
             $this->load->model('Documents_m');
-            $data = $this->Documents_m->ajax_delete_user();
+            $data = $this->Documents_m->ajax_delete_document();
             echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
             exit();
         }

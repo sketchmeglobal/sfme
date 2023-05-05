@@ -128,7 +128,9 @@
                     //     window.location.href = '<?=base_url()?>admin/edit-user/'+obj.insert_id; 
                     // }, 3000);
                 }else{
-                    window.location.href = '<?=base_url()?>admin/my-documents/'+obj.parentFolderId;
+                    setTimeout(function(){
+                        window.location.href = '<?=base_url()?>admin/my-documents/'+obj.parentFolderId;
+                    }, 3000);
                 }            	
 			}
 		}
