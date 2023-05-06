@@ -9,6 +9,7 @@ class Accounts_m extends CI_Model {
 	}
 
 	public function proforma_invoice() {
+        die('I am here');
 		$user_id = $this->session->user_id;
 
 		try {
