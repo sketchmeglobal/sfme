@@ -8,7 +8,7 @@ class documents_m extends CI_Model {
     public function my_documents($parentFolderId) {
         $data['title'] = 'My Documents';
         $data['menu'] = 'Documents';
-        $created_by = $_SESSION['user_id'];
+        $created_by = $this->session->user_id;
         $documents = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
         $data['documents'] = $documents;
         $data['parentFolderId'] = $parentFolderId;
@@ -248,7 +248,7 @@ class documents_m extends CI_Model {
 
         $folderName = $this->input->post('folderName');
         $parentFolderId = $this->input->post('parentFolderId');
-        $created_by = $_SESSION['user_id'];
+        $created_by = $this->session->user_id;
         $fold_id = rand(1000, 9999);
 
         //check existing data
@@ -603,7 +603,7 @@ class documents_m extends CI_Model {
         $fold_id = $this->input->post('fold_id');
         $file_id = $this->input->post('file_id');
         $parentFolderId = $this->input->post('parentFolderId');
-        $created_by = $_SESSION['user_id'];
+        $created_by = $this->session->user_id;
 
         $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
 
