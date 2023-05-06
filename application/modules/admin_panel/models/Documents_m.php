@@ -600,8 +600,9 @@ class documents_m extends CI_Model {
     }
 
     public function ajax_delete_document(){
+        $fold_id = $this->input->post('fold_id');
         $file_id = $this->input->post('file_id');
-        $parentfolderid = $this->input->post('parentfolderid');
+        $parentFolderId = $this->input->post('parentFolderId');
         $created_by = $_SESSION['user_id'];
 
         $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
@@ -613,23 +614,82 @@ class documents_m extends CI_Model {
             $folders = $documents->folders;
             $files = $documents->files;
 
-            if(sizeof($folders) > 0){
+            if($fold_id > 0){
+                $fold_ids = array();
+                array_push($fold_ids, $fold_id);
+                $continue = false;
+
+                do{
+                    if(sizeof($fold_ids) > 0){
+                        $found = false;
+                        for($j = 0; $j < sizeof($fold_ids); $j++){
+                            for($k = 0; $k < sizeof($folders); $k++){
+                                $duplicate = false;
+
+                                if($fold_ids[$j] == $folders[$k]->parentFolderId){
+                                    if(in_array($folders[$k]->fold_id, $fold_ids)){
+                                        //echo "Exist";
+                                    }else{
+                                        //echo "Not Exist";
+                                        array_push($fold_ids, $folders[$k]->fold_id);
+                                    }
+                                }//end if
+                            }//end inner for
+                        }//end for
+
+                        if($j == sizeof($fold_ids)){
+                            $continue = false;  
+                        }
+                    }//end if
+                }while($continue == true);
                 
-            } 
+                $temp_folders = array();
+                $temp_files = array();                
+
+                //Unlink Folders
+                for($y = 0; $y < sizeof($folders); $y++){                     
+                    if(in_array($folders[$y]->fold_id, $fold_ids)){
+                    }else{
+                        array_push($temp_folders, $folders[$y]);
+                    }
+                }//end for
+
+                //Unlink Files
+                for($z = 0; $z < sizeof($files); $z++){
+                    if(in_array($files[$z]->parentFolderId, $fold_ids)){
+                        $path = 'upload/documents/' . $files[$z]->file_name;
+                        if (file_exists($path)){
+                            unlink($path);
+                        }
+                    }else{
+                        array_push($temp_files, $files[$z]);
+                    }//end if
+                } //end for
+
+                $documents->folders = $temp_folders;  
+                $documents->files = $temp_files;
+                $data['fold_ids'] = $fold_ids;
+                $data['temp_folders'] = $temp_folders;
+            }//end if
 
             if($file_id > 0){
                 $temp_files = array();
                 if(sizeof($files) > 0){
                     for($j = 0; $j < sizeof($files); $j++){
+                        if($files[$j]->file_id == $file_id){
+                            $path = 'upload/documents/' . $files[$j]->file_name;
+                            if (file_exists($path)){
+                                unlink($path);
+                            }
+                        }//end if
+
                         if($files[$j]->file_id != $file_id){
                             array_push($temp_files, $files[$j]);
                         }//end if
                     }//end for                    
                 }//end if   
                 $documents->files = $temp_files;   
-            }//end if file    
-
-            $documents->folders = $folders;
+            }//end if file
         }//end if result
         
         $updateArray = array(
@@ -639,17 +699,10 @@ class documents_m extends CI_Model {
         $val = $this->db->update('document_master', $updateArray, array('document_id' => $update_id));
         $data['file_updated'] = $val;
 
-       /* $delClause = array(
-            'user_id' => $user_id
-        );
-
-        $this->db->where($delClause)->delete('user_details');
-        $this->db->where($delClause)->delete('users');*/
-
         $data['type'] = 'success';
         $data['title'] = 'Deletion!';
         $data['msg'] = 'Document deleted successfully'; 
-        $data['parentfolderid'] = $parentfolderid;
+        $data['parentFolderId'] = $parentFolderId;
 
         return $data;
         

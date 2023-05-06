@@ -97,7 +97,7 @@
                                         <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
                                             <i class='fa fa-edit'></i>
                                         </a>
-                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                        <a href="javascript:void(0)" id="folderDelete" fold_id="<?=$folders[$i]->fold_id?>" parentFolderId="<?=$parentFolderId?>">
                                             <i class='fa fa-trash'></i>
                                         </a>
                                         <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
@@ -231,27 +231,27 @@
 
 <script>  
 
-    $(document).on('click', '#fileDelete', function(){
+    $(document).on('click', '#folderDelete', function(){
         $this = $(this);
         if(confirm("Are You Sure? This Process Can\'t be Undone.")){
 
-            $file_id = $(this).attr('file_id');  
-            $parentfolderid = $(this).attr('parentfolderid');         
+            $fold_id = $(this).attr('fold_id');  
+            $parentFolderId = $(this).attr('parentFolderId');         
 
             $.ajax({
                 url: "<?= base_url('admin/ajax-delete-document/') ?>",
                 dataType: 'json',
                 type: 'POST',
-                data: {file_id: $file_id, parentfolderid: $parentfolderid},
+                data: {fold_id: $fold_id, parentFolderId: $parentFolderId},
                 success: function (returnData) {
                     console.log(returnData);  
                     //obj = JSON.parse(returnData);                 
                     notification(returnData);
                     if(returnData.type == 'success'){
-                    console.log('parentFolderId: '+returnData.parentfolderid);
+                    console.log('parentFolderId: '+returnData.parentFolderId);
                         //refresh table Files
                         setTimeout(function(){
-                            window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentfolderid;
+                            window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentFolderId;
                         }, 3000);
                     }
 
@@ -261,8 +261,39 @@
                     notification(obj);
                 }
             });
-        }
-   
+        }   
+    });  
+
+    $(document).on('click', '#fileDelete', function(){
+        $this = $(this);
+        if(confirm("Are You Sure? This Process Can\'t be Undone.")){
+
+            $file_id = $(this).attr('file_id');  
+            $parentFolderId = $(this).attr('parentFolderId');         
+
+            $.ajax({
+                url: "<?= base_url('admin/ajax-delete-document/') ?>",
+                dataType: 'json',
+                type: 'POST',
+                data: {file_id: $file_id, parentFolderId: $parentFolderId},
+                success: function (returnData) {
+                    console.log(returnData);  
+                    //obj = JSON.parse(returnData);                 
+                    notification(returnData);
+                    if(returnData.type == 'success'){
+                        //refresh table Files
+                        setTimeout(function(){
+                            window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentFolderId;
+                        }, 3000);
+                    }
+
+                },
+                error: function (returnData) {
+                    obj = JSON.parse(returnData);
+                    notification(obj);
+                }
+            });
+        }   
     });
 </script>
 
