@@ -98,7 +98,7 @@
     												<?php
     												foreach($order_to as $order_torow){
     												?>
-    												<option value="<?= $order_torow->am_id ?>" <?=($purchase_order_data->order_to_id == $order_torow->am_id)?'selected':''?> ><?= $order_torow->name . ' ['.$order_torow->am_code.']' ?></option>
+    												<option data-contact="<?=$order_torow->owner_name . '/' . $order_torow->manager_name?>" value="<?= $order_torow->am_id ?>" <?=($purchase_order_data->order_to_id == $order_torow->am_id)?'selected':''?> ><?= $order_torow->name . ' ['.$order_torow->am_code.']' ?></option>
     												<?php
     												}
     												?>
@@ -116,12 +116,19 @@
 											<div class="col-lg-3">
 												<label for="sold_to_party_id" class="control-label">Sold to party</label>
 												<select name="sold_to_party_id"  id="sold_to_party_id" class="form-control select2">
-													<option value=""> -- Select sold to party list -- </option>
+													<!--<option value=""> -- Select sold to party list -- </option>-->
+													<!--< ?php-->
+													<!--foreach($sold_to_party_list as $sold_to_party_listrow){-->
+													<!--?>-->
+													<!--<option value="< ?= $sold_to_party_listrow->am_id ?>" < ?=($purchase_order_data->sold_to_party_id == $sold_to_party_listrow->am_id)?'selected':'disabled'?>  >< ?= $sold_to_party_listrow->name . ' ['.$sold_to_party_listrow->am_code.']' ?>-->
+													<!--</option>-->
+													<!--< ?php-->
+													<!--}-->
+													<!--?>-->
 													<?php
-													foreach($sold_to_party_list as $sold_to_party_listrow){
+													foreach($company as $companyrow){
 													?>
-													<option value="<?= $sold_to_party_listrow->am_id ?>" <?=($purchase_order_data->sold_to_party_id == $sold_to_party_listrow->am_id)?'selected':'disabled'?>  ><?= $sold_to_party_listrow->name . ' ['.$sold_to_party_listrow->am_code.']' ?>
-													</option>
+													<option value="<?=$companyrow->company_id ?>" <?=($purchase_order_data->sold_to_party_id == $companyrow->company_id)?'selected':''?>><?=$companyrow->company_name ?></option>
 													<?php
 													}
 													?>
@@ -185,6 +192,21 @@
 												<input  id="label_document" name="label_document" placeholder="Enter Label  and Documents" value="<?=$purchase_order_data->label_document?>" type="text" class="form-control" />
 											</div>
 											
+										</div>
+										
+										<div class="form-group row">
+											<div class="col-lg-3">
+												<label for="payment_terms" class="control-label">Payment Terms</label>
+												<select required name="payment_terms" data-placeholder="-- Select payment terms --"  id="payment_terms" class="form-control select2">
+													<?php
+													foreach($payment_terms as $pt){
+													?>
+													    <option value="<?=$pt->pt_id?>" <?=($purchase_order_data->payment_terms == $pt->pt_id)?'selected':''?> ><?=$pt->payment_terms ?></option>
+													<?php
+													}
+													?>
+												</select>
+											</div>
 										</div>
 
 										<div class="form-group row">
@@ -435,6 +457,11 @@
 	//         $("#order_no").val($ns);
 	//     }
 	// })
+	
+	$("#order_to_id").on('change', function(){
+	    $val = ($(this).find(":selected").data('contact'))
+	    $("#manager_name").val($val)
+	})
 	</script>
 </body>
 </html>

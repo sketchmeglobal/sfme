@@ -112,11 +112,18 @@
 												<label for="sold_to_party_id" class="control-label">Sold to party</label>
 												<select name="sold_to_party_id"  id="sold_to_party_id" class="form-control select2">
 													<option value=""> -- Select sold to party list -- </option>
+													<!--< ?php-->
+													<!--foreach($sold_to_party_list as $sold_to_party_listrow){-->
+													<!--?>-->
+													<!--<option value="< ?= $sold_to_party_listrow->am_id ?>">< ?= $sold_to_party_listrow->name . ' ['.$sold_to_party_listrow->am_code.']' ?>-->
+													<!--</option>-->
+													<!--< ?php-->
+													<!--}-->
+													<!--?>-->
 													<?php
-													foreach($sold_to_party_list as $sold_to_party_listrow){
+													foreach($company as $companyrow){
 													?>
-													<option value="<?= $sold_to_party_listrow->am_id ?>"><?= $sold_to_party_listrow->name . ' ['.$sold_to_party_listrow->am_code.']' ?>
-													</option>
+													<option value="<?=$companyrow->company_id ?>"><?=$companyrow->company_name ?></option>
 													<?php
 													}
 													?>
@@ -194,21 +201,21 @@
 											<!--</div>-->
 										</div>
 										
-										<!--<div class="form-group row">-->
-										<!--	<div class="col-lg-3">-->
-										<!--		<label for="payment_terms" class="control-label">Payment Terms</label>-->
-										<!--		<select required name="payment_terms" data-placeholder="-- Select payment terms --"  id="payment_terms" class="form-control select2">-->
-										<!--			< ?php-->
-										<!--			foreach($payment_terms as $pt){-->
-										<!--			?>-->
-										<!--			    <option value="<?=$pt->pt_id ?>"><?=$pt->payment_terms ?></option>-->
-										<!--			< ?php-->
-										<!--			}-->
-										<!--			?>-->
-										<!--		</select>-->
+										<div class="form-group row">
+											<div class="col-lg-3">
+												<label for="payment_terms" class="control-label">Payment Terms</label>
+												<select required name="payment_terms" data-placeholder="-- Select payment terms --"  id="payment_terms" class="form-control select2">
+													<?php
+													foreach($payment_terms as $pt){
+													?>
+													    <option value="<?=$pt->pt_id ?>"><?=$pt->payment_terms ?></option>
+													<?php
+													}
+													?>
+												</select>
 												
-										<!--	</div>-->
-										<!--</div>-->
+											</div>
+										</div>
 
 										<div class="form-group row">
 											<div class="col-lg-6">
