@@ -241,20 +241,26 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-sm-5">
                                     <p class="bold">Incoterms</p>
                                 </div>
                                 <div class="col-sm-7">
-                                    <p><strong><?=$header[0]->incoterm?></strong></p>
+                                    <p><strong>< ?=$header[0]->incoterm?></strong></p>
                                 </div>
-                            </div>
+                            </div> -->
                             
                         </div>
                     </div>
                     
                     <!--table data-->
                     <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <p class="text-right"><strong>Payment Terms: <?=filter_var($details[0]['payment_terms'], FILTER_SANITIZE_STRING)?></strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text-right"><strong>Incoterm: <?=$details[0]['incoterm']?></strong></p>
+                        </div>
                         <?php  $template = explode(',', $hdr->header); ?>
                         <table class="table table-hover table-striped table-bordered">
                             <thead>
