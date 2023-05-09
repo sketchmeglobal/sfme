@@ -47,17 +47,7 @@ class Documents extends My_Controller {
             $this->load->view($data['page'], $data['data']);
         }
     }
-
-    public function ajax_user_table_data(){
-        
-        if($this->check_permission(array()) == true) {
-            $this->load->model('Documents_m');
-            $data = $this->Documents_m->ajax_user_table_data();
-            echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
-            exit();
-        }
-
-    }
+    
 
 
     public function add_document($parentFolderId){        
@@ -68,15 +58,7 @@ class Documents extends My_Controller {
         }        
 
     }
-
-    public function ajax_unique_foldername(){        
-        if($this->check_permission(array()) == true) {
-            $this->load->model('Documents_m');
-            $data = $this->Documents_m->ajax_unique_foldername();
-            echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
-            exit();
-        } 
-    }
+    
 
     public function ajax_delete_document(){
         
@@ -99,17 +81,7 @@ class Documents extends My_Controller {
         }
 
     }
-
-    public function acc_master_on_usertype(){
-        
-        if($this->check_permission(array()) == true) {
-            $this->load->model('Documents_m');
-            $data = $this->Documents_m->acc_master_on_usertype();
-            echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
-            exit();
-        }
-
-    }
+    
 
     public function form_add_document(){        
         if($this->check_permission(array()) == true) {
@@ -119,37 +91,6 @@ class Documents extends My_Controller {
             exit();
         }
     }
-
-    public function edit_user($user_id){
-        
-        if($this->check_permission(array()) == true) {
-            $this->load->model('Documents_m');
-            $data = $this->Documents_m->edit_user($user_id);
-            $this->load->view($data['page'], $data['data']);
-        }
-
-    }
-
-    public function ajax_unique_username_edit(){
-        
-        if($this->check_permission(array()) == true) {
-            $this->load->model('Documents_m');
-            $data = $this->Documents_m->ajax_unique_username_edit();
-            echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
-            exit();
-        }
-
-    }
-
-    public function form_edit_user(){
-        
-        if($this->check_permission(array()) == true) {
-            $this->load->model('Documents_m');
-            $data = $this->Documents_m->form_edit_user();
-            echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
-            exit();
-        }
-
-    }
+    
 
 }

@@ -88,139 +88,7 @@ class documents_m extends CI_Model {
         
         return array('page' => 'documents/document_list_v', 'data'=>$data);
     }
-
-    public function ajax_user_table_data() {
-
-        $usertype = $this->session->usertype;
-        $user_id = $this->session->user_id;
-
-        //actual db table column names
-        $column_orderable = array(
-            0 => 'users.usertype',
-            1 => 'user_details.firstname'
-        );
-        // Set searchable column fields
-        $column_search = array('usertype','firstname');
-        // $column_search = array('co_no');
-
-        $limit = $this->input->post('length');
-        $start = $this->input->post('start');
-        
-        $order = $column_orderable[$this->input->post('order')[0]['column']];
-        $dir = $this->input->post('order')[0]['dir'];
-        $search = $this->input->post('search')['value'];
-
-        $rs = $this->_user_common_query($usertype, $user_id);
-
-        $totalData = count($rs);
-        $totalFiltered = $totalData;
-
-        //if not searching for anything
-        if(empty($search)) {
-            $this->db->limit($limit, $start);
-            $this->db->order_by($order, $dir);
-
-            $rs = $this->_user_common_query($usertype, $user_id);
-        }
-        //if searching for something
-        else {
-            $this->db->start_cache();
-            // loop searchable columns
-            $i = 0;
-            foreach($column_search as $item){
-                // first loop
-                if($i===0){
-                    $this->db->group_start(); //open bracket
-                    $this->db->like($item, $search);
-                }else{
-                    $this->db->or_like($item, $search);
-                }
-                // last loop
-                if(count($column_search) - 1 == $i){
-                    $this->db->group_end(); //close bracket
-                }
-                $i++;
-            }
-            $this->db->stop_cache();
-
-            $rs = $this->_user_common_query($usertype, $user_id);
-
-            $totalFiltered = count($rs);
-
-            $rs = $this->_user_common_query($usertype, $user_id);
-
-            $this->db->flush_cache();
-        }
-
-        $data = array();
-
-        foreach ($rs as $val) {
-
-            if($val->usertype == 1){ 
-                $type = "Trader" ;
-            }elseif($val->usertype == 2){
-                $type = "Resource Developer";
-            }elseif($val->usertype == 3){
-                $type = "Marketing";
-            }else{
-                $type = "Exporter";
-            }
-
-            $nestedData['usertype'] = $type;
-            $nestedData['name'] = $val->name;
-            $nestedData['username'] = $val->username;
-            $nestedData['action'] = $this->_user_common_actions($val->usertype, $val->user_id);
-
-            $data[] = $nestedData;
-
-            // echo '<pre>', print_r($rs), '</pre>'; 
-        }
-
-        $json_data = array(
-            "draw"            => intval($this->input->post('draw')),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
-        );
-
-        return $json_data;
-    } 
-
-
-    private function _user_common_query($usertype, $user_id){
-
-        if($usertype == 1){
-
-            #for admin
-
-            $rs = $this->db
-                ->select('users.*, CONCAT(firstname, " ", lastname) AS name')
-                ->join('user_details', 'users.user_id = user_details.user_id', 'left')
-                ->get('users')
-                ->result();            
-            
-            // echo $this->db->get_compiled_select('users');
-            // exit();
-        }
-
-        return $rs;
-        
-    }
-
-    private function _user_common_actions($usertype, $user_id){
-
-        if($usertype == 1){
-            # resource is still working
-            $nestedData = '
-            <a href="'. base_url('admin/edit-user/'.$user_id) .'" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>';
-        }else{
-            $nestedData = '
-            <a href="'. base_url('admin/edit-user/'.$user_id) .'" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
-            <a data-user_id="'.$user_id.'" href="javascript:void(0)" class="btn btn-danger delete"><i class="fa fa-times"></i> Delete</a>';
-        }
-        return $nestedData;
-
-    }
+    
 
     public function add_document($parentFolderId){  
         $data['title'] = 'Document Management';
@@ -228,51 +96,7 @@ class documents_m extends CI_Model {
         $data['parentFolderId'] = $parentFolderId;      
         return array('page'=>'documents/document_add_v', 'data'=>$data);
     }
-
-    public function ajax_unique_foldername(){        
-        $folderName = $this->input->post('folderName');
-        $rs = $this->db->get_where('users', array('username' => $username))->num_rows();
-        // echo $this->db->last_query();die;
-        
-        if($rs != '0') {
-            $data = 'Username already exists.';
-        }else{
-            $data='true';
-        }
-
-        return $data;
-
-    }
-
-    public function acc_master_on_usertype(){
-        
-        $usertype = $this->input->post('usertype');
-
-        if($usertype == 1){
-            # admin - all
-
-            $rs = $this->db->get_where('acc_master', array('status' => 1))->result();
-
-        }else if($usertype == 2){
-            
-            # resource develper -> Supplier
-            $rs = $this->db->get_where('acc_master', array('status' => 1, 'supplier_buyer' => 0))->result();
-
-        }else if($usertype == 3){
-            
-            # marketing -> Buyer
-            $rs = $this->db->get_where('acc_master', array('status' => 1, 'supplier_buyer' => 1))->result();
-
-        }if($usertype == 4){
-            
-            # exporter -> Offers
-            $rs = $this->db->get_where('offers', array('status' => 1))->result();
-            
-        }
-
-        return $rs;
-
-    }
+    
 
     public function form_add_document(){  
         $daya = array();
@@ -429,208 +253,6 @@ class documents_m extends CI_Model {
         return $final_array;
     }
 
-    public function edit_user($user_id=''){
-        
-        $data['title'] = 'User Management';
-        $data['menu'] = 'Users';
-
-        $data['user_details'] = $this->db
-            ->join('user_details', 'user_details.user_id=users.user_id', 'left')
-            ->get_where('users', array('users.user_id' => $user_id))->result();
-
-        // echo '<pre>',print_r($data), '</pre>'; die;   
-
-        if($data['user_details'][0]->usertype == 1){ #admin
-
-            $data['acc_masters'] =  $this->db
-            ->get_where('acc_master',array('acc_master.status' => 1))->result();
-
-        }else if($data['user_details'][0]->usertype == 2){ #Resource D   
-    
-            $data['acc_masters'] =  $this->db
-            ->get_where('acc_master',array('acc_master.status' => 1, 'supplier_buyer' => 0))->result();
-
-        }else if($data['user_details'][0]->usertype == 3){ #Mark
-
-            $data['acc_masters'] =  $this->db
-            ->get_where('acc_master',array('acc_master.status' => 1, 'supplier_buyer' => 1))->result();
-
-        } if($data['user_details'][0]->usertype == 4){
-            
-            $data['acc_masters'] =  $this->db
-            ->get_where('offers',array('offers.status' => 1))->result();
-            
-        }
-        
-
-        // echo $this->db->last_query(); die;
-
-        return array('page'=>'user/user_edit_v', 'data'=>$data);
-
-    }
-
-    public function ajax_unique_username_edit(){
-        
-        $username = $this->input->post('username');
-        $user_id = $this->input->post('user_id');
-
-        $rs = $this->db->where('user_id !=', $user_id)->get_where('users', array('username' => $username))->num_rows();
-
-        
-        if($rs != '0') {
-            $data = 'Username already exists.';
-        }else{
-            $data='true';
-        }
-
-        return $data;
-
-    }
-
-    public function form_edit_user(){
-        
-        
-        
-        if( $this->input->post('user_type') == 4){
-            
-            if(count($this->input->post('offer_values[]')) > 0){
-                $accn = join(',',$this->input->post('offer_values[]'));
-            }else{
-                $accn = NULL;
-            }
-         
-            $user_id = $this->input->post('user_id');
-    
-            if($this->input->post('pass') == ''){
-    
-                $updateArray = array(
-                    'usertype' => $this->input->post('user_type'),
-                    'username' => $this->input->post('username'),
-                    'email' => $this->input->post('email'),
-                    'acc_masters' => NULL,
-                    'offer_ids' => $accn,
-                    'blocked' => $this->input->post('blocked')
-                );
-    
-            }else{
-    
-                $updateArray = array(
-                    'usertype' => $this->input->post('user_type'),
-                    'username' => $this->input->post('username'),
-                    'email' => $this->input->post('email'),
-                     'acc_masters' => NULL,
-                    'offer_ids' => $accn,
-                    'pass' => hash('sha256', $this->input->post('pass')),
-                    'blocked' => $this->input->post('blocked')
-                );
-    
-            }
-
-            
-        }else{
-            
-             if(count($this->input->post('acc_masters[]')) > 0){
-                $accn = join(',',$this->input->post('acc_masters[]'));
-            }else{
-                $accn = NULL;
-            }
-            
-            $user_id = $this->input->post('user_id');
-
-            if($this->input->post('pass') == ''){
-    
-                $updateArray = array(
-                    'usertype' => $this->input->post('user_type'),
-                    'username' => $this->input->post('username'),
-                    'email' => $this->input->post('email'),
-                    'acc_masters' => $accn,
-                    'offer_ids' => NULL,
-                    'blocked' => $this->input->post('blocked')
-                );
-    
-            }else{
-    
-                $updateArray = array(
-                    'usertype' => $this->input->post('user_type'),
-                    'username' => $this->input->post('username'),
-                    'email' => $this->input->post('email'),
-                    'acc_masters' => $accn,
-                    'offer_ids' => NULL,
-                    'pass' => hash('sha256', $this->input->post('pass')),
-                    'blocked' => $this->input->post('blocked')
-                );
-    
-            }
-
-            
-        }
-        
-        
-        
-        $val = $this->db->update('users', $updateArray, array('user_id' => $user_id));
-
-         if($val){
-
-            // image upload
-            if (!empty($_FILES['userfile']['name'][0])) {
-
-                $return_data = array(); 
-
-                $upload_path = './upload/users/' ; 
-                $file_type = 'jpg|jpeg|png|bmp';
-                $user_file_name = 'userfile';
-
-                $return_data = $this->_upload_files($_FILES['userfile'], $upload_path, $file_type, $user_file_name);
-
-                // print_r($return_data);die;
-
-                foreach ($return_data as $datam) {
-
-                    if ($datam['status'] != 'error') {
-                        
-                        // Insert filename to db
-                        
-                        $updateArray1 = array(
-                            'user_id' => $user_id,
-                            'firstname' => $this->input->post('firstname'),
-                            'lastname' => $this->input->post('lastname'),
-                            'contact' => $this->input->post('contact'),
-                            'img' => $datam['filename']
-                        );
-
-                        $this->db->update('user_details', $updateArray1, array('user_id' => $user_id));
-                        //echo $this->db->last_query();die;
-                    }
-                }
-
-                $data['type'] = 'success';
-                $data['msg'] = 'Image Files Uploaded<hr>User edited successfully.'; 
-
-            }else{
-
-                        $updateArray1 = array(
-                            'user_id' => $user_id,
-                            'firstname' => $this->input->post('firstname'),
-                            'lastname' => $this->input->post('lastname'),
-                            'contact' => $this->input->post('contact')
-                        );
-
-                        $this->db->update('user_details', $updateArray1, array('user_id' => $user_id));
-                        //echo $this->db->last_query();die;
-                        
-                $data['type'] = 'success';
-                $data['msg'] = 'No Files Uploaded<hr>User edited successfully.'; 
-            }          
-
-        }else{
-            $data['type'] = 'error';
-            $data['msg'] = 'Database Update Error';
-        }
-
-        return $data;
-
-    }
-
     public function ajax_delete_document(){
         $fold_id = $this->input->post('fold_id');
         $file_id = $this->input->post('file_id');
@@ -748,10 +370,6 @@ class documents_m extends CI_Model {
 
         //print_r($dataSharedWith);
 
-        for($i = 0; $i < sizeof($dataSharedWith); $i++){
-            //echo $dataSharedWith[$i]['value'].' '.$dataSharedWith[$i]['text'];
-        }//end for
-
         $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
 
         if(count($result) > 0){
@@ -793,7 +411,7 @@ class documents_m extends CI_Model {
                 $temp_folders = array();
                 $temp_files = array();                
 
-                //Unlink Folders
+                //Share Folders
                 for($y = 0; $y < sizeof($folders); $y++){                     
                     if(in_array($folders[$y]->fold_id, $fold_ids)){
                         array_push($temp_folders, $folders[$y]);
@@ -801,7 +419,7 @@ class documents_m extends CI_Model {
                     }
                 }//end for
 
-                //Unlink Files
+                //Share Files
                 for($z = 0; $z < sizeof($files); $z++){
                     if(in_array($files[$z]->parentFolderId, $fold_ids)){
                         $path = 'upload/documents/' . $files[$z]->file_name;
@@ -817,21 +435,42 @@ class documents_m extends CI_Model {
                 $documents->files = $temp_files;
                 $data['fold_ids'] = $fold_ids;
                 $data['temp_folders'] = $temp_folders;
+                $data['temp_files'] = $temp_files;
             }//end if
-
-
             //Fetch Old shared files of each individual users, call a function from here inside a loop
 
             //starting from the root folder id delete all the old child folders and files
 
             //Then update with new folders starting from the root folder
+            for($i = 0; $i < sizeof($dataSharedWith); $i++){
+                //echo $dataSharedWith[$i]['value'].' '.$dataSharedWith[$i]['text'];
+                $share_with = $dataSharedWith[$i]['value'];
+                $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $share_with))->result();
+
+                if(count($result) > 0){
+                    //write update query
+                    $updateArray = array(
+                        'shared_with_me' => json_encode($documents)
+                    );
+                    $val = $this->db->update('document_master', $updateArray, array('created_by' => $share_with));
+                }else{
+                    //write insert query
+                    $insertArray = array(
+                        'created_by' => $share_with,
+                        'shared_with_me' => json_encode($documents)
+                    );
+                    
+                    $val = $this->db->insert('document_master', $insertArray);
+                }//end if
+
+            }//end for
+
             
         }//end if result
         
-        $updateArray = array(
-            'documents' => json_encode($documents)
-        );
-
+        // $updateArray = array(
+        //     'documents' => json_encode($documents)
+        // );
         //$val = $this->db->update('document_master', $updateArray, array('document_id' => $update_id));
         //$data['file_updated'] = $val;
 

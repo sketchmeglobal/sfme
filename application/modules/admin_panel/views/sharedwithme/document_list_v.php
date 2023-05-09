@@ -27,12 +27,17 @@
 <?php
     if(sizeof($documents) > 0){
     $document_id = $documents[0]->document_id;
-    $documents1 = $documents[0]->documents;
-    $documents = json_decode($documents1);
-    
-    $folders = $documents->folders;
+    if($documents[0]->shared_with_me != ''){
+        $documents1 = $documents[0]->shared_with_me;
+        $documents = json_decode($documents1);
+        
+        $folders = $documents->folders;
 
-    $files = $documents->files;
+        $files = $documents->files;
+        }else{
+            $folders = array();
+            $files = array();
+        } 
     }else{
         $folders = array();
         $files = array();
@@ -60,7 +65,7 @@
             <?php if($parentFolderId == 0){?>
             <li><a href="#">Home</a></li>
             <?php } else if($parentFolderId > 0){
-                echo "<li><a href='".base_url().'admin/my-documents/0'."'>Home</a></li>".$breadcum_ul_li;
+                echo "<li><a href='".base_url().'admin/shared-with-me/0'."'>Home</a></li>".$breadcum_ul_li;
             }
             ?>
             
@@ -68,7 +73,7 @@
 
             <div class="row">
                 <div class="col-lg-12 text-right">
-                    <a href="<?= base_url('admin/add-document/'.$parentFolderId.'') ?>" class="btn btn-success  mx-auto"><i class="fa fa-plus"></i> Add <?=$menu?></a>
+                    <!-- <a href="<?= base_url('admin/add-document/'.$parentFolderId.'') ?>" class="btn btn-success  mx-auto"><i class="fa fa-plus"></i> Add <?=$menu?></a> -->
                     <section class="panel">
 
                         <div class="panel-body" style="text-align: left;">
@@ -87,34 +92,23 @@
                             ?>
                             
                                 <div class="col-lg-2">
-                                    <a href="<?= base_url('admin/my-documents/'.$folders[$i]->fold_id.'') ?>" >
+                                    <a href="<?= base_url('admin/shared-with-me/'.$folders[$i]->fold_id.'') ?>" >
                                         <i class="fa fa-folder-o" style="font-size:24px"></i>
                                     </a>
                                     </br>
                                     <span><?=$folders[$i]->folderName?> </span>
                                     </br>
-                                    <span>
-                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
-                                            <i class='fa fa-edit'></i>
-                                        </a>
-                                        <a href="javascript:void(0)" id="folderDelete" fold_id="<?=$folders[$i]->fold_id?>" parentFolderId="<?=$parentFolderId?>">
-                                            <i class='fa fa-trash'></i>
-                                        </a> 
-                                        <a href="javascript: void(0)" id="rootFolderId" fold_id="<?=$folders[$i]->fold_id?>">
-                                            <i class='fa fa-share'  data-toggle="modal" data-target=".bd-example-modal-lg"></i>
-                                        </a>
-                                    </span>
                                 </div>
                             <?php }//end if
                             }//end for
                             
                             if($fdc == 0){
                                 ?>
-                                <h5>No Folders available, please add new.</h5>
+                                <h5>No Folders shared with you. </h5>
                                <?php
                            }
                             }else{ ?>
-                                <h5>No Folders available, please add new.</h5>
+                                <h5>No Folders shared with you. </h5>
 
                             <?php } ?>
 
@@ -158,13 +152,9 @@
                                 <span><?=$files[$j]->file_name?></span>
                                 </br>
                                 <span>
-                                    <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                    <a href="<?= base_url('admin/shared-with-me/'.$parentFolderId.'') ?>" >
                                         <i class='fa fa-download'></i>
-                                    </a>
-                                    <a href="javascript:void(0)" id="fileDelete" file_id="<?=$files[$j]->file_id?>" parentFolderId="<?=$parentFolderId?>">
-                                        <i class='fa fa-trash'></i>
-                                    </a>
-                                    
+                                    </a>                                    
                                 </span>
                             </div>
                             <?php }//end if
@@ -172,12 +162,11 @@
 
                             if($fc == 0){
                                 ?>
-                                 <h5>No Files available, please add new.</h5>
+                                 <h5>No Files shared with you.</h5>
                                 <?php
                             }
                             }else{ ?>
-                                <h5>No Files available, please add new.</h5>
-
+                                <h5>No Files shared with you.</h5>
                             <?php } ?>
 
                         </div>
@@ -188,45 +177,7 @@
 
         </div>
         <!--body wrapper end-->
-
-        <!-- Modal Start -->
-        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Share With</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            <select title="If none selected then permission for all" multiple="" name="sharedWith[]" id="sharedWith" class="form-control select2" style="min-height: 600px; padding-left: 17px;">                                            
-                <?php
-                if($user_details[0]->usertype != 4){                
-                    foreach($acc_masters as $am){
-                        ?>
-                        <option value="<?=$am->am_id?>"><?=$am->name. ' ['.$am->am_code.']'?></option>
-                        <?php
-                    }                
-                }else{                
-                    foreach($acc_masters as $am){
-                        ?>
-                        <option value="<?=$am->offer_id?>"><?=$am->offer_name. ' ['.$am->offer_fz_number.']'?></option>
-                        <?php
-                    }                
-                }                
-                ?>            
-            </select>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="shareDocument">Share</button>
-            </div>
-            </div>
-        </div>
-        </div>
-        <!-- Modal End -->
+        
 
         <!--footer section start-->
         <?php $this->load->view('components/footer'); ?>
@@ -265,140 +216,6 @@
 <!--ajax form submit-->
 <script src="<?=base_url();?>assets/admin_panel/js/jquery.form.min.js"></script>
 
-
-<script>  
-
-    $(document).on('click', '#folderDelete', function(){
-        $this = $(this);
-        if(confirm("Are You Sure? This Process Can\'t be Undone.")){
-
-            $fold_id = $(this).attr('fold_id');  
-            $parentFolderId = $(this).attr('parentFolderId');         
-
-            $.ajax({
-                url: "<?= base_url('admin/ajax-delete-document/') ?>",
-                dataType: 'json',
-                type: 'POST',
-                data: {fold_id: $fold_id, parentFolderId: $parentFolderId},
-                success: function (returnData) {
-                    console.log(returnData);  
-                    //obj = JSON.parse(returnData);                 
-                    notification(returnData);
-                    if(returnData.type == 'success'){
-                    console.log('parentFolderId: '+returnData.parentFolderId);
-                        //refresh table Files
-                        setTimeout(function(){
-                            window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentFolderId;
-                        }, 3000);
-                    }
-
-                },
-                error: function (returnData) {
-                    obj = JSON.parse(returnData);
-                    notification(obj);
-                }
-            });
-        }   
-    });  
-
-    $(document).on('click', '#fileDelete', function(){
-        $this = $(this);
-        if(confirm("Are You Sure? This Process Can\'t be Undone.")){
-
-            $file_id = $(this).attr('file_id');  
-            $parentFolderId = $(this).attr('parentFolderId');         
-
-            $.ajax({
-                url: "<?= base_url('admin/ajax-delete-document/') ?>",
-                dataType: 'json',
-                type: 'POST',
-                data: {file_id: $file_id, parentFolderId: $parentFolderId},
-                success: function (returnData) {
-                    console.log(returnData);  
-                    //obj = JSON.parse(returnData);                 
-                    notification(returnData);
-                    if(returnData.type == 'success'){
-                        //refresh table Files
-                        setTimeout(function(){
-                            window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentFolderId;
-                        }, 3000);
-                    }
-
-                },
-                error: function (returnData) {
-                    obj = JSON.parse(returnData);
-                    notification(obj);
-                }
-            });
-        }   
-    });
-
-    //shareDocument 
-    $(document).on('click', '#shareDocument', function(){
-        $this = $(this); 
-
-        $dataSharedWith = [];
-        $el = $("#sharedWith");
-        $el.find('option:selected').each(function(){
-            $dataSharedWith.push({value:$(this).val(), text:$(this).text()});
-        });
-        console.log($dataSharedWith);
-
-        $.ajax({
-            url: "<?= base_url('admin/ajax-share-document/') ?>",
-            dataType: 'json',
-            type: 'POST',
-            data: {dataSharedWith: $dataSharedWith, rootFolderId: $rootFolderId},
-            success: function (returnData) {
-                //console.log(returnData);  
-                //obj = JSON.parse(returnData);                 
-                notification(returnData);
-                if(returnData.type == 'success'){
-                    //refresh table Files
-                $('.modal').modal('hide');
-                }
-
-            },
-            error: function (returnData) {
-                obj = JSON.parse(returnData);
-                notification(obj);
-            }
-        });
-        
-    });
-
-    //rootFolderId
-    $(document).on('click', '#rootFolderId', function(){
-        $this = $(this); 
-        $rootFolderId = $(this).attr('fold_id');
-        console.log('rootFolderId: '+$rootFolderId)
-    });
-
-</script>
-
-
-<script type="text/javascript">
-    //toastr notification
-    function notification(obj) {
-        toastr[obj.type](obj.msg, obj.title, {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "5000",
-            "timeOut": "5000",
-            "extendedTimeOut": "7000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        })
-    }
-</script>
 
 </body>
 </html>

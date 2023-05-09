@@ -305,15 +305,15 @@ $user_type = $this->session->usertype;
             <?php } ?>
 
             <!-- For Document manager types user -->            
-            <li class="menu-list <?=($class_name == 'Documents') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-text-o"></i> <span>Documents</span></a>
+            <li class="menu-list <?=($class_name == 'Documents' || $class_name == 'SharedWithMe') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-text-o"></i> <span>Documents</span></a>
                 <ul class="child-list">
                     <li class="<?=(($class_name == 'Documents')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/my-documents/0"><i class="fa fa-caret-right"></i> <span>My Documents</span></a>
                     </li>
-        
-                    <!-- <li class="<?=(($class_name == 'Documents')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/purchase-order"><i class="fa fa-caret-right"></i> <span>Purchase Order</span></a>
-                    </li> -->
+
+                    <li class="<?=(($class_name == 'SharedWithMe')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/shared-with-me/0"><i class="fa fa-caret-right"></i> <span>Shared With Me</span></a>
+                    </li>
                 </ul>
             </li>
             <!-- For Document manager types user -->
