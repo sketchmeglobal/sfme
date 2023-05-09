@@ -99,9 +99,9 @@
                                         </a>
                                         <a href="javascript:void(0)" id="folderDelete" fold_id="<?=$folders[$i]->fold_id?>" parentFolderId="<?=$parentFolderId?>">
                                             <i class='fa fa-trash'></i>
-                                        </a>
-                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
-                                            <i class='fa fa-share'></i>
+                                        </a> 
+                                        <a href="javascript: void(0)" id="rootFolderId" fold_id="<?=$folders[$i]->fold_id?>">
+                                            <i class='fa fa-share'  data-toggle="modal" data-target=".bd-example-modal-lg"></i>
                                         </a>
                                     </span>
                                 </div>
@@ -164,9 +164,10 @@
                                     <a href="javascript:void(0)" id="fileDelete" file_id="<?=$files[$j]->file_id?>" parentFolderId="<?=$parentFolderId?>">
                                         <i class='fa fa-trash'></i>
                                     </a>
-                                    <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
-                                        <i class='fa fa-share'></i>
-                                    </a>
+                                    <!-- <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" ></a> -->
+                                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"></button>
+                                    <a href="javascript: void(0)"><i class='fa fa-share'  data-toggle="modal" data-target=".bd-example-modal-lg"></i></a> -->
+                                    
                                 </span>
                             </div>
                             <?php }//end if
@@ -190,6 +191,45 @@
 
         </div>
         <!--body wrapper end-->
+
+        <!-- Modal Start -->
+        <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Share With</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <select title="If none selected then permission for all" multiple="" name="sharedWith[]" id="sharedWith" class="form-control select2" style="min-height: 600px; padding-left: 17px;">                                            
+                <?php
+                if($user_details[0]->usertype != 4){                
+                    foreach($acc_masters as $am){
+                        ?>
+                        <option value="<?=$am->am_id?>"><?=$am->name. ' ['.$am->am_code.']'?></option>
+                        <?php
+                    }                
+                }else{                
+                    foreach($acc_masters as $am){
+                        ?>
+                        <option value="<?=$am->offer_id?>"><?=$am->offer_name. ' ['.$am->offer_fz_number.']'?></option>
+                        <?php
+                    }                
+                }                
+                ?>            
+            </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="shareDocument">Share</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- Modal End -->
 
         <!--footer section start-->
         <?php $this->load->view('components/footer'); ?>
@@ -295,6 +335,50 @@
             });
         }   
     });
+
+    //shareDocument 
+    $(document).on('click', '#shareDocument', function(){
+        $this = $(this); 
+
+        $dataSharedWith = [];
+        $el = $("#sharedWith");
+        $el.find('option:selected').each(function(){
+            $dataSharedWith.push({value:$(this).val(), text:$(this).text()});
+        });
+        console.log($dataSharedWith);
+
+        $.ajax({
+            url: "<?= base_url('admin/ajax-share-document/') ?>",
+            dataType: 'json',
+            type: 'POST',
+            data: {dataSharedWith: $dataSharedWith, rootFolderId: $rootFolderId},
+            success: function (returnData) {
+                console.log(returnData);  
+                //obj = JSON.parse(returnData);                 
+                notification(returnData);
+                if(returnData.type == 'success'){
+                    //refresh table Files
+                    setTimeout(function(){
+                        //window.location.href = '<?=base_url()?>admin/my-documents/'+ $parentFolderId;
+                    }, 3000);
+                }
+
+            },
+            error: function (returnData) {
+                obj = JSON.parse(returnData);
+                notification(obj);
+            }
+        });
+        
+    });
+
+    //rootFolderId
+    $(document).on('click', '#rootFolderId', function(){
+        $this = $(this); 
+        $rootFolderId = $(this).attr('fold_id');
+        console.log('rootFolderId: '+$rootFolderId)
+    });
+
 </script>
 
 

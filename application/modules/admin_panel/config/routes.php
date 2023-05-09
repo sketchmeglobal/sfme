@@ -71,7 +71,8 @@
 	$route['admin/add-document/(:num)'] = 'admin_panel/Documents/add_document/$1';	
 	$route['admin/ajax-unique-folderName'] = 'admin_panel/Documents/ajax_unique_foldername';	
 	$route['admin/form-add-document'] = 'admin_panel/Documents/form_add_document';
-	$route['admin/ajax-delete-document'] = 'admin_panel/Documents/ajax_delete_document';			
+	$route['admin/ajax-delete-document'] = 'admin_panel/Documents/ajax_delete_document';
+	$route['admin/ajax-share-document'] = 'admin_panel/Documents/ajax_share_document';				
 	//For Document manager types user END
 
 		/*delete*/
