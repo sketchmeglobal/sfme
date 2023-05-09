@@ -257,7 +257,7 @@ class Accounts_m extends CI_Model {
                 //'bank_id' => $bank_id,
                 'lab_report_clauses' => $lab_report_clauses,
                 'lbl' => $lbl,
-                
+                'payment_terms' => $this->input->post('payment_terms'),
                 'authorised_signatory' => $this->input->post('authorised_signatory'),
                 'add_info2' => $this->input->post('add_info2'),
                 'accepted_by' => $this->input->post('accepted_by'),
@@ -282,12 +282,13 @@ class Accounts_m extends CI_Model {
         $data['offer_list'] = $this->db->get('offers')->result();
         $data['sold_to_party_list'] = $this->db->get_where('acc_master', array('status' => 1, 'supplier_buyer' => 1))->result();
         $data['consignee_name_list'] = $this->db->get_where('acc_master', array('status' => 1, 'supplier_buyer' => 1))->result();
-        $data['order_to'] = $this->db->select('am_id, name, am_code')->get_where('acc_master', array('status' => 1))->result(); //, 'supplier_buyer' => 0
+        $data['order_to'] = $this->db->get_where('acc_master', array('status' => 1))->result(); //, 'supplier_buyer' => 0
         $data['port_list'] = $this->db->get('ports')->result();
         $data['company'] = $this->db->get('company')->result();
         $data['banklist'] = $this->db->get('bank_master')->result();
         $data['purchase_order_data'] = $this->db->get_where('purchase_order', array('po_id' => $id))->row();
-
+        $data['payment_terms'] = $this->db->get('payment_terms')->result();
+        
         return array('page' => 'accounts/purchase_order_edit_v', 'data' => $data);
     }
     
@@ -327,6 +328,8 @@ class Accounts_m extends CI_Model {
                 'label_document' => $this->input->post('label_document'),
                 'lab_report_clauses' => $lab_report_clauses,
                 'lbl' => $lbl,
+                
+                'payment_terms' => $this->input->post('payment_terms'),
                 
                 'authorised_signatory' => $this->input->post('authorised_signatory'),
                 'add_info' => $this->input->post('add_info'),
@@ -689,6 +692,7 @@ class Accounts_m extends CI_Model {
             ->join('countries', 'countries.country_id = offers.country_id', 'left')
             ->join('currencies', 'currencies.c_id = offers.c_id', 'left')
             ->join('incoterms', 'incoterms.it_id = offers.incoterm_id', 'left')
+            ->join('payment_terms', 'payment_terms.pt_id = purchase_order.payment_terms', 'left')
             ->where('am3.supplier_buyer', 0)
             ->get_where('purchase_order', array('purchase_order.po_id' => $po_id))->result();
 

@@ -14,7 +14,7 @@
         <!-- Set page size here: A5, A4 or A3 -->
         <!-- Set also "landscape" if you need -->
         <style>
-        body{ font-family: 'Signika', sans-serif; font-family: Calibri; }
+        body{ font-family: 'Signika', sans-serif; font-family: Calibri; line-height: 1;}
         p { margin: 0 0 5px; }
         table{ border: 1px solid #777; }
         
@@ -241,20 +241,29 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-sm-5">
                                     <p class="bold">Incoterms</p>
                                 </div>
                                 <div class="col-sm-7">
-                                    <p><strong><?=$header[0]->incoterm?></strong></p>
+                                    <p><strong>< ?=$header[0]->incoterm?></strong></p>
                                 </div>
-                            </div>
+                            </div> -->
                             
                         </div>
                     </div>
                     
                     <!--table data-->
+                    <?php 
+                        #echo '<pre>', print_r($header), '</pre>';
+                    ?>
                     <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <p class="text-center"><strong>Payment Terms:</strong> <?= strip_tags($this->db->get_where('payment_terms', array('pt_id' => $header[0]->payment_terms))->row()->payment_terms) ?></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text-right"><strong>Incoterm: <?=$header[0]->incoterm?></strong></p>
+                        </div>
                         <?php  $template = explode(',', $hdr->header); ?>
                         <table class="table table-hover table-striped table-bordered">
                             <thead>
