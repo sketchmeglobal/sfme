@@ -99,6 +99,7 @@ Dubai, UAE . Po box 113968</p>';
 
 define('COMP1', $comp1);
 define('COMP2', $comp2);
+define('FIN_YEAR', '2023-24');
 
 //mailing details
 define('default_smtp_host', 'mail.hnm.djx.mybluehost.me');
