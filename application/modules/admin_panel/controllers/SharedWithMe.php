@@ -46,7 +46,5 @@ class SharedWithMe extends My_Controller {
             $data = $this->sharedwithme_m->shared_with_me($parentFolderId);
             $this->load->view($data['page'], $data['data']);
         }
-    }
-    
-
+    }    
 }
