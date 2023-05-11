@@ -91,9 +91,9 @@
                                         <i class="fa fa-folder-o" style="font-size:24px"></i>
                                     </a>
                                     </br>
-                                    <span id="foldNameSpan"><?=$folders[$i]->folderName?> </span>
+                                    <span id="foldNameSpan_<?=$folders[$i]->fold_id?>"><?=$folders[$i]->folderName?> </span>
                                     </br>
-                                    <span id="foldNameInputSpan" style="display: none;"> <input type="text" name="folderNameEdit" id="folderNameEdit" value="<?=$folders[$i]->folderName?>" onBlur="folderNameUpdate()"></span>
+                                    <span id="foldNameInputSpan_<?=$folders[$i]->fold_id?>" style="display: none;"> <input type="text" name="folderNameEdit_<?=$folders[$i]->fold_id?>" id="folderNameEdit_<?=$folders[$i]->fold_id?>" value="<?=$folders[$i]->folderName?>" onBlur="folderNameUpdate('<?=$folders[$i]->fold_id?>')"></span>
                                     </br>
                                     <span>
                                         <a href="javascript: void(0)" id="folderEdit" fold_id="<?=$folders[$i]->fold_id?>"  folderName="<?=$folders[$i]->folderName?>">
@@ -275,17 +275,17 @@
         $fold_id = $(this).attr('fold_id');  
         $folderName = $(this).attr('folderName');   
         
-        $('#foldNameSpan').hide();
-        $('#foldNameInputSpan').show();
+        $('#foldNameSpan_'+$fold_id).hide();
+        $('#foldNameInputSpan_'+$fold_id).show();
 
         
     });  
 
-    function folderNameUpdate(){
-        $folderNameEdit = $('#folderNameEdit').val();
-        $('#foldNameSpan').html($folderNameEdit);
-        $('#foldNameSpan').show();
-        $('#foldNameInputSpan').hide();
+    function folderNameUpdate($fold_id){
+        $folderNameEdit = $('#folderNameEdit_'+$fold_id).val();
+        $('#foldNameSpan_'+$fold_id).html($folderNameEdit);
+        $('#foldNameSpan_'+$fold_id).show();
+        $('#foldNameInputSpan_'+$fold_id).hide();
 
         $.ajax({
             url: "<?= base_url('admin/ajax-edit-document/') ?>",
