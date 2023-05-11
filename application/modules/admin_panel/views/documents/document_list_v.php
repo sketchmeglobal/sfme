@@ -91,10 +91,12 @@
                                         <i class="fa fa-folder-o" style="font-size:24px"></i>
                                     </a>
                                     </br>
-                                    <span><?=$folders[$i]->folderName?> </span>
+                                    <span id="foldNameSpan"><?=$folders[$i]->folderName?> </span>
+                                    </br>
+                                    <span id="foldNameInputSpan" style="display: none;"> <input type="text" name="folderNameEdit" id="folderNameEdit" value="<?=$folders[$i]->folderName?>" onBlur="folderNameUpdate()"></span>
                                     </br>
                                     <span>
-                                        <a href="<?= base_url('admin/my-documents/'.$parentFolderId.'') ?>" >
+                                        <a href="javascript: void(0)" id="folderEdit" fold_id="<?=$folders[$i]->fold_id?>"  folderName="<?=$folders[$i]->folderName?>">
                                             <i class='fa fa-edit'></i>
                                         </a>
                                         <a href="javascript:void(0)" id="folderDelete" fold_id="<?=$folders[$i]->fold_id?>" parentFolderId="<?=$parentFolderId?>">
@@ -115,7 +117,6 @@
                            }
                             }else{ ?>
                                 <h5>No Folders available, please add new.</h5>
-
                             <?php } ?>
 
                         </div>
@@ -266,8 +267,48 @@
 <script src="<?=base_url();?>assets/admin_panel/js/jquery.form.min.js"></script>
 
 
-<script>  
+<script> 
+    //Edit Folder
+    $(document).on('click', '#folderEdit', function(){
+        $this = $(this);
 
+        $fold_id = $(this).attr('fold_id');  
+        $folderName = $(this).attr('folderName');   
+        
+        $('#foldNameSpan').hide();
+        $('#foldNameInputSpan').show();
+
+        
+    });  
+
+    function folderNameUpdate(){
+        $folderNameEdit = $('#folderNameEdit').val();
+        $('#foldNameSpan').html($folderNameEdit);
+        $('#foldNameSpan').show();
+        $('#foldNameInputSpan').hide();
+
+        $.ajax({
+            url: "<?= base_url('admin/ajax-edit-document/') ?>",
+            dataType: 'json',
+            type: 'POST',
+            data: {fold_id: $fold_id, folderNameEdit: $folderNameEdit},
+            success: function (returnData) {
+                //console.log(returnData);  
+                //obj = JSON.parse(returnData); 
+                if(returnData.type == 'success'){                
+                    notification(returnData);                    
+                }
+
+            },
+            error: function (returnData) {
+                obj = JSON.parse(returnData);
+                notification(obj);
+            }
+        });
+
+    }//end
+
+    //Delete Folder
     $(document).on('click', '#folderDelete', function(){
         $this = $(this);
         if(confirm("Are You Sure? This Process Can\'t be Undone.")){
@@ -301,6 +342,7 @@
         }   
     });  
 
+    //Delete File
     $(document).on('click', '#fileDelete', function(){
         $this = $(this);
         if(confirm("Are You Sure? This Process Can\'t be Undone.")){

@@ -73,6 +73,7 @@
 	$route['admin/form-add-document'] = 'admin_panel/Documents/form_add_document';
 	$route['admin/ajax-delete-document'] = 'admin_panel/Documents/ajax_delete_document';
 	$route['admin/ajax-share-document'] = 'admin_panel/Documents/ajax_share_document';
+	$route['admin/ajax-edit-document'] = 'admin_panel/Documents/ajax_edit_document';
 	
 	//Share Document
 	$route['admin/shared-with-me/(:num)'] = 'admin_panel/SharedWithMe/shared_with_me/$1';

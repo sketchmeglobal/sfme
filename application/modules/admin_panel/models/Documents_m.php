@@ -365,6 +365,44 @@ class documents_m extends CI_Model {
         
     }//end fun
 
+    
+
+    public function ajax_edit_document(){
+        $fold_id = $this->input->post('fold_id');
+        $folderNameEdit = $this->input->post('folderNameEdit');
+        $created_by = $this->session->user_id;
+
+        $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $created_by))->result();
+
+        if(count($result) > 0){
+            $update_id = $result[0]->document_id;
+            $documents1 = $result[0]->documents;
+            $documents = json_decode($documents1);            
+            $folders = $documents->folders;
+
+            for($i = 0; $i < sizeof($folders); $i++){
+                if($folders[$i]->fold_id == $fold_id){
+                    $folders[$i]->folderName = $folderNameEdit;
+                }//end if
+            }//end for
+            $documents->folders = $folders; 
+        }
+
+        $updateArray = array(
+            'documents' => json_encode($documents)
+        );
+
+        $val = $this->db->update('document_master', $updateArray, array('created_by' => $created_by));
+        $data['file_updated'] = $val;
+
+        $data['type'] = 'success';
+        $data['title'] = 'Updated!';
+        $data['msg'] = 'Document Name Updated Successfully'; 
+
+        return $data;
+
+    }//end fun
+
     public function ajax_share_document(){
         $dataSharedWith = $this->input->post('dataSharedWith');
         $rootFolderId = $this->input->post('rootFolderId');
