@@ -84,6 +84,9 @@ class documents_m extends CI_Model {
             $data['acc_masters'] =  $this->db
             ->get_where('offers',array('offers.status' => 1))->result();
             
+        } if($data['user_details'][0]->usertype == 5){            
+            $data['acc_masters'] =  $this->db
+            ->get_where('offers',array('offers.status' => 1))->result();            
         }
         
         return array('page' => 'documents/document_list_v', 'data'=>$data);
@@ -430,12 +433,6 @@ class documents_m extends CI_Model {
                     }else{
                     }//end if
                 } //end for
-
-                $documents->folders = $temp_folders;  
-                $documents->files = $temp_files;
-                $data['fold_ids'] = $fold_ids;
-                $data['temp_folders'] = $temp_folders;
-                $data['temp_files'] = $temp_files;
             }//end if
             //Fetch Old shared files of each individual users, call a function from here inside a loop
 
@@ -445,15 +442,77 @@ class documents_m extends CI_Model {
             for($i = 0; $i < sizeof($dataSharedWith); $i++){
                 //echo $dataSharedWith[$i]['value'].' '.$dataSharedWith[$i]['text'];
                 $share_with = $dataSharedWith[$i]['value'];
-                $result = $this->db->select('document_id, created_by, documents')->get_where('document_master', array('created_by' => $share_with))->result();
+                $result_new = $this->db->select('document_id, created_by, shared_with_me')->get_where('document_master', array('created_by' => $share_with))->result();
 
-                if(count($result) > 0){
+                if(count($result_new) > 0){
+                    if(count($result_new) > 0){
+                        $update_id = $result_new[0]->document_id;
+                        $documents1 = $result_new[0]->shared_with_me;
+                        $documents_existing = json_decode($documents1);            
+                        $existing_folders = $documents_existing->folders;
+                        $existing_files = $documents_existing->files;
+
+                        $existing_temp_folders = array();
+                        $existing_temp_files = array();                
+
+                        //Existing Folders
+                        for($p = 0; $p < sizeof($existing_folders); $p++){                     
+                            if(in_array($existing_folders[$p]->fold_id, $fold_ids)){
+                            }else{
+                                array_push($existing_temp_folders, $folders[$p]);
+                            }
+                        }//end for
+
+                        //Existing Files
+                        for($q = 0; $q < sizeof($existing_files); $q++){
+                            if(in_array($existing_files[$q]->parentFolderId, $fold_ids)){
+                            }else{
+                                $path = 'upload/documents/' . $existing_files[$q]->file_name;
+                                if (file_exists($path)){
+                                    array_push($existing_temp_files, $files[$z]);
+                                    //unlink($path);
+                                }
+                            }//end if
+                        } //end for
+                        
+                        $data['existing_temp_folders'] = $existing_temp_folders;
+                        $data['existing_temp_files'] = $existing_temp_files;
+
+                        if(sizeof($existing_temp_folders) > 0){
+                            for($r = 0; $r < sizeof($existing_temp_folders); $r++){
+                                array_push($temp_folders, $existing_temp_folders[$r]);
+                            }//end for
+                        }//end if
+
+                        if( sizeof($existing_temp_files) > 0){
+                            for($s = 0; $s < sizeof($existing_temp_files); $s++){
+                                $path = 'upload/documents/' . $existing_temp_files[$s]->file_name;
+                                if (file_exists($path)){
+                                    array_push($temp_files, $existing_temp_files[$s]);
+                                    //unlink($path);
+                                }
+                            }//end for
+                        }//end for
+                    }//end if
+
+                    $documents->folders = $temp_folders;  
+                    $documents->files = $temp_files;
+                    $data['fold_ids'] = $fold_ids;
+                    $data['temp_folders'] = $temp_folders;
+                    $data['temp_files'] = $temp_files;
+
                     //write update query
                     $updateArray = array(
                         'shared_with_me' => json_encode($documents)
                     );
                     $val = $this->db->update('document_master', $updateArray, array('created_by' => $share_with));
                 }else{
+                    $documents->folders = $temp_folders;  
+                    $documents->files = $temp_files;
+                    $data['fold_ids'] = $fold_ids;
+                    $data['temp_folders'] = $temp_folders;
+                    $data['temp_files'] = $temp_files;
+
                     //write insert query
                     $insertArray = array(
                         'created_by' => $share_with,
