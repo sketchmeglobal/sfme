@@ -198,6 +198,7 @@
 											<div class="col-lg-3">
 												<label for="payment_terms" class="control-label">Payment Terms</label>
 												<select required name="payment_terms" data-placeholder="-- Select payment terms --"  id="payment_terms" class="form-control select2">
+													<option value=""> -- Select Payment Terms -- </option>
 													<?php
 													foreach($payment_terms as $pt){
 													?>
