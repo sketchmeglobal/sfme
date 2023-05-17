@@ -912,31 +912,52 @@
                                     <div class="col-lg-3">
                                         <label for="dox_remark" class="control-label">Dox Remark</label>
                                         <!-- <textarea id="dox_remark" name="dox_remark" type="text" placeholder="Dox Remark" class="form-control " cols="30" rows="5">< ?=$export_details->dox_remark?></textarea> -->
-                                        
                                         <select id="dox_remark" name="dox_remark" class="form-control">
                                             <option selected value="">Select Dox remarks</option>
                                             <?php foreach ($all_remarks as $ar) { ?>
                                                 <option value="<?php echo $ar->rm_id ?>" <?php echo ($export_details->dox_remark == $ar->rm_id)? 'selected':''; ?> ><?php echo $ar->remark_title ?></option>
                                             <?php } ?>
                                         </select>
-
-
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="shipt_remark" class="control-label">Shipt Remark</label>
-                                        <textarea id="shipt_remark" name="shipt_remark" type="text" placeholder="Shipt Remark" class="form-control " cols="30" rows="5"><?=$export_details->shipt_remark?></textarea>
+                                        <!-- <textarea id="shipt_remark" name="shipt_remark" type="text" placeholder="Shipt Remark" class="form-control " cols="30" rows="5"><?=$export_details->shipt_remark?></textarea> -->
+                                        <select id="shipt_remark" name="shipt_remark" class="form-control">
+                                            <option selected value="">Select Shipment remarks</option>
+                                            <?php foreach ($all_remarks as $ar) { ?>
+                                                <option value="<?php echo $ar->rm_id ?>" <?php echo ($export_details->shipt_remark == $ar->rm_id)? 'selected':''; ?> ><?php echo $ar->remark_title ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="payment_remark" class="control-label">Payment Remark</label>
-                                        <textarea id="payment_remark" name="payment_remark" type="text" placeholder="Payment Remark" class="form-control " cols="30" rows="5"><?=$export_details->payment_remark?></textarea>
+                                        <!-- <textarea id="payment_remark" name="payment_remark" type="text" placeholder="Payment Remark" class="form-control " cols="30" rows="5"><?=$export_details->payment_remark?></textarea> -->
+                                        <select id="payment_remark" name="payment_remark" class="form-control">
+                                            <option selected value="">Select Payment remarks</option>
+                                            <?php foreach ($all_remarks as $ar) { ?>
+                                                <option value="<?php echo $ar->rm_id ?>" <?php echo ($export_details->payment_remark == $ar->rm_id)? 'selected':''; ?> ><?php echo $ar->remark_title ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="collect_remark" class="control-label">Collect Remark</label>
-                                        <textarea id="collect_remark" name="collect_remark" type="text" placeholder="Collect Remark" class="form-control " cols="30" rows="5"><?=$export_details->collect_remark?></textarea>
+                                        <!-- <textarea id="collect_remark" name="collect_remark" type="text" placeholder="Collect Remark" class="form-control " cols="30" rows="5"><?=$export_details->collect_remark?></textarea> -->
+                                        <select id="collect_remark" name="collect_remark" class="form-control">
+                                            <option selected value="">Select Collect remarks</option>
+                                            <?php foreach ($all_remarks as $ar) { ?>
+                                                <option value="<?php echo $ar->rm_id ?>" <?php echo ($export_details->collect_remark == $ar->rm_id)? 'selected':''; ?> ><?php echo $ar->remark_title ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="general_remark" class="control-label">General Remark</label>
-                                        <textarea id="general_remark" name="general_remark" type="text" placeholder="General Remark" class="form-control " cols="30" rows="5"><?=$export_details->general_remark?></textarea>
+                                        <!-- <textarea id="general_remark" name="general_remark" type="text" placeholder="General Remark" class="form-control " cols="30" rows="5"><?=$export_details->general_remark?></textarea> -->
+                                        <select id="general_remark" name="general_remark" class="form-control">
+                                            <option selected value="">Select General remarks</option>
+                                            <?php foreach ($all_remarks as $ar) { ?>
+                                                <option value="<?php echo $ar->rm_id ?>" <?php echo ($export_details->general_remark == $ar->rm_id)? 'selected':''; ?> ><?php echo $ar->remark_title ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                      <div class="col-lg-3">
                                         <label for="accounts_appr" class="control-label"> Accounts Appr </label>
