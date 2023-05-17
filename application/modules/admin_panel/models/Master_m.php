@@ -1049,7 +1049,7 @@ class Master_m extends CI_Model {
             $crud = new grocery_CRUD();
             $crud->set_crud_url_path(base_url('admin_panel/Master/all_remakrs'));
             $crud->set_theme('flexigrid');
-            $crud->set_subject('Freight Master');
+            $crud->set_subject('Remarks');
             $crud->set_table('remarks_master');
 
             $crud->unset_read();
