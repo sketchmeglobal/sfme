@@ -45,6 +45,8 @@
 
 	$route['admin/responsible-logistic'] = 'admin_panel/Master/responsible_logistic';
 
+	$route['admin/all-remarks'] = 'admin_panel/Master/all_remarks';
+
 	// OFFER COMMENTS
 
 	$route['admin/offer-comments'] = 'admin_panel/Offer/offer_comments';

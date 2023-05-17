@@ -252,6 +252,14 @@ class Master extends My_Controller {
         }
     }
 
+    public function all_remarks() {
+        if($this->check_permission(array(1)) == true) {
+            $this->load->model('Master_m');
+            $data = $this->Master_m->all_remarks();
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
+
     public function ajax_del_row_on_table_and_pk() {
         if($this->check_permission(array(1)) == true) {
             $this->load->model('Master_m');

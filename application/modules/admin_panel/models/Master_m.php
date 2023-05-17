@@ -1042,6 +1042,42 @@ class Master_m extends CI_Model {
         }
     }
 
+    public function all_remarks(){
+        $user_id = $this->session->user_id;
+
+        try{
+            $crud = new grocery_CRUD();
+            $crud->set_crud_url_path(base_url('admin_panel/Master/all_remakrs'));
+            $crud->set_theme('flexigrid');
+            $crud->set_subject('Freight Master');
+            $crud->set_table('remarks_master');
+
+            $crud->unset_read();
+            $crud->unset_clone();
+
+            $this->table_name = 'remarks_master';
+            $crud->callback_before_update(array($this,'log_before_update'));
+            
+            $crud->unset_columns('created_date','modified_date','user_id');
+            $crud->unset_fields('created_date','modified_date','user_id');
+
+            $crud->required_fields('remark_title');
+            
+            $crud->field_type('user_id', 'hidden', $user_id);
+
+            $output = $crud->render();
+            //rending extra value to $output
+            $output->tab_title = 'Remarks Master';
+            $output->section_heading = 'Remarks Master <small>(Add / Edit / Delete)</small>';
+            $output->menu_name = 'Remarks Master';
+            $output->add_button = '';
+
+            return array('page'=>'common_v', 'data'=>$output); //loading common view page
+        } catch(Exception $e) {
+            show_error($e->getMessage().'<br>'.$e->getTraceAsString());
+        }
+    }
+
     public function ajax_del_row_on_table_and_pk(){
         $warning = 0;
         $pk_name = str_replace('-','_',$this->input->post('pk_name'));
