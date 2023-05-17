@@ -164,6 +164,10 @@ $user_type = $this->session->usertype;
                     <li class="<?=(($class_name == 'Master') && ($method_name == 'all_clauses')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/all_clauses"><i class="fa fa-caret-right"></i> All Clauses</a>
                     </li>
+
+                    <li class="<?=(($class_name == 'Master') && ($method_name == 'all_remakrs')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/all_remarks"><i class="fa fa-caret-right"></i> All Remarks</a>
+                    </li>
                     
                 </ul>
             </li>
