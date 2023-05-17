@@ -1256,7 +1256,7 @@ class Export_m extends CI_Model {
 
         $data['export_details_products'] = $this->db->get_where('offer_details', array('offer_details.offer_id' => $offer_id))->result_array();
 
-
+        $data['all_remarks'] = $this->db->get_where('remarks_master', array('remarks_master.status' => 1))->result();
         //$data['export_details_product'] = $this->db->get_where('offer_details', array('offer_id' => $offer_id))->result_array();
 
         /*

@@ -911,7 +911,16 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="dox_remark" class="control-label">Dox Remark</label>
-                                        <textarea id="dox_remark" name="dox_remark" type="text" placeholder="Dox Remark" class="form-control " cols="30" rows="5"><?=$export_details->dox_remark?></textarea>
+                                        <!-- <textarea id="dox_remark" name="dox_remark" type="text" placeholder="Dox Remark" class="form-control " cols="30" rows="5">< ?=$export_details->dox_remark?></textarea> -->
+                                        
+                                        <select id="dox_remark" name="dox_remark" class="form-control">
+                                            <option selected value="">Select Dox remarks</option>
+                                            <?php foreach ($all_remarks as $ar) { ?>
+                                                <option value="<?php echo $ar->rm_id ?>" <?php echo ($export_details->dox_remark == $ar->rm_id)? 'selected':''; ?> ><?php echo $ar->remark_title ?></option>
+                                            <?php } ?>
+                                        </select>
+
+
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="shipt_remark" class="control-label">Shipt Remark</label>
