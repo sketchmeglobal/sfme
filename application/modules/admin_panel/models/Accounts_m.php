@@ -390,7 +390,7 @@ class Accounts_m extends CI_Model {
             'pi_number' => $this->input->post('pi_number'),
             'pi_date' => $this->input->post('pi_date'),
             'offer' => $this->input->post('offer_id'),
-            'sold_to_party' => $this->input->post('sold_to_party_id'),
+            'sold_to_party' => $this->input->post('sold_to_party'),
             'order_to_id' => $this->input->post('order_to_id'),
             'order_to_contact' => $this->input->post('order_to_contact'),
             'consignee_name' => $this->input->post('consignee_name'),
