@@ -259,7 +259,16 @@
                     ?>
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
-                            <p class="text-center"><strong>Payment Terms:</strong> <?= strip_tags($this->db->get_where('payment_terms', array('pt_id' => $header[0]->payment_terms))->row()->payment_terms) ?></p>
+                            <p class="text-center"><strong>Payment Terms:</strong> 
+                            <?php 
+                                $rv = $this->db->get_where('payment_terms', array('pt_id' => $header[0]->payment_terms))->row();
+                                if(!empty($rv)){
+                                    echo strip_tags($rv->payment_terms);        
+                                }else{
+                                    echo '-';
+                                }
+                            ?>
+                        </p>
                         </div>
                         <div class="col-sm-3">
                             <p class="text-right"><strong>Incoterm: <?=$header[0]->incoterm?></strong></p>
