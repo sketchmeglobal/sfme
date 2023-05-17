@@ -891,16 +891,11 @@ class Export_m extends CI_Model {
 
         $data['responsible_sales'] = $this->db->query("SELECT * FROM responsible_sales WHERE status=1")->result();
 
-        /*$data['responsible_sales'] = $this->db->query("SELECT * FROM responsible_sales WHERE status=1")->result();
-*/
         $data['responsible_logistic'] = $this->db->query("SELECT * FROM responsible_logistic WHERE status=1")->result();
 
-
-        //echo $this->db->last_query();
-        
-
-        //print_r($data['offers']); die();
         $data['offer_name'] = 'OFFER/'. date('dmY/his');
+
+        $data['all_remarks'] = $this->db->get_where('remarks_master', array('remarks_master.status' => 1))->result();
 
         return array('page'=>'export/export_add_v', 'data'=>$data);
     }
