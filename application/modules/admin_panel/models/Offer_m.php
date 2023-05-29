@@ -2406,12 +2406,8 @@ class Offer_m extends CI_Model {
 
 
             /*-------Raw SQL-------*/
-
-            /*---------------------*/
-            echo "<pre>"; print_r($this->db->list_fields('exportdata'));
             echo $this->db->last_query();
-
-             echo "<pre>"; print_r($data['offer']);  die;
+            echo "<pre>"; print_r($this->db->list_fields('exportdata'));  die;
 
             $data['templates'] = $this->db->get_where('report_filter_template', array('report_filter_template_id' => $tepmlate_id))->row();
 
