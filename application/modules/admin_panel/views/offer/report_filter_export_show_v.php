@@ -57,7 +57,10 @@ function date_frmt($date)
       <div class="body-content" style="margin-left: 0px;">
         <div class="wrapper">
           <!-- Customization -->
-            <?php if (!empty($this->input->post())) { ?>
+            <?php 
+            echo '<pre>',$this->input->post(), '</pre>';
+            if (!empty($this->input->post())) { 
+            ?>
             <div style="width: max-content;margin: auto;">
                 <div class="bg-dark" style="padding:0.1%; text-align: center;">
                     <h4 style="font-weight: bold;">Filter Result Header</h4>
@@ -79,7 +82,7 @@ function date_frmt($date)
                                     <th>Offer Product</th>
                                 <?php } ?>
                                 <?php if(!empty($this->input->post('origin_id'))){ ?>
-                                    <th>Origine</th>
+                                    <th>Origin</th>
                                 <?php } ?>
                                 <?php if(!empty($this->input->post('destination_id'))){ ?>
                                     <th>Destination</th>
@@ -93,7 +96,7 @@ function date_frmt($date)
                                 <?php } ?>
 
                                 <?php if(!empty($this->input->post('offer_status'))){ ?>
-                                    <th>Offer Staaus</th>
+                                    <th>Offer Status</th>
                                 <?php } ?>
                                 
                                 <?php if(!empty($this->input->post('tepmlate_id'))){ ?>
