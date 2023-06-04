@@ -11,7 +11,7 @@
 $export_header_fields = explode(',',$templates->export_header);
 $export_data = $offer_data['export_data'];
 // $offer_data_final = $offer_data['offer_data'];
-echo "<pre>"; print_r($export_data); 
+// echo "<pre>"; print_r($export_data); 
 
 function date_frmt($date)
 {
