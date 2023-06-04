@@ -191,25 +191,25 @@ function date_frmt($date)
 
                                 <!-- All offer header fields below -->
 
-                                <?php if(in_array('offer_name', $export_data)){ ?>
+                                <?php if(in_array('offer_name', $export_data[0])){ ?>
                                     <th>Offer Name</th>
                                 <?php } ?>
-                                <?php if(in_array('offer_date', $export_data)){ ?>
+                                <?php if(in_array('offer_date', $export_data[0])){ ?>
                                     <th>Offer Date</th>
                                 <?php } ?>
-                                <?php if(in_array('c_id', $export_data)){ ?>
+                                <?php if(in_array('c_id', $export_data[0])){ ?>
                                     <th>Offer Currency</th>
                                 <?php } ?>
-                                <?php if(in_array('buying_incoterm', $export_data)){ ?>
+                                <?php if(in_array('incoterm', $export_data[0])){ ?>
                                     <th>Buying Incoterm</th>
                                 <?php } ?>
-                                <?php if(in_array('supplier_name', $export_data)){ ?>
+                                <?php if(in_array('supplier_name', $export_data[0])){ ?>
                                     <th>Supplier</th>
                                 <?php } ?>
-                                <?php if(in_array('country_id', $export_data)){ ?>
+                                <?php if(in_array('country_name', $export_data[0])){ ?>
                                     <th>Source Country</th>
                                 <?php } ?>
-                                <?php if(in_array('destination_c_id', $export_data)){ ?>
+                                <?php if(in_array('destination_country', $export_data[0])){ ?>
                                     <th>Destination Country</th>
                                 <?php } ?>
 
