@@ -9,12 +9,9 @@
 
 
 $export_header_fields = explode(',',$templates->export_header);
-
-// $offer_details = $data['offer_details'];
-
 $export_data = $offer_data['export_data'];
-
- // echo "<pre>"; print_r($export_data); die();
+$offer_data_final = $offer_data['offer_data'];
+echo "<pre>"; print_r($offer_data_final); die();
 
 function date_frmt($date)
 {
@@ -192,6 +189,32 @@ function date_frmt($date)
                         <thead>
                             <tr>
                                 <th>#</th>
+
+                                <!-- All offer header fields below -->
+
+                                <?php if(in_array('offer_name', $offer_data_final)){ ?>
+                                    <th>Offer Name</th>
+                                <?php } ?>
+                                <?php if(in_array('offer_date', $offer_data_final)){ ?>
+                                    <th>Offer Date</th>
+                                <?php } ?>
+                                <?php if(in_array('c_id', $offer_data_final)){ ?>
+                                    <th>Offer Currency</th>
+                                <?php } ?>
+                                <?php if(in_array('buying_incoterm', $offer_data_final)){ ?>
+                                    <th>Buying Incoterm</th>
+                                <?php } ?>
+                                <?php if(in_array('supplier_name', $offer_data_final)){ ?>
+                                    <th>Supplier</th>
+                                <?php } ?>
+                                <?php if(in_array('country_id', $offer_data_final)){ ?>
+                                    <th>Source Country</th>
+                                <?php } ?>
+                                <?php if(in_array('destination_c_id', $offer_data_final)){ ?>
+                                    <th>Destination Country</th>
+                                <?php } ?>
+
+                                <!-- All export fields below -->
                                 <?php if(in_array('offer_id', $export_header_fields)){ ?>
                                     <th>Offer Name</th>
                                 <?php } ?>
