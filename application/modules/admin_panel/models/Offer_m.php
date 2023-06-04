@@ -2404,7 +2404,8 @@ class Offer_m extends CI_Model {
 
             $data['export_data'] = $this->db->get('exportdata')->result();
             $data['offer_data'] = $this->db->get('offers')->result();
-
+            echo $this->db->last_query();
+            
             $this->db->flush_cache();
 
             /*-------Raw SQL-------*/
