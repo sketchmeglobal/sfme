@@ -2370,7 +2370,7 @@ class Offer_m extends CI_Model {
 
             $this->db->join('sell_price_details', 'sell_price_details.offer_id = offers.offer_id');
 
-            
+            $this->db->start_cache();
             if(!empty($origin_id)){
                 $this->db->where('offers.country_id', $origin_id);
             }
@@ -2395,15 +2395,16 @@ class Offer_m extends CI_Model {
             if(!empty($offer_status)){
                 $this->db->where('offers.offer_status_id', $offer_status);
             }
-
             if (!empty($offer_id)) {
                 $this->db->group_by('offer_details.od_id');
-                $this->db->where('offers.offer_id', $offer_id);
-                
+                $this->db->where('offers.offer_id', $offer_id);  
             }
+            $this->db->stop_cache();
 
             $data['export_data'] = $this->db->get('exportdata')->result();
+            $data['offer_data'] = $this->db->get('offfers')->result();
 
+            $this->db->flush_cache();
 
             /*-------Raw SQL-------*/
             echo $this->db->last_query();
