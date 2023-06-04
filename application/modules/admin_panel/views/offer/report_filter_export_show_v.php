@@ -200,16 +200,16 @@ function date_frmt($date)
                                 <?php if(in_array('offer_date', $offer_header_fields)){ ?>
                                     <th>Offer Date</th>
                                 <?php } ?>
-                                <?php if(in_array('c_id', $offer_header_fields)){ ?>
+                                <?php if(in_array('currency', $offer_header_fields)){ ?>
                                     <th>Offer Currency</th>
                                 <?php } ?>
-                                <?php if(in_array('incoterm', $offer_header_fields)){ ?>
+                                <?php if(in_array('buying_incoterm', $offer_header_fields)){ ?>
                                     <th>Buying Incoterm</th>
                                 <?php } ?>
                                 <?php if(in_array('supplier_name', $offer_header_fields)){ ?>
                                     <th>Supplier</th>
                                 <?php } ?>
-                                <?php if(in_array('country_name', $offer_header_fields)){ ?>
+                                <?php if(in_array('source_country', $offer_header_fields)){ ?>
                                     <th>Source Country</th>
                                 <?php } ?>
                                 <?php if(in_array('destination_country', $offer_header_fields)){ ?>
