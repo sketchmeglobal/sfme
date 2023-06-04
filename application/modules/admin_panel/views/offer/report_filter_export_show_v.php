@@ -1116,83 +1116,83 @@ function date_frmt($date)
       </script>
       <script type="text/javascript">
       //toastr notification
-      function notification(obj) {
-      toastr[obj.type](obj.msg, obj.title, {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "5000",
-      "timeOut": "5000",
-      "extendedTimeOut": "7000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-      })
-      }
+    //   function notification(obj) {
+    //   toastr[obj.type](obj.msg, obj.title, {
+    //   "closeButton": true,
+    //   "debug": false,
+    //   "newestOnTop": false,
+    //   "progressBar": true,
+    //   "positionClass": "toast-top-right",
+    //   "preventDuplicates": false,
+    //   "onclick": null,
+    //   "showDuration": "300",
+    //   "hideDuration": "5000",
+    //   "timeOut": "5000",
+    //   "extendedTimeOut": "7000",
+    //   "showEasing": "swing",
+    //   "hideEasing": "linear",
+    //   "showMethod": "fadeIn",
+    //   "hideMethod": "fadeOut"
+    //   })
+    //   }
       
-      $("#offer_id").on('change', function(){
-      $offer_id = $(this).val();
-      $.ajax({
-      url: "<?=base_url()?>admin/ajax_get_product_data",
-      dataType:"json",
-      type: "post",
-      data:{"offer_id":$offer_id},
-      success: function(data){
-      $("#product_id").html(data);
-      }
-      });
-      });
-      $("#product_id").on('change', function(){
-      if ($(this).val() == '') {
-      $('#product_id_exe_div').show();
-      }else{
-      $('#product_id_exe_div').hide();
-      }
-      });
+    //   $("#offer_id").on('change', function(){
+    //   $offer_id = $(this).val();
+    //   $.ajax({
+    //   url: "< ?=base_url()?>admin/ajax_get_product_data",
+    //   dataType:"json",
+    //   type: "post",
+    //   data:{"offer_id":$offer_id},
+    //   success: function(data){
+    //   $("#product_id").html(data);
+    //   }
+    //   });
+    //   });
+    //   $("#product_id").on('change', function(){
+    //   if ($(this).val() == '') {
+    //   $('#product_id_exe_div').show();
+    //   }else{
+    //   $('#product_id_exe_div').hide();
+    //   }
+    //   });
       
     //   $('.offer_details tfoot th').each(function () {
     //         var title = $(this).text();
     //         $(this).html('<input type="text" placeholder="'+title+'" />');
     //     });
-    //     var table = $('.offer_details').DataTable({
-    //         dom: 'Blfrtip',
-    //         buttons: [
-    //             {
-    //                 extend: 'excel',
-    //                 exportOptions: {
-    //                     // columns: [1, 2, 3, 4, 6]
-    //                     // columns: ':not(:last-child)'
-    //                 }
-    //             },
-    //             'copy', 'print'
-    //         ], 
-    //         aLengthMenu: [
-    //             [5, 10, 25, 50, 100, 200, -1],
-    //             ['5 Rows', '10 Rows', '25 Rows', '50 Rows', '100 Rows', '200 Rows', "All"]
-    //         ],
-    //         // iDisplayLength: -1,
-    //         // columnDefs: [ { orderable: false, targets: [1,2,6,7,8,10,11,12] }]
-    //         initComplete: function () {
-    //             // Apply the search
-    //             this.api()
-    //                 .columns()
-    //                 .every(function () {
-    //                     var that = this;
+        var table = $('.offer_details').DataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        // columns: [1, 2, 3, 4, 6]
+                        // columns: ':not(:last-child)'
+                    }
+                },
+                'print'
+            ], 
+            aLengthMenu: [
+                [5, 10, 25, 50, 100, 200, -1],
+                ['5 Rows', '10 Rows', '25 Rows', '50 Rows', '100 Rows', '200 Rows', "All"]
+            ]
+            // iDisplayLength: -1,
+            // columnDefs: [ { orderable: false, targets: [1,2,6,7,8,10,11,12] }]
+            // initComplete: function () {
+            //     // Apply the search
+            //     this.api()
+            //         .columns()
+            //         .every(function () {
+            //             var that = this;
      
-    //                     $('input', this.footer()).on('keyup change clear', function () {
-    //                         if (that.search() !== this.value) {
-    //                             that.search(this.value).draw();
-    //                         }
-    //                     });
-    //                 });
-    //         },
-    //     });
+            //             $('input', this.footer()).on('keyup change clear', function () {
+            //                 if (that.search() !== this.value) {
+            //                     that.search(this.value).draw();
+            //                 }
+            //             });
+            //         });
+            // },
+        });
         
     //     // Refilter the table
     //     $('#min, #max').on('change', function () {
