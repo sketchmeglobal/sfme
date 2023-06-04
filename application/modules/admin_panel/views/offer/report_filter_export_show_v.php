@@ -217,28 +217,28 @@ function date_frmt($date)
 
                                 <!-- All offer details fields below -->
                                 <?php if(in_array('product_name', $offer_details_fields)){ ?>
-                                    <td><?= $vod->product_name . ' ['. $vod->scientific_name .']' ?></td>
+                                    <th>Product Name</th>
                                 <?php } ?>
                                 <?php if(in_array('freezing_type', $offer_details_fields)){ ?>
-                                    <td><?= $vod->freezing_type ?></td>
+                                    <th>Freezing Type</th>
                                 <?php } ?>
                                 <?php if(in_array('packing_size', $offer_details_fields)){ ?>
-                                    <td><?= $vod->packing_size ?></td>
+                                    <th>Packing Size</th>
                                 <?php } ?>
                                 <?php if(in_array('block_type', $offer_details_fields)){ ?>
-                                    <td><?= $vod->block_size ?></td>
+                                    <th>Block Type</th>
                                 <?php } ?>
                                 <?php if(in_array('pieces', $offer_details_fields)){ ?>
-                                    <td><?= $vod->pieces ?></td>
+                                    <th>Piece</th>
                                 <?php } ?>
                                 <?php if(in_array('grade', $offer_details_fields)){ ?>
-                                    <td><?= $vod->grade ?></td>
+                                    <th>Grade</th>
                                 <?php } ?>
                                 <?php if(in_array('cartons_offered', $offer_details_fields)){ ?>
-                                    <td><?= $vod->cartons_offered ?></td>
+                                    <th>Cartoons Offered</th>
                                 <?php } ?>
                                 <?php if(in_array('product_price', $offer_details_fields)){ ?>
-                                    <td><?= $vod->product_price . ' ' . $vod->unit ?></td>
+                                    <th>Price / unit</th>
                                 <?php } ?>
 
                                 <!-- All export fields below -->
