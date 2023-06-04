@@ -58,7 +58,7 @@ function date_frmt($date)
         <div class="wrapper">
           <!-- Customization -->
             <?php 
-            echo '<pre>',print_r($this->input->post()), '</pre>';
+            // echo '<pre>',print_r($this->input->post()), '</pre>';
             if (!empty($this->input->post())) { 
             ?>
             <div style="width: max-content;margin: auto;">
