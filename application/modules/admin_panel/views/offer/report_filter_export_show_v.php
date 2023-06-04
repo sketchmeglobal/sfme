@@ -193,7 +193,6 @@ function date_frmt($date)
                                 <th>#</th>
 
                                 <!-- All offer header fields below -->
-
                                 <?php if(in_array('offer_name', $offer_header_fields)){ ?>
                                     <th>Offer Name</th>
                                 <?php } ?>
@@ -214,6 +213,32 @@ function date_frmt($date)
                                 <?php } ?>
                                 <?php if(in_array('destination_country', $offer_header_fields)){ ?>
                                     <th>Destination Country</th>
+                                <?php } ?>
+
+                                <!-- All offer details fields below -->
+                                <?php if(in_array('product_name', $offer_details_fields)){ ?>
+                                    <td><?= $vod->product_name . ' ['. $vod->scientific_name .']' ?></td>
+                                <?php } ?>
+                                <?php if(in_array('freezing_type', $offer_details_fields)){ ?>
+                                    <td><?= $vod->freezing_type ?></td>
+                                <?php } ?>
+                                <?php if(in_array('packing_size', $offer_details_fields)){ ?>
+                                    <td><?= $vod->packing_size ?></td>
+                                <?php } ?>
+                                <?php if(in_array('block_type', $offer_details_fields)){ ?>
+                                    <td><?= $vod->block_size ?></td>
+                                <?php } ?>
+                                <?php if(in_array('pieces', $offer_details_fields)){ ?>
+                                    <td><?= $vod->pieces ?></td>
+                                <?php } ?>
+                                <?php if(in_array('grade', $offer_details_fields)){ ?>
+                                    <td><?= $vod->grade ?></td>
+                                <?php } ?>
+                                <?php if(in_array('cartons_offered', $offer_details_fields)){ ?>
+                                    <td><?= $vod->cartons_offered ?></td>
+                                <?php } ?>
+                                <?php if(in_array('product_price', $offer_details_fields)){ ?>
+                                    <td><?= $vod->product_price . ' ' . $vod->unit ?></td>
                                 <?php } ?>
 
                                 <!-- All export fields below -->
@@ -609,11 +634,12 @@ function date_frmt($date)
                                 <td><?=++$key;?></td>
 
                                 <!-- All offer header fields below -->
-                                <?php if(in_array('offer_name', $offer_header_fields)){ ?>
-                                    <th>Offer Name</th>
+                                <?php if(in_array('offer_name', $offer_header_fields)){ 
+                                ?>
+                                    <td><?= $vod->offer_name . ' [' . $vod->offer_fz_number . ']' ?></td>
                                 <?php } ?>
                                 <?php if(in_array('offer_date', $offer_header_fields)){ ?>
-                                    <td><?= $vod->offer_name ?></td>
+                                    <td><?= $vod->offer_date ?></td>
                                 <?php } ?>
                                 <?php if(in_array('currency', $offer_header_fields)){ ?>
                                     <td><?= $vod->currency ?></td>
@@ -630,6 +656,34 @@ function date_frmt($date)
                                 <?php if(in_array('destination_country', $offer_header_fields)){ ?>
                                     <td><?= $vod->destination_country ?></td>
                                 <?php } ?>
+
+                                <!-- All offer details fields below -->
+
+                                <?php if(in_array('product_name', $offer_details_fields)){ ?>
+                                    <td><?= $vod->product_name . ' ['. $vod->scientific_name .']' ?></td>
+                                <?php } ?>
+                                <?php if(in_array('freezing_type', $offer_details_fields)){ ?>
+                                    <td><?= $vod->freezing_type ?></td>
+                                <?php } ?>
+                                <?php if(in_array('packing_size', $offer_details_fields)){ ?>
+                                    <td><?= $vod->packing_size ?></td>
+                                <?php } ?>
+                                <?php if(in_array('block_type', $offer_details_fields)){ ?>
+                                    <td><?= $vod->block_size ?></td>
+                                <?php } ?>
+                                <?php if(in_array('pieces', $offer_details_fields)){ ?>
+                                    <td><?= $vod->pieces ?></td>
+                                <?php } ?>
+                                <?php if(in_array('grade', $offer_details_fields)){ ?>
+                                    <td><?= $vod->grade ?></td>
+                                <?php } ?>
+                                <?php if(in_array('cartons_offered', $offer_details_fields)){ ?>
+                                    <td><?= $vod->cartons_offered ?></td>
+                                <?php } ?>
+                                <?php if(in_array('product_price', $offer_details_fields)){ ?>
+                                    <td><?= $vod->product_price . ' ' . $vod->unit ?></td>
+                                <?php } ?>
+
 
                                 <!-- All export header fields below -->
 
