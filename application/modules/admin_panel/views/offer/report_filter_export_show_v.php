@@ -607,6 +607,32 @@ function date_frmt($date)
                             ?>
                             <tr>
                                 <td><?=++$key;?></td>
+
+                                <!-- All offer header fields below -->
+                                <?php if(in_array('offer_name', $offer_header_fields)){ ?>
+                                    <th>Offer Name</th>
+                                <?php } ?>
+                                <?php if(in_array('offer_date', $offer_header_fields)){ ?>
+                                    <td><?= $vod->offer_name ?></td>
+                                <?php } ?>
+                                <?php if(in_array('currency', $offer_header_fields)){ ?>
+                                    <td><?= $vod->currency ?></td>
+                                <?php } ?>
+                                <?php if(in_array('buying_incoterm', $offer_header_fields)){ ?>
+                                    <td><?= $vod->incoterm ?></td>
+                                <?php } ?>
+                                <?php if(in_array('supplier_name', $offer_header_fields)){ ?>
+                                    <td><?= $vod->supplier_name ?></td>
+                                <?php } ?>
+                                <?php if(in_array('source_country', $offer_header_fields)){ ?>
+                                    <td><?= $vod->country_name ?></td>
+                                <?php } ?>
+                                <?php if(in_array('destination_country', $offer_header_fields)){ ?>
+                                    <td><?= $vod->destination_country ?></td>
+                                <?php } ?>
+
+                                <!-- All export header fields below -->
+
                                 <?php if(in_array('offer_id', $export_header_fields)){ 
                                      $offer = $this->db->get_where('offers', array('offer_id' => $vod->offer_id))->row();
                                 ?>
