@@ -10,8 +10,8 @@
 
 $export_header_fields = explode(',',$templates->export_header);
 $export_data = $offer_data['export_data'];
-$offer_data_final = $offer_data['offer_data'];
-echo "<pre>"; print_r($offer_data_final); die();
+// $offer_data_final = $offer_data['offer_data'];
+// echo "<pre>"; print_r($offer_data_final); die();
 
 function date_frmt($date)
 {
@@ -21,7 +21,6 @@ function date_frmt($date)
         $dt = date("d/m/Y", strtotime($date));
     }
     
-
     return $dt;
 }
 
@@ -192,25 +191,25 @@ function date_frmt($date)
 
                                 <!-- All offer header fields below -->
 
-                                <?php if(in_array('offer_name', $offer_data_final)){ ?>
+                                <?php if(in_array('offer_name', $export_data)){ ?>
                                     <th>Offer Name</th>
                                 <?php } ?>
-                                <?php if(in_array('offer_date', $offer_data_final)){ ?>
+                                <?php if(in_array('offer_date', $export_data)){ ?>
                                     <th>Offer Date</th>
                                 <?php } ?>
-                                <?php if(in_array('c_id', $offer_data_final)){ ?>
+                                <?php if(in_array('c_id', $export_data)){ ?>
                                     <th>Offer Currency</th>
                                 <?php } ?>
-                                <?php if(in_array('buying_incoterm', $offer_data_final)){ ?>
+                                <?php if(in_array('buying_incoterm', $export_data)){ ?>
                                     <th>Buying Incoterm</th>
                                 <?php } ?>
-                                <?php if(in_array('supplier_name', $offer_data_final)){ ?>
+                                <?php if(in_array('supplier_name', $export_data)){ ?>
                                     <th>Supplier</th>
                                 <?php } ?>
-                                <?php if(in_array('country_id', $offer_data_final)){ ?>
+                                <?php if(in_array('country_id', $export_data)){ ?>
                                     <th>Source Country</th>
                                 <?php } ?>
-                                <?php if(in_array('destination_c_id', $offer_data_final)){ ?>
+                                <?php if(in_array('destination_c_id', $export_data)){ ?>
                                     <th>Destination Country</th>
                                 <?php } ?>
 
