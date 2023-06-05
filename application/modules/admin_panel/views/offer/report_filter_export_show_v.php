@@ -205,9 +205,6 @@ function date_frmt($date)
                                 <?php if(in_array('buying_incoterm', $offer_header_fields)){ ?>
                                     <th>Buying Incoterm</th>
                                 <?php } ?>
-                                <?php if(in_array('supplier_name', $offer_header_fields)){ ?>
-                                    <th>Supplier</th>
-                                <?php } ?>
                                 <?php if(in_array('source_country', $offer_header_fields)){ ?>
                                     <th>Source Country</th>
                                 <?php } ?>
@@ -245,7 +242,9 @@ function date_frmt($date)
                                 <?php if(in_array('offer_id', $export_header_fields)){ ?>
                                     <th>Offer Name</th>
                                 <?php } ?>
-
+                                <?php if(in_array('customer', $export_header_fields)){ ?>
+                                    <th>Customer</th>
+                                <?php } ?>
                                 <?php if(in_array('company', $export_header_fields)){ ?>
                                     <th>Company</th>
                                 <?php } ?>
@@ -691,6 +690,10 @@ function date_frmt($date)
                                      $offer = $this->db->get_where('offers', array('offer_id' => $vod->offer_id))->row();
                                 ?>
                                     <td><?= $offer->offer_name; ?></td>
+                                <?php } ?>
+
+                                <?php if(in_array('customer', $export_header_fields)){ ?>
+                                    <td><?= $offer->customer_name; ?></td>
                                 <?php } ?>
 
                                 <?php if(in_array('company', $export_header_fields)){ ?>

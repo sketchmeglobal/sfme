@@ -2348,7 +2348,7 @@ class Offer_m extends CI_Model {
             /******************/
             /*offer_details.*, DATE_FORMAT(offers.offer_date, "%d-%m-%Y") as offer_date, acc_master.name as supplier_name, acc_master.am_code as supplier_code, currencies.currency, currencies.symbol as currency_code, countries.iso, countries.name, incoterms.incoterm, ports.port_name,remark1_offer_validity.remark, product_name, product_price, scientific_name, f1.freezing_type,f2.freezing_type as freezing_method, ptp.packing_type, pts.packing_type as pts, packing_size, glazing, block_size,sizes.size,units.unit, size_before_glaze, size_after_glaze, offer_details.od_id,quantity_offered, cartons_offered*/
             // $this->db->start_cache();
-            $this->db->select('exportdata.3rd_insp_upload as rdinsp, exportdata.*, offer_details.*, offers.*, DATE_FORMAT(offers.offer_date, "%d-%m-%Y") as offer_date, acc_master.name as supplier_name, acc_master.am_code as supplier_code, currencies.currency, currencies.symbol as currency_code, countries.iso, countries.name, incoterms.incoterm, ports.port_name,remark1_offer_validity.remark, product_name, product_price, scientific_name, f1.freezing_type,f2.freezing_type as freezing_method, ptp.packing_type, pts.packing_type as pts, packing_size, glazing, block_size,sizes.size,units.unit, size_before_glaze, size_after_glaze, offer_details.od_id,quantity_offered, cartons_offered,countries.name as country_name, c_destination.name as destination_country');
+            $this->db->select('exportdata.3rd_insp_upload as rdinsp, exportdata.*, offer_details.*, offers.*, DATE_FORMAT(offers.offer_date, "%d-%m-%Y") as offer_date, acc_master.name as supplier_name, acc_master.am_code as supplier_code, cust.name as customer_name currencies.currency, currencies.symbol as currency_code, countries.iso, countries.name, incoterms.incoterm, ports.port_name,remark1_offer_validity.remark, product_name, product_price, scientific_name, f1.freezing_type,f2.freezing_type as freezing_method, ptp.packing_type, pts.packing_type as pts, ,sizes.size,units.unit,countries.name as country_name, c_destination.name as destination_country');
             $this->db->join('offers', 'offers.offer_id = exportdata.offer_id', 'left');
             $this->db->join('offer_details', 'offer_details.offer_id = offers.offer_id', 'left');
             $this->db->join('products', 'products.pr_id = offer_details.product_id', 'left');
@@ -2363,6 +2363,7 @@ class Offer_m extends CI_Model {
             $this->db->join('units', 'units.u_id = sizes.unit_id', 'left');
 
             $this->db->join('acc_master', 'acc_master.am_id = offers.am_id', 'left');
+            $this->db->join('acc_master cust', 'cust.am_id = sell_price_details.am_id', 'left');
             $this->db->join('countries', 'countries.country_id = offers.country_id', 'left');
             $this->db->join('countries c_destination', 'c_destination.country_id = offers.destination_c_id', 'left');
             $this->db->join('currencies', 'currencies.c_id = offers.c_id', 'left');
