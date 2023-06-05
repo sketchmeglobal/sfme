@@ -2363,7 +2363,6 @@ class Offer_m extends CI_Model {
             $this->db->join('units', 'units.u_id = sizes.unit_id', 'left');
 
             $this->db->join('acc_master', 'acc_master.am_id = offers.am_id', 'left');
-            $this->db->join('acc_master cust', 'cust.am_id = sell_price_details.am_id', 'left');
             $this->db->join('countries', 'countries.country_id = offers.country_id', 'left');
             $this->db->join('countries c_destination', 'c_destination.country_id = offers.destination_c_id', 'left');
             $this->db->join('currencies', 'currencies.c_id = offers.c_id', 'left');
@@ -2372,6 +2371,7 @@ class Offer_m extends CI_Model {
             $this->db->join('remark1_offer_validity', 'remark1_offer_validity.rov_id = offers.remarks_1', 'left');
 
             $this->db->join('sell_price_details', 'sell_price_details.offer_id = offers.offer_id');
+            $this->db->join('acc_master cust', 'cust.am_id = sell_price_details.am_id', 'left');
 
             if(!empty($origin_id)){
                 $this->db->where('offers.country_id', $origin_id);
