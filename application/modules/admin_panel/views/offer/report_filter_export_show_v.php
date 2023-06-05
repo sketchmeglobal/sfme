@@ -693,7 +693,7 @@ function date_frmt($date)
                                 <?php } ?>
 
                                 <?php if(in_array('customer', $export_header_fields)){ ?>
-                                    <td><?= $offer->customer_name; ?></td>
+                                    <td><?= $vod->customer_name; ?></td>
                                 <?php } ?>
 
                                 <?php if(in_array('company', $export_header_fields)){ ?>
