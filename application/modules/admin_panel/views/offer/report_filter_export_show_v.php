@@ -524,9 +524,9 @@ function date_frmt($date)
                                 <?php if(in_array('dayes_delayed', $export_header_fields)){ ?>    
                                     <th>Dayes Delayed</th>
                                 <?php } ?>
-                                <?php if(in_array('customer', $export_header_fields)){ ?>    
+                                <!-- < ?php if(in_array('customer', $export_header_fields)){ ?>    
                                     <th>Customer</th>
-                                <?php } ?>
+                                < ?php } ?> -->
                                 <?php if(in_array('rem_dayes_for_shipt', $export_header_fields)){ ?>    
                                     <th>REM Dayes For Shipt</th>
                                 <?php } ?>
@@ -975,12 +975,12 @@ function date_frmt($date)
                                 <?php if(in_array('dayes_delayed', $export_header_fields)){ ?>    
                                     <td><?= $vod->dayes_delayed ?></td>
                                 <?php } ?>
-                                <?php 
+                                <!-- < ?php 
                                     if(in_array('customer', $export_header_fields)){ 
                                         if(!empty($vod->customer)){
                                 ?>    
-                                    <td><?= $this->db->get_where('acc_master', array('am_id' => $vod->customer))->row()->name ?></td>
-                                <?php } } ?>
+                                    <td>< ?= $this->db->get_where('acc_master', array('am_id' => $vod->customer))->row()->name ?></td>
+                                < ?php } } ?> -->
                                 <?php if(in_array('rem_dayes_for_shipt', $export_header_fields)){ ?>    
                                     <td><?= $vod->rem_dayes_for_shipt ?></td>
                                 <?php } ?>
