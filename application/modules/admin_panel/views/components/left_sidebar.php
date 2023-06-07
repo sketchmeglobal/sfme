@@ -203,11 +203,9 @@ $user_type = $this->session->usertype;
                 </ul>
             </li>
 
-            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-cog"></i> <span>Settings</span></a>
+            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-pdf"></i> <span>Templates</span></a>
                 <ul class="child-list">
-                    <li class="<?=(($class_name == 'User') && ($method_name == 'user_managemnt')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/user-management"><i class="fa fa-caret-right"></i> User Management</a>
-                    </li>
+                    
                     <li class="<?=(($class_name == 'Settings') && ($method_name == '')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/view-templates"><i class="fa fa-caret-right"></i> Templates Report (Offer)</a>
                     </li>
@@ -215,16 +213,25 @@ $user_type = $this->session->usertype;
                         <a href="<?=base_url();?>admin/view-templates-report"><i class="fa fa-caret-right"></i> Templates Report (Export)</a>
                     </li>
                     <li class="<?=(($class_name == 'Settings') && ($method_name == 'account_templates')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/account_templates"><i class="fa fa-caret-right"></i> Template (SC/PO)</a>
+                        <a href="<?=base_url();?>admin/account_templates"><i class="fa fa-caret-right"></i> Template Report (SC/PO)</a>
                     </li>
 
                     <li class="<?=(($class_name == 'Settings') && ($method_name == 'view_report_filter_templates')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/view_report_filter_templates"><i class="fa fa-caret-right"></i> Report Filter Temp</a>
+                        <a href="<?=base_url();?>admin/view_report_filter_templates"><i class="fa fa-caret-right"></i> Template Report (Offer/Export)</a>
                     </li>
                     
                    <!-- <li class="< ?=(($class_name == 'Settings') && ($method_name == 'mail_templates')) ? 'active' : ''; ?>">
                         <a href="< ?=base_url();?>admin/mail_templates"><i class="fa fa-caret-right"></i> Mail Template</a>
                     </li>-->
+                    
+                </ul>
+            </li>    
+
+            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-cog"></i> <span>Settings</span></a>
+                <ul class="child-list">
+                    <li class="<?=(($class_name == 'User') && ($method_name == 'user_managemnt')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/user-management"><i class="fa fa-caret-right"></i> User Management</a>
+                    </li>
                     <li class="<?=(($class_name == 'Settings') && ($method_name == '')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/database-backup"><i class="fa fa-caret-right"></i> Database Backup</a>
                     </li>
