@@ -203,7 +203,7 @@ $user_type = $this->session->usertype;
                 </ul>
             </li>
 
-            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-pdf"></i> <span>Templates</span></a>
+            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-pdf-o"></i> <span>Templates</span></a>
                 <ul class="child-list">
                     
                     <li class="<?=(($class_name == 'Settings') && ($method_name == '')) ? 'active' : ''; ?>">
