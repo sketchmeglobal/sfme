@@ -296,12 +296,11 @@ $user_type = $this->session->usertype;
                         <a href="<?=base_url();?>admin/export-list"><i class="fa fa-caret-right"></i> <span>Export List</span></a>
                         <!-- export-listing -->
                     </li>
-                    <li class="<?=(($this->uri->segment(2) == 'report_filter_export')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/report_filter_export"><i class="fa fa-caret-right"></i> <span>Export Filter</span></a>
-                    </li>
                     <li class="<?=(($class_name == 'Export') and ($this->uri->segment(2) == 'report')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/report"><i class="fa fa-caret-right"></i> <span>Export Report</span></a>
-                        <!-- export-listing -->
+                    </li>
+                    <li class="<?=(($this->uri->segment(2) == 'report_filter_export')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/report_filter_export"><i class="fa fa-caret-right"></i> <span>Offer/Export Report</span></a>
                     </li>
                 </ul>
             </li>    
