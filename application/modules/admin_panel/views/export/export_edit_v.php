@@ -94,8 +94,16 @@
                                             <option <?= ($export_details->company == 'Other') ? 'selected' : '' ?> value="Other">Other</option>
                                         </select>
                                     </div>
-                                     
-                                    <div class="col-lg-6 text-center">
+                                    <div class="col-lg-3" style="margin:auto">
+                                        <?php //echo "<pre>"; print_r($offers); die(); ?>
+                                        <label for="shipment_status" class="control-label">Shipment Status</label>
+                                        <select id="shipment_status" name="shipment_status" class="form-control">
+                                            <option selected value="">Select Shipment Status</option>
+                                            <option <?= ($export_details->shipment_status == 'open') ? 'selected' : '' ?> value="open">Open</option>
+                                            <option <?= ($export_details->shipment_status == 'close') ? 'selected' : '' ?> value="close">Close</option>
+                                        </select>
+                                    </div> 
+                                    <div class="col-lg-3 text-center">
                                         <h5><u>Supplier Name: <b><?=$export_details->name?></b></u></h5>
                                         <!--<label for="supplier_id" class="control-label">Supplier name</label>-->
                                         <!--<select name="supplier_id" id="supplier_id" name="supplier_id" class="form-control">-->
@@ -295,12 +303,25 @@
                                             <option value="Yes" <?php echo ($export_details->draft_docs_recd == 'Yes')?'selected':''; ?> >Yes</option>
                                             <option value="No" <?php echo ($export_details->draft_docs_recd == 'No')?'selected':''; ?> >No</option>
                                             <option value="N/A" <?php echo ($export_details->draft_docs_recd == 'N/A')?'selected':''; ?> >N/A</option>
-
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="draft_docs_recd_date" class="control-label">Recd Date </label>
+                                        <label for="draft_docs_recd_date" class="control-label">D Docs Recd Date </label>
                                         <input  id="draft_docs_recd_date" name="draft_docs_recd_date" value="<?=$export_details->draft_docs_recd_date?>" type="date"  class="form-control " />
+                                    </div>
+                                    <!-- hodling days -->
+                                    <?php
+                                    $date1_str = $export_details->draft_docs_recd_date;
+                                    $date2_str = date('Y-m-d');
+                                    $date1 = new DateTime($date1_str);
+                                    $date2 = new DateTime($date2_str);
+                                    $interval = $date1->diff($date2);
+                                    // $result = $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
+                                    
+                                    ?>
+                                    <div class="col-lg-3">
+                                        <label for="draft_docs_holding_days" class="control-label">D Docs Holding Date </label>
+                                        <input id="draft_docs_holding_days" readonly name="" type="text" value="<?=$interval->days?>"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="draft_docs_sent" class="control-label"> Draft Docs Sent  </label>
@@ -312,8 +333,41 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="draft_docs_sent_date" class="control-label"> Sent Date </label>
+                                        <label for="draft_docs_sent_date" class="control-label"> D Docs Sent Date </label>
                                         <input  id="draft_docs_sent_date" name="draft_docs_sent_date" value="<?=$export_details->draft_docs_sent_date?>" type="date"  class="form-control " />
+                                    </div>
+                                    <!-- D-docs Status -->
+                                    <div class="col-lg-3">
+                                        <label for="draft_docs_status" class="control-label"> D-docs Status </label>
+                                        <select name="draft_docs_status" id="draft_docs_status" class="form-control">
+                                            <option <?= ($export_details->draft_docs_status == 'open') ? 'selected' : '' ?> value="open">Open</option>
+                                            <option <?= ($export_details->draft_docs_status == 'open') ? 'closed' : '' ?> value="closed">Closed</option>
+                                            <option <?= ($export_details->draft_docs_status == 'open') ? 'cancelled' : '' ?> value="cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <!-- Draft doc remarks -->
+                                    <div class="col-lg-3">
+                                        <label for="draft_docs_remarks" class="control-label"> Draft Docs Remarks </label>
+                                        <input  id="draft_docs_remarks" name="draft_docs_remarks" type="text" value="<?= $export_details->draft_docs_remarks ?>"  class="form-control " />
+                                    </div>
+                                    <!-- ETA -->
+                                    <div class="col-lg-3">
+                                        <label for="eta" class="control-label">ETA</label>
+                                        <input  id="eta" name="eta" type="date" value="<?=$export_details->eta?>" placeholder="AOC / COC Date" class="form-control" />
+                                    </div>
+                                    <!-- Stuff date -->
+                                    <div class="col-lg-3">
+                                        <label for="stuff_date" class="control-label"> Stuffing Date </label>
+                                        <input id="stuff_date" name="stuff_date" type="date" <?=$export_details->stuff_date?> class="form-control " />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="etd" class="control-label">ETD</label>
+                                        <input  id="etd" name="etd" type="date" value="<?=$export_details->etd?>" placeholder="AOC / COC Date" class="form-control" />
+                                    </div> 
+                                    <!-- STA -->
+                                    <div class="col-lg-3">
+                                        <label for="sta" class="control-label"> STA </label>
+                                        <input  id="sta" name="sta" type="date" value="<?=$export_details->sta?>" class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="final_docs_submitted" class="control-label"> Final Docs Submitted (LC) </label>
@@ -332,6 +386,11 @@
                                     <div class="col-lg-3">
                                         <label for="final_copy_cust_date" class="control-label"> Sent Date </label>
                                         <input  id="final_copy_cust_date" value="<?=$export_details->final_copy_cust_date?>" name="final_copy_cust_date" type="date"  class="form-control " />
+                                    </div>
+                                    <!-- FInal doc remarks -->
+                                    <div class="col-lg-3">
+                                        <label for="final_docs_remarks" class="control-label"> Final Docs Remarks </label>
+                                        <input  id="final_docs_remarks" name="final_docs_remarks" type="text"  value="<?=$export_details->final_docs_remarks?>" class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="final_copy_vend" class="control-label"> Final Copy-Vend </label>
@@ -400,9 +459,22 @@
                                         <label for="sale_contract" class="control-label">Sale Contract #</label>
                                         <input  id="sale_contract" value="<?=$export_details->sale_contract?>" name="sale_contract" type="text" placeholder="Sale Contract" class="form-control" />
                                     </div>
+                                    <!-- Special Documents # -->
+                                    <div class="col-lg-3">
+                                        <label for="special_documents" class="control-label">Special Documents</label>
+                                        <select id="special_documents" name="special_documents" class="form-control">
+                                            <option value="" selected disabled>Select Special Documents</option>
+                                            <option <?= ($export_details->special_documents == 'insurance_cert') ? 'selected' : '' ?> value="insurance_cert">Insurance Cert</option>
+                                            <option <?= ($export_details->special_documents == 'shippers_cont') ? 'selected' : '' ?> value="shippers_cont">Shipper's Cont</option>
+                                            <option <?= ($export_details->special_documents == 'customers_decl') ? 'selected' : '' ?> value="customers_decl">Customs decl.</option>
+                                            <option <?= ($export_details->special_documents == 'benef_letter') ? 'selected' : '' ?> value="benef_letter">Benef Letter</option>
+                                            <option <?= ($export_details->special_documents == 'aoc_qc') ? 'selected' : '' ?> value="aoc_qc">AOC/QC</option>
+                                            <option <?= ($export_details->special_documents == 'vgm_letter') ? 'selected' : '' ?> value="vgm_letter">VGM Letter</option>
+                                            <option <?= ($export_details->special_documents == 'besc_feri') ? 'selected' : '' ?> value="besc_feri">BESC/FERI</option>
+                                        </select>
+                                    </div>        
 
-
-                                   <div class="col-lg-3">
+                                    <div class="col-lg-3">
                                         <label for="sc_qty" class="control-label">SC Qty</label>
                                         <input id="sc_qty" name="sc_qty" value="<?=$export_details->sc_qty?>" type="text" placeholder="SC Qty" class="form-control " />
                                     </div>
@@ -856,14 +928,6 @@
                                                 <option value="<?php echo $currency->c_id ?>" <?php echo ($export_details->actual_sales_amt_currency == $currency->c_id)?'selected':''; ?> ><?php echo $currency->currency.' ('. $currency->code .')' ?></option>
                                             <?php } ?>
                                         </select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label for="etd" class="control-label">ETD</label>
-                                        <input  id="etd" name="etd" type="date" value="<?=$export_details->etd?>" placeholder="AOC / COC Date" class="form-control" />
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label for="eta" class="control-label">ETA</label>
-                                        <input  id="eta" name="eta" type="date" value="<?=$export_details->eta?>" placeholder="AOC / COC Date" class="form-control" />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="admin_appr" class="control-label"> Admin Appr </label>
