@@ -289,8 +289,13 @@
                                             </div>
                                             <!-- Recd Date -->
                                             <div class="col-lg-3">
-                                                <label for="draft_docs_recd_date" class="control-label">Recd Date </label>
+                                                <label for="draft_docs_recd_date" class="control-label">D Docs Recd. Date </label>
                                                 <input  id="draft_docs_recd_date" name="draft_docs_recd_date" type="date"  class="form-control " />
+                                            </div>
+                                            <!-- hodling days -->
+                                            <div class="col-lg-3">
+                                                <label for="draft_docs_holding_days" class="control-label">D Docs Hodling Date </label>
+                                                <input id="draft_docs_holding_days" name="draft_docs_holding_days" type="date"  class="form-control " />
                                             </div>
                                             <!-- Draft Docs Sent -->
                                             <div class="col-lg-3">
@@ -306,6 +311,15 @@
                                             <div class="col-lg-3">
                                                 <label for="draft_docs_sent_date" class="control-label"> Draft. Docs. Sent Date </label>
                                                 <input  id="draft_docs_sent_date" name="draft_docs_sent_date" type="date"  class="form-control " />
+                                            </div>
+                                            <!-- D-docs Status -->
+                                            <div class="col-lg-3">
+                                                <label for="draft_docs_status" class="control-label"> D-docs Status </label>
+                                                <select name="draft_docs_status" id="draft_docs_status">
+                                                    <option value="open">Open</option>
+                                                    <option value="closed">Closed</option>
+                                                    <option value="canelled">Cancelled</option>
+                                                </select>
                                             </div>
                                             <!-- Draft doc remarks -->
                                             <div class="col-lg-3">
