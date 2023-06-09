@@ -318,7 +318,7 @@
                                                 <select name="draft_docs_status" id="draft_docs_status" class="form-control">
                                                     <option value="open">Open</option>
                                                     <option value="closed">Closed</option>
-                                                    <option value="canelled">Cancelled</option>
+                                                    <option value="cancelled">Cancelled</option>
                                                 </select>
                                             </div>
                                             <!-- Draft doc remarks -->
@@ -326,6 +326,27 @@
                                                 <label for="draft_docs_remarks" class="control-label"> Draft Docs Remarks </label>
                                                 <input  id="draft_docs_remarks" name="draft_docs_remarks" type="text"  class="form-control " />
                                             </div>
+                                            <!-- ETA -->
+                                            <div class="col-lg-3">
+                                                <label for="eta" class="control-label"> ETA </label>
+                                                <input  id="eta" name="eta" type="text"  class="form-control " />
+                                            </div>
+                                            <!-- Stuff date -->
+                                            <div class="col-lg-3">
+                                                <label for="stuff_date" class="control-label"> Stuffing Date </label>
+                                                <input  id="stuff_date" name="stuff_date" type="date" class="form-control " />
+                                            </div>            
+                                            <!-- ETD -->
+                                            <div class="col-lg-3">
+                                                <label for="etd" class="control-label"> ETD </label>
+                                                <input  id="etd" name="etd" type="date" class="form-control " />
+                                            </div>
+                                            <!-- STA -->
+                                            <div class="col-lg-3">
+                                                <label for="sta" class="control-label"> STA </label>
+                                                <input  id="sta" name="sta" type="date" class="form-control " />
+                                            </div>
+
                                             <!-- Final Docs Submitted (LC) -->
                                             <div class="col-lg-3">
                                                 <label for="final_docs_submitted" class="control-label"> Final Docs Submitted (LC) </label>
