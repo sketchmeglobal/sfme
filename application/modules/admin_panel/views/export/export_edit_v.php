@@ -311,17 +311,22 @@
                                     </div>
                                     <!-- hodling days -->
                                     <?php
-                                    $date1_str = $export_details->draft_docs_recd_date;
-                                    $date2_str = date('Y-m-d');
-                                    $date1 = new DateTime($date1_str);
-                                    $date2 = new DateTime($date2_str);
-                                    $interval = $date1->diff($date2);
-                                    // $result = $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
+                                    if(!empty($export_details->draft_docs_recd_date)){
+                                        $date1_str = $export_details->draft_docs_recd_date;
+                                        $date2_str = date('Y-m-d');
+                                        $date1 = new DateTime($date1_str);
+                                        $date2 = new DateTime($date2_str);
+                                        $interval = $date1->diff($date2);
+                                        // $result = $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
+                                    }else{
+                                        $interval = 'N/A';
+                                    }
+                                    
                                     
                                     ?>
                                     <div class="col-lg-3">
-                                        <label for="draft_docs_holding_days" class="control-label">D Docs Holding Date </label>
-                                        <input id="draft_docs_holding_days" readonly name="" type="text" value="<?=$interval->days?>"  class="form-control " />
+                                        <label for="draft_docs_holding_days" class="control-label">D Docs Holding Days </label>
+                                        <input id="draft_docs_holding_days" readonly name="" type="text" value="<?=$interval->days?> days"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="draft_docs_sent" class="control-label"> Draft Docs Sent  </label>
@@ -358,7 +363,7 @@
                                     <!-- Stuff date -->
                                     <div class="col-lg-3">
                                         <label for="stuff_date" class="control-label"> Stuffing Date </label>
-                                        <input id="stuff_date" name="stuff_date" type="date" <?=$export_details->stuff_date?> class="form-control " />
+                                        <input id="stuff_date" name="stuff_date" type="date" value="<?=$export_details->stuff_date?>" class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="etd" class="control-label">ETD</label>
