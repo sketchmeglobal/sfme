@@ -68,6 +68,15 @@
                                                     <?php } ?>
                                                 </select>
                                             </div>
+                                            <div class="col-lg-3" style="margin:auto">
+                                                <?php //echo "<pre>"; print_r($offers); die(); ?>
+                                                <label for="shipment_status" class="control-label">Shipment Status</label>
+                                                <select id="shipment_status" name="shipment_status" class="form-control">
+                                                    <option selected value="">Select Shipment Status</option>
+                                                    <option value="open">Open</option>
+                                                    <option value="close">Close</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         
                                         <div class="form-group row">
@@ -295,8 +304,13 @@
                                             </div>
                                             <!-- Sent Date -->
                                             <div class="col-lg-3">
-                                                <label for="draft_docs_sent_date" class="control-label"> Sent Date </label>
+                                                <label for="draft_docs_sent_date" class="control-label"> Draft. Docs. Sent Date </label>
                                                 <input  id="draft_docs_sent_date" name="draft_docs_sent_date" type="date"  class="form-control " />
+                                            </div>
+                                            <!-- Draft doc remarks -->
+                                            <div class="col-lg-3">
+                                                <label for="draft_docs_remarks" class="control-label"> Draft Docs Remarks </label>
+                                                <input  id="draft_docs_remarks" name="draft_docs_remarks" type="text"  class="form-control " />
                                             </div>
                                             <!-- Final Docs Submitted (LC) -->
                                             <div class="col-lg-3">
@@ -317,6 +331,11 @@
                                             <div class="col-lg-3">
                                                 <label for="final_copy_cust_date" class="control-label"> Sent Date </label>
                                                 <input  id="final_copy_cust_date" name="final_copy_cust_date" type="date"  class="form-control " />
+                                            </div>
+                                            <!-- FInal doc remarks -->
+                                            <div class="col-lg-3">
+                                                <label for="final_docs_remarks" class="control-label"> Final Docs Remarks </label>
+                                                <input  id="final_docs_remarks" name="final_docs_remarks" type="text"  class="form-control " />
                                             </div>
                                             <!-- Final Copy-Vend -->
                                             <div class="col-lg-3">
@@ -392,6 +411,19 @@
                                             <div class="col-lg-3">
                                                 <label for="sale_contract" class="control-label">Sale Contract #</label>
                                                 <input  id="sale_contract" name="sale_contract" type="text" placeholder="Sale Contract" class="form-control" />
+                                            </div>
+                                            <!-- Special Documents # -->
+                                            <div class="col-lg-3">
+                                                <label for="special_documents" class="control-label">Special Documents</label>
+                                                <select id="special_documents" name="special_documents" class="form-control">
+                                                    <option value="insurance_cert">Insurance Cert</option>
+                                                    <option value="shippers_cont">Shipper's Cont</option>
+                                                    <option value="customers_decl">Customs decl.</option>
+                                                    <option value="benef_letter">Benef Letter</option>
+                                                    <option value="aoc_qc">AOC/QC</option>
+                                                    <option value="vgm_letter">VGM Letter</option>
+                                                    <option value="besc_feri">BESC/FERI</option>
+                                                </select>
                                             </div>
                                             <!-- SC Qty -->
                                             <div class="col-lg-3">
