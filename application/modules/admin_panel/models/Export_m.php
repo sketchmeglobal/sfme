@@ -1137,11 +1137,12 @@ class Export_m extends CI_Model {
         }*/
         /* For Testing End */ //die;
 
-         $this->db->insert('exportdata', $insertArray);
+        if($this->db->insert('exportdata', $insertArray)){
+            redirect('admin/export-list');                
+        }else{
+            die('Error occurred on Inserting data');
+        }
 
-
-
-         redirect('admin/export-list');
     }
 
 

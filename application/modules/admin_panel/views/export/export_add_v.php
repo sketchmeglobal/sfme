@@ -293,10 +293,10 @@
                                                 <input  id="draft_docs_recd_date" name="draft_docs_recd_date" type="date"  class="form-control " />
                                             </div>
                                             <!-- hodling days -->
-                                            <div class="col-lg-3">
+                                            <!-- <div class="col-lg-3">
                                                 <label for="draft_docs_holding_days" class="control-label">D Docs Hodling Date </label>
                                                 <input id="draft_docs_holding_days" name="draft_docs_holding_days" type="date"  class="form-control " />
-                                            </div>
+                                            </div> -->
                                             <!-- Draft Docs Sent -->
                                             <div class="col-lg-3">
                                                 <label for="draft_docs_sent" class="control-label"> Draft Docs Sent  </label>
@@ -329,7 +329,7 @@
                                             <!-- ETA -->
                                             <div class="col-lg-3">
                                                 <label for="eta" class="control-label"> ETA </label>
-                                                <input  id="eta" name="eta" type="text"  class="form-control " />
+                                                <input  id="eta" name="eta" type="date"  class="form-control " />
                                             </div>
                                             <!-- Stuff date -->
                                             <div class="col-lg-3">
@@ -451,6 +451,7 @@
                                             <div class="col-lg-3">
                                                 <label for="special_documents" class="control-label">Special Documents</label>
                                                 <select id="special_documents" name="special_documents" class="form-control">
+                                                    <option value="" selected disabled>Select Special Documents</option>
                                                     <option value="insurance_cert">Insurance Cert</option>
                                                     <option value="shippers_cont">Shipper's Cont</option>
                                                     <option value="customers_decl">Customs decl.</option>
