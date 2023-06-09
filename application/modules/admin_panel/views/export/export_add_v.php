@@ -315,7 +315,7 @@
                                             <!-- D-docs Status -->
                                             <div class="col-lg-3">
                                                 <label for="draft_docs_status" class="control-label"> D-docs Status </label>
-                                                <select name="draft_docs_status" id="draft_docs_status">
+                                                <select name="draft_docs_status" id="draft_docs_status" class="form-control">
                                                     <option value="open">Open</option>
                                                     <option value="closed">Closed</option>
                                                     <option value="canelled">Cancelled</option>
