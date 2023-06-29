@@ -304,7 +304,7 @@ class Export_m extends CI_Model {
             $crud->set_relation('last_edited_by','users','username');
             $crud->set_relation('row_colour','colors','color_hex_code');
 
-            $crud->set_relation('docx_remark','remarks_master','remark_title');
+            $crud->set_relation('dox_remark','remarks_master','remark_title');
             $crud->set_relation('shipt_remark','remarks_master','remark_title');
             $crud->set_relation('payment_remark','remarks_master','remark_title');
             
