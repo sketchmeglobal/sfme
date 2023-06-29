@@ -307,6 +307,8 @@ class Export_m extends CI_Model {
             $crud->set_relation('dox_remark','remarks_master','remark_title');
             $crud->set_relation('shipt_remark','remarks_master','remark_title');
             $crud->set_relation('payment_remark','remarks_master','remark_title');
+            $crud->set_relation('collect_remark','remarks_master','remark_title');
+            $crud->set_relation('general_remark','remarks_master','remark_title');
             
             $crud->set_field_upload('packing_list_file','upload/export');
             $crud->set_field_upload('health_cer_file','upload/export');
