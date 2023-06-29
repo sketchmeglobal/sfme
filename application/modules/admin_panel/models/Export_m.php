@@ -292,6 +292,7 @@ class Export_m extends CI_Model {
             $crud->set_relation('responsible_sale_id','responsible_sales','name');
             $crud->set_relation('responsible_logistics_id','responsible_logistic','name');
             $crud->set_relation('pi_sales_amt_currency','currencies','currency');
+            $crud->set_relation('po_purch_amt_currency','currencies','currency');
             $crud->set_relation('adv_amt_cust_currency','currencies','currency');
             $crud->set_relation('adv_paid_vend_currency','currencies','currency');
             $crud->set_relation('adv_amt_vend_currency','currencies','currency');
@@ -302,6 +303,10 @@ class Export_m extends CI_Model {
             $crud->set_relation('created_by','users','username');
             $crud->set_relation('last_edited_by','users','username');
             $crud->set_relation('row_colour','colors','color_hex_code');
+
+            $crud->set_relation('docx_remark','remarks_master','remark_title');
+            $crud->set_relation('shipt_remark','remarks_master','remark_title');
+            $crud->set_relation('payment_remark','remarks_master','remark_title');
             
             $crud->set_field_upload('packing_list_file','upload/export');
             $crud->set_field_upload('health_cer_file','upload/export');
@@ -316,7 +321,6 @@ class Export_m extends CI_Model {
             $crud->set_field_upload('micrbiology_report_file','upload/export');
             $crud->set_field_upload('any_other_quality_report_file','upload/export');
             
-
             // display field like
 
             $crud->display_as('offer_id', 'Offer');
