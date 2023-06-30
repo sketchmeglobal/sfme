@@ -492,12 +492,17 @@ class Export_m extends CI_Model {
         LEFT JOIN acc_master ON sell_price_details.am_id=acc_master.am_id
         WHERE offer_id =".$row->offer_id;
         
-        $spd = $this->db->query($sql)->row()->name;
+        if(!empty($this->db->query($sql)->row())){
+            $spd = $this->db->query($sql)->row()->name;
+        }else{
+            $spd = 'Not set';
+        }
+        
         
         return $spd;
         
     }
-    
+
     public function _callback_freight($value, $row) {
         
         $sql = "SELECT CONCAT(freight, ' ', currency) AS freight_value FROM `offer_details` 
