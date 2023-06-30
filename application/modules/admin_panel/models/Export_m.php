@@ -247,6 +247,7 @@ class Export_m extends CI_Model {
             $this->table_name = 'Export List';
             $crud->callback_before_update(array($this,'log_before_update'));
             
+            $crud->callback_column('customer',array($this,'_callback_customer'));
             $crud->callback_column('freight',array($this,'_callback_freight'));
             $crud->callback_column('rlink_for_bl_to_appear',array($this,'_callback_rlink_for_bl_to_appear'));
             
@@ -284,7 +285,7 @@ class Export_m extends CI_Model {
             }
             
             $crud->set_relation('offer_id','offers','offer_name','offer_id IN ('.$offers.')');
-            $crud->set_relation('customer','acc_master','name');
+            // $crud->set_relation('customer','acc_master','name');
             $crud->set_relation('supplier_id','acc_master','name');
             $crud->set_relation('vend_inv_amt_currency','currencies','currency');
             $crud->set_relation('cust_inco_id','incoterms','incoterm');
@@ -483,6 +484,18 @@ class Export_m extends CI_Model {
     
     public function _callback_rlink_for_bl_to_appear($value, $row) {
         return "<a href=$value target='_new'>$value</a>";
+    }
+    
+    public function _callback_customer($value, $row) {
+        
+        $sql = "SELECT acc_master.name FROM `sell_price_details` 
+        LEFT JOIN acc_master ON sell_price_details.am_id=acc_master.am_id
+        WHERE offer_id =".$row->offer_id;
+        
+        $spd = $this->db->query($sql)->row()->name;
+        
+        return $spd;
+        
     }
     
     public function _callback_freight($value, $row) {
