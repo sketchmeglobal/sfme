@@ -1,6 +1,11 @@
 
 <?php
 // echo '<pre>', print_r($export_details), '</pre>';die;
+function fetch_origin_country($offer_id){
+    $CI =& get_instance();
+    $rv = $CI->db->select('*')->join('countries','offers.country_id = countries.country_id','left')->get_where('offers', array('offer_id' => $offer_id))->row();
+    return isset($rv->name) ? $rv->name : '-';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +31,7 @@
 </head>
 
 <body class="sticky-header">
-<?php //echo "<pre>"; print_r($export_details); die(); ?>
+<?php //echo "<pre>", print_r($export_details), '</pre>'; ?>
 <section>
     <!-- sidebar left start (Menu)-->
     <?php $this->load->view('components/left_sidebar'); //left side menu ?>
@@ -105,6 +110,8 @@
                                     </div> 
                                     <div class="col-lg-3 text-center">
                                         <h5><u>Supplier Name: <b><?=$export_details->name?></b></u></h5>
+                                        <hr>
+                                        <h5><u>Origin Country: <b><?= fetch_origin_country($export_details->offer_id) ?></b></u></h5>
                                         <!--<label for="supplier_id" class="control-label">Supplier name</label>-->
                                         <!--<select name="supplier_id" id="supplier_id" name="supplier_id" class="form-control">-->
                                         <!--    <option selected value="">Select Supplier</option>-->
@@ -259,7 +266,7 @@
                                             <option value="">Select BESC / Others- Appld </option>
                                             <option value="Yes" <?php echo ($export_details->besc_applied == 'Yes')?'selected':''; ?> >Yes</option>
                                             <option value="No" <?php echo ($export_details->besc_applied == 'No')?'selected':''; ?> >No</option>
-                                            <option value="N/A" <?php echo ($export_details->besc_applied == 'N/A')?'selected':''; ?> >N/A</option>
+                                            <option value="NA" <?php echo ($export_details->besc_applied == 'NA')?'selected':''; ?> >N/A</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
@@ -574,9 +581,26 @@
                                         <label for="svd" class="control-label"> SVD </label>
                                         <input  id="svd" name="svd" type="text" value="<?=$export_details->svd?>" placeholder="SVD"  class="form-control " />
                                     </div>
+                                    <div class="col-lg-3">
+                                        <label for="insurance_currency" class="control-label"> Insurance Currency </label>
+                                        <input  id="insurance_currency" name="insurance_currency" type="text" value="<?=$export_details->insurance_currency?>" placeholder="Insurance Currency"  class="form-control " />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="besc_cert" class="control-label"> BESC Cert </label>
+                                        <select name="besc_cert" id="besc_cert" class="form-control">
+                                            <option value=""> Select Besc Cert </option>
+                                            <option value="Yes" <?php echo ($export_details->besc_cert == 'Yes')?'selected':''; ?> >Yes</option>
+                                            <option value="No" <?php echo ($export_details->besc_cert == 'No')?'selected':''; ?> >No</option>
+                                            <option value="N/A" <?php echo ($export_details->besc_cert == 'N/A')?'selected':''; ?> >N/A</option>
+                                        </select>
+                                        
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="final_clearance_date" class="control-label"> Final Clearance Date </label>
+                                        <input  id="final_clearance_date" name="final_clearance_date" type="date" value="<?=$export_details->final_clearance_date?>" placeholder="Final Clearance Date"  class="form-control " />
+                                    </div>
 
-
-                            </div>
+                                </div>
                                 <!-- <div class="form-group row">
                                     <div class="col-lg-3">
                                         <input type="submit" name="submit" class="btn btn-success" value="Update">
@@ -608,6 +632,10 @@
                                     <div class="col-lg-3">
                                         <label for="insp_sr_number" class="control-label">Insp. SR #</label>
                                         <input  id="insp_sr_number" name="insp_sr_number" value="<?=$export_details->insp_sr_number?>" type="text" placeholder="Insp. SR #" class="form-control" />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="sr_date" class="control-label">SR Date</label>
+                                        <input  id="sr_date" name="sr_date" value="<?=$export_details->sr_date?>" type="date" placeholder="SR Date" class="form-control" />
                                     </div>
                                     <div class="col-lg-3">
                                         <br><br>
@@ -1028,13 +1056,21 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                     <div class="col-lg-3">
+                                    <div class="col-lg-3">
                                         <label for="accounts_appr" class="control-label"> Accounts Appr </label>
                                         <input  id="accounts_appr" value="<?=$export_details->accounts_appr?>" name="accounts_appr" type="text" placeholder="Accounts Appr"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="accounts_appr" class="control-label"> No of Containers </label>
                                         <input  id="accounts_appr" value="<?=$export_details->no_of_container?>" name="no_of_container" type="text" placeholder="No of Container"  class="form-control " />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="export_appr" class="control-label"> Export Appr </label>
+                                        <input  id="export_appr" value="<?=$export_details->export_appr?>" name="export_appr" type="text" placeholder="Export Appr"  class="form-control " />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="finance_appr" class="control-label"> Finance Appr </label>
+                                        <input  id="finance_appr" value="<?=$export_details->finance_appr?>" name="finance_appr" type="text" placeholder="Finance Appr"  class="form-control " />
                                     </div>
                             </div>
                                 <div class="form-group row">
@@ -1727,7 +1763,7 @@ var offer_id_pd = $("#offer_id").val();
 
 
     $(document).ready(function(){
-        if($("#besc_applied").val() == 'N/A'){
+        if($("#besc_applied").val() == 'NA'){
             $(".besc_applied").prop("readonly", true);
             $(".besc_applied").val('N/A');
             $("#besc_cert").val("N/A").change();
@@ -1744,7 +1780,7 @@ var offer_id_pd = $("#offer_id").val();
 
     $("#besc_applied").on('change', function(){
         // alert();
-        if($(this).val() == 'N/A'){
+        if($(this).val() == 'NA'){
             $(".besc_applied").prop("readonly", true);
             $(".besc_applied").val('N/A');
             $("#besc_cert").val("N/A").change();
