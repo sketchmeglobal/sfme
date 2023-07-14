@@ -3,6 +3,7 @@ class Export_m extends CI_Model {
 
     public function __construct() {
         parent::__construct();
+        $this->db->query("SET sql_mode = ''");
     }
 
     public function offer_comments() {
@@ -1389,7 +1390,26 @@ class Export_m extends CI_Model {
         $data = array();
         foreach ($this->input->post() as $key => $value) {
             if($key != "submit" && $key != "export_id"){
-            $updateArray[$key] = $value;
+                if($key == 'latest_dos' and $this->input->post('latest_dos') == ''){
+                    $updateArray[$key] = NULL;
+                }else if($key == 'corrc_appr_cust_date' and $this->input->post('corrc_appr_cust_date') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else if($key == 'correc_appr_vend_date' and $this->input->post('correc_appr_vend_date') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else if($key == 'org_docs_cust_date' and $this->input->post('org_docs_cust_date') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else if($key == 'pi_sales_amt_currency' and $this->input->post('pi_sales_amt_currency') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else if($key == '3rd_insp_upload' and $this->input->post('3rd_insp_upload') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else if($key == 'aoc_coc_date' and $this->input->post('aoc_coc_date') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else if($key == 'sr_date' and $this->input->post('sr_date') == ''){ 
+                    $updateArray[$key] = NULL;
+                }else{ 
+                    $updateArray[$key] = $value;
+                }
+                
             }
         }
         /* Rem. Days for Shipt Calculation */
@@ -1620,15 +1640,15 @@ class Export_m extends CI_Model {
                 }
             }
             //echo $this->input->post('export_id');
-            //echo '<pre>', print_r($updateArray), '</pre>';die;
+            // echo '<pre>', print_r($updateArray), '</pre>';die;
             $export_id = $this->input->post('export_id');
 
              if($this->db->update('exportdata', $updateArray, array('export_id' => $export_id))){
 
-
-                //redirect('admin/export-edit/'.$export_id);
-
+                // echo $this->db->last_query(); die;
+                // redirect('admin/export-edit/'.$export_id);
                 redirect('admin/export-list');
+                
              }else{
                 redirect('admin/export-edit/'.$export_id);
              }

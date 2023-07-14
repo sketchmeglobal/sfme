@@ -353,8 +353,8 @@ function fetch_origin_country($offer_id){
                                         <label for="draft_docs_status" class="control-label"> D-docs Status </label>
                                         <select name="draft_docs_status" id="draft_docs_status" class="form-control">
                                             <option <?= ($export_details->draft_docs_status == 'open') ? 'selected' : '' ?> value="open">Open</option>
-                                            <option <?= ($export_details->draft_docs_status == 'open') ? 'closed' : '' ?> value="closed">Closed</option>
-                                            <option <?= ($export_details->draft_docs_status == 'open') ? 'cancelled' : '' ?> value="cancelled">Cancelled</option>
+                                            <option <?= ($export_details->draft_docs_status == 'closed') ? 'selected' : '' ?> value="closed">Closed</option>
+                                            <option <?= ($export_details->draft_docs_status == 'cancelled') ? 'selected' : '' ?> value="cancelled">Cancelled</option>
                                         </select>
                                     </div>
                                     <!-- Draft doc remarks -->
@@ -591,7 +591,7 @@ function fetch_origin_country($offer_id){
                                             <option value=""> Select Besc Cert </option>
                                             <option value="Yes" <?php echo ($export_details->besc_cert == 'Yes')?'selected':''; ?> >Yes</option>
                                             <option value="No" <?php echo ($export_details->besc_cert == 'No')?'selected':''; ?> >No</option>
-                                            <option value="N/A" <?php echo ($export_details->besc_cert == 'N/A')?'selected':''; ?> >N/A</option>
+                                            <option value="NA" <?php echo ($export_details->besc_cert == 'NA')?'selected':''; ?> >N/A</option>
                                         </select>
                                         
                                     </div>
