@@ -70,6 +70,16 @@
                                             </div>
                                             <div class="col-lg-3" style="margin:auto">
                                                 <?php //echo "<pre>"; print_r($offers); die(); ?>
+                                                <label for="company" class="control-label">Company</label>
+                                                <select name="company" id="company" name="company" class="form-control">
+                                                    <option selected value="">Select Company</option>
+                                                    <option value="FSG">FSG</option>
+                                                    <option value="SFME">SFME</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3" style="margin:auto">
+                                                <?php //echo "<pre>"; print_r($offers); die(); ?>
                                                 <label for="shipment_status" class="control-label">Shipment Status</label>
                                                 <select id="shipment_status" name="shipment_status" class="form-control">
                                                     <option selected value="">Select Shipment Status</option>
@@ -234,7 +244,7 @@
                                                     <option value="">Select BESC / Others- Appld </option>
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
-                                                    <option value="N/A">N/A</option>
+                                                    <option value="NA">N/A</option>
                                                 </select>
                                             </div>
                                             <!-- BL No -->
@@ -559,17 +569,25 @@
                                             <!-- Container Discharge Date -->
                                             <div class="col-lg-3">
                                                 <label for="container_discharge_date" class="control-label"> Container Discharge Date </label>
-                                                <input  id="container_discharge_date" name="container_discharge_date" type="text" placeholder="Container Discharge Date"  class="form-control " />
+                                                <input  id="container_discharge_date" name="container_discharge_date" type="date" placeholder="Container Discharge Date"  class="form-control " />
                                             </div>
                                             <!-- Final Clearance Date -->
                                             <div class="col-lg-3">
                                                 <label for="final_clearance_date" class="control-label"> Final Clearance Date </label>
-                                                <input  id="final_clearance_date" name="final_clearance_date" type="text" placeholder="Final Clearance Date"  class="form-control " />
+                                                <input  id="final_clearance_date" name="final_clearance_date" type="date" placeholder="Final Clearance Date"  class="form-control " />
                                             </div>
                                             <!-- DOC RECD(FAX) -->
                                             <div class="col-lg-3">
                                                 <label for="doc_recd" class="control-label"> DOC RECD(FAX) </label>
                                                 <input  id="doc_recd" name="doc_recd" type="text" placeholder="DOC RECD(FAX)"  class="form-control " />
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="ata" class="control-label"> ATA </label>
+                                                <input  id="ata" name="ata" type="date" placeholder="ATA"  class="form-control " />
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="atd" class="control-label"> ATD </label>
+                                                <input  id="atd" name="atd" type="date" placeholder="ATD"  class="form-control " />
                                             </div>
                                         </div>
                                         <!-- <div class="form-group row">
@@ -986,6 +1004,14 @@
                                             <div class="col-lg-3">
                                                 <label for="no_of_container" class="control-label"> No of Containers </label>
                                                 <input  id="no_of_container" name="no_of_container" type="text" placeholder="No of Containers"  class="form-control " />
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="export_appr" class="control-label"> Export Appr </label>
+                                                <input  id="export_appr" name="export_appr" type="text" placeholder="Export Appr"  class="form-control " />
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="finance_appr" class="control-label"> Finance Appr </label>
+                                                <input  id="finance_appr" name="finance_appr" type="text" placeholder="Finance Appr"  class="form-control " />
                                             </div>
                                         </div>
                                         <div class="form-group row">
