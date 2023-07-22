@@ -696,7 +696,7 @@ class Export_m extends CI_Model {
 
         $data['vendors'] = $vendor;
         
-        // print_r($data['vendors']); die;
+        $data['source_country'] = $this->db->select('name')->get_where('countries', array('country_id' => $offer_sql->country_id))->row()->name;
         
         if(empty($offer_sql->offer_fz_number)){
             $data['fz_number'] = "N/A";

@@ -48,7 +48,7 @@
                                             <div class="col-lg-12 text-right">
                                                 <input type="submit" name="submit" class="btn btn-success" value="Add">
                                             </div>
-                                            <div class="col-lg-3 col-offset-4" style="margin:auto">
+                                            <div class="col-lg-3" style="margin:auto">
                                                 <?php //echo "<pre>"; print_r($offers); die(); ?>
                                                 <label for="offer_id" class="control-label text-danger">Offer Name *</label>
                                                 <select id="offer_id" name="offer_id" required class="form-control select2">
@@ -58,7 +58,7 @@
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            <div class="col-lg-3" style="margin:auto">
+                                            <div class="col-lg-2" style="margin:auto">
                                                 <?php //echo "<pre>"; print_r($offers); die(); ?>
                                                 <label for="row_colour" class="control-label">Row Colour</label>
                                                 <select name="row_colour" id="row_colour" name="row_colour" class="form-control">
@@ -68,7 +68,7 @@
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            <div class="col-lg-3" style="margin:auto">
+                                            <div class="col-lg-2" style="margin:auto">
                                                 <?php //echo "<pre>"; print_r($offers); die(); ?>
                                                 <label for="company" class="control-label">Company</label>
                                                 <select name="company" id="company" name="company" class="form-control">
@@ -78,7 +78,7 @@
                                                     <option value="Other">Other</option>
                                                 </select>
                                             </div>
-                                            <div class="col-lg-3" style="margin:auto">
+                                            <div class="col-lg-2" style="margin:auto">
                                                 <?php //echo "<pre>"; print_r($offers); die(); ?>
                                                 <label for="shipment_status" class="control-label">Shipment Status</label>
                                                 <select id="shipment_status" name="shipment_status" class="form-control">
@@ -86,6 +86,10 @@
                                                     <option value="open">Open</option>
                                                     <option value="close">Close</option>
                                                 </select>
+                                            </div>
+                                            <div class="col-lg-3" style="margin:auto">
+                                                <label for="source_country" class="control-label">Source Country</label>
+                                                <input type="text" class="form-control" readonly value="" id="source_country" />
                                             </div>
                                         </div>
                                         
@@ -589,6 +593,14 @@
                                                 <label for="atd" class="control-label"> ATD </label>
                                                 <input  id="atd" name="atd" type="date" placeholder="ATD"  class="form-control " />
                                             </div>
+                                            <div class="col-lg-3">
+                                                <label for="svd" class="control-label"> SVD </label>
+                                                <input id="svd" name="svd" type="text" placeholder="SVD" class="form-control ">
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="insurance_currency" class="control-label"> Insurance Currency </label>
+                                                <input id="insurance_currency" name="insurance_currency" type="text" placeholder="Insurance Currency" class="form-control ">
+                                            </div>
                                         </div>
                                         <!-- <div class="form-group row">
                                             <div class="col-lg-3">
@@ -622,6 +634,10 @@
                                             <div class="col-lg-3">
                                                 <label for="insp_sr_number" class="control-label">Insp. SR #</label>
                                                 <input  id="insp_sr_number" name="insp_sr_number" type="text" placeholder="Insp. SR #" class="form-control" />
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label for="sr_date" class="control-label">SR Date</label>
+                                                <input id="sr_date" name="sr_date" type="date" placeholder="SR Date" class="form-control">
                                             </div>
                                                 <!-- Upload Invoice -->
                                             <div class="col-lg-3">
@@ -1145,7 +1161,7 @@
                     // $customer
                     $('#customer').val(data.customers); // Change the value or make some change to the internal state
                     $('#customer').trigger('change.select2'); // Notify only Select2 of changes
-                    
+                    // vendor
                     $("#vendor_id").html("")
                     $("#vendor_id").select2()
                     $.each( data.vendors, function( key, value ) {
@@ -1153,6 +1169,9 @@
                         $str = "<option value='"+value.am_id+"'>"+value.name+"</option>";
                         $("#vendor_id").append($str)
                     });
+                    
+                    // country
+                    $("#source_country").val(data.source_country);
 
                 }
             });

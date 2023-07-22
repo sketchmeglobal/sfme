@@ -672,6 +672,17 @@ function fetch_origin_country($offer_id){
                                     </div>
                                     <div class="col-lg-3">
                                         <br><br>
+                                        <img src="<?= base_url('upload/export') .'/' . $export_details->cert_of_origin ?>" style="height:75px;margin-bottom: 7px;"> 
+                                        <br><br>
+                                        <a title="Download / View" class="btn btn-primary" style="padding:5px 10px" href="<?= base_url('upload/export') .'/' . $export_details->cert_of_origin ?>" class="" download>
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                        <br>
+                                        <label for="cert_of_origin" class="control-label">Upload Certificate of Origin</label>
+                                        <input  id="cert_of_origin" value="<?=$export_details->cert_of_origin?>" name="cert_of_origin" type="file" class="form-control" />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <br><br>
                                         <img src="<?= base_url('upload/export') .'/' . $export_details->bill_of_leading ?>" style="height:75px;margin-bottom: 7px;"> 
                                         <br><br>
                                         <a title="Download / View" class="btn btn-primary" style="padding:5px 10px" href="<?= base_url('upload/export') .'/' . $export_details->bill_of_leading ?>" class="" download>
