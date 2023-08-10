@@ -231,6 +231,7 @@ class Task_m extends CI_Model {
             $crud->required_fields('task_header_id','to_id','from_id','comment');
             // $crud->unique_fields(array('common_question'));
             
+            $crud->set_relation('task_header_id', 'task_header', 'task_title', array());
             $crud->set_relation('from_id', 'users', 'username', array());
             $crud->set_relation('to_id', 'users', 'username', array());
             $crud->set_field_upload('document','assets/task/');    
