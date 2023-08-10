@@ -252,6 +252,9 @@ $user_type = $this->session->usertype;
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
                     </li>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
+                    </li>
                 </ul>
             </li>
             <?php } 

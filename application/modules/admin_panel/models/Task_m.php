@@ -211,4 +211,43 @@ class Task_m extends CI_Model {
         }
     }
 
+    public function task_communication() {
+        $user_id = $this->session->user_id;
+
+        try{
+            $crud = new grocery_CRUD();
+            $crud->set_crud_url_path(base_url('admin_panel/Task/task_communication'));
+            $crud->set_theme('flexigrid');
+            $crud->set_subject('Task Communication');
+            $crud->set_table('task_communication');
+            $crud->unset_read();
+            $crud->unset_clone();
+
+            $this->table_name = 'task_communication';
+            $crud->callback_before_update(array($this,'log_before_update'));
+            
+            $crud->unset_columns('created_date','modified_date','status');
+            $crud->unset_fields('created_date','modified_date','status');
+            $crud->required_fields('task_header_id','to_id','from_id','comment');
+            // $crud->unique_fields(array('common_question'));
+            
+            $crud->set_relation('from_id', 'users', 'username', array());
+            $crud->set_relation('to_id', 'users', 'username', array());
+            $crud->set_field_upload('document','assets/task/');    
+
+            $crud->field_type('user_id', 'hidden', $user_id);
+
+            $output = $crud->render();
+            //rending extra value to $output
+            $output->tab_title = 'Task Communication';
+            $output->section_heading = 'Task Communication <small>(Add / Edit / Delete)</small>';
+            $output->menu_name = 'Task Communication';
+            $output->add_button = '';
+
+            return array('page'=>'task/common_v', 'data'=>$output); //loading common view page
+        } catch(Exception $e) {
+            show_error($e->getMessage().'<br>'.$e->getTraceAsString());
+        }
+    }
+
 }

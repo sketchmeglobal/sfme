@@ -80,4 +80,14 @@ class Task extends My_Controller {
 
     }
 
+    public function task_communication(){
+        
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->task_communication();
+            $this->load->view($data['page'], $data['data']);
+        }
+
+    }
+
 }

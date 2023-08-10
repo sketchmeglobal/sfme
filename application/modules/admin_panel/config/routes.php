@@ -290,4 +290,4 @@
     $route['admin/task-list'] = 'admin_panel/Task/task_list';
     $route['admin/task-activity'] = 'admin_panel/Task/task_activity';
     $route['admin/task-common-activity'] = 'admin_panel/Task/task_common_activity';
-	
+	$route['admin/task-communication'] = 'admin_panel/Task/task_communication';
