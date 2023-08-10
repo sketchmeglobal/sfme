@@ -281,10 +281,13 @@
 	// export report area 
 
 	$route['admin/report'] = 'admin_panel/Export/report';
-
 	$route['admin/generate-report'] = 'admin_panel/Export/generate_report';
-
 	$route['admin/ajax_get_offer_data'] = 'admin_panel/Export/ajax_get_offer_data';
 
-
+    // TASK
+    
+    $route['admin/task-group'] = 'admin_panel/Task/task_group';
+    $route['admin/task-list'] = 'admin_panel/Task/task_list';
+    $route['admin/task-activity'] = 'admin_panel/Task/task_activity';
+    
 	

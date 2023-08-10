@@ -59,7 +59,8 @@
                                             <option value="2">Resource Developer</option>
                                             <option value="3">Marketing Personnel</option>
                                             <option value="4">Exporter</option>
-                                            <option value="5">Doc. Mgr.</option>
+                                            <option value="5">Document Manager</option>
+                                            <option value="6">Task Operator</option>
                                         </select>
 
                                     </div>
@@ -242,13 +243,18 @@
     
     $("#user_type").on('change', function(){
         
-         $usertype = $(this).val();
+        $usertype = $(this).val();
         // console.log($val);
         
         if($usertype == 4){
             
             $(".acc_masters_values").hide();
             $(".offer_values").show();
+            
+        }else if($usertype == 6 || $usertype == 5){
+            
+            $(".acc_masters_values").hide();
+            $(".offer_values").hide();
             
         }else{
             

@@ -57,6 +57,8 @@
                                             <option <?=($user_details[0]->usertype == 2) ? 'selected'  : ''?> value="2">Resource Developer</option>
                                             <option <?=($user_details[0]->usertype == 3) ? 'selected'  : ''?> value="3">Marketing Personnel</option>
                                             <option <?=($user_details[0]->usertype == 4) ? 'selected'  : ''?> value="4">Exorter</option>
+                                            <option <?=($user_details[0]->usertype == 5) ? 'selected'  : ''?> value="5">Document Manager</option>
+                                            <option <?=($user_details[0]->usertype == 6) ? 'selected'  : ''?> value="6">Task Operator</option>
                                         </select>
 
                                     </div>
@@ -95,41 +97,30 @@
                                     </div> 
 
                                     <div class="col-lg-12 acc_masters_values">
-                                        <label for="acc_masters" class="control-label">Permission (Buyer/Supplier)</label>
-                                        
                                         <?php
                                         //  echo '<pre>', print_r($acc_masters), '</pre>'; die;
-                                        ?>
-                                        
-                                        <select title="If none selected then permission for all" multiple="" name="acc_masters[]" id="acc_masters" class="form-control select2">
-                                            
-                                            <?php
-
-
-                                            if($user_details[0]->usertype != 4){
-                                                
-                                                foreach($acc_masters as $am){
-                                                    ?>
-    
-                                                    <option value="<?=$am->am_id?>"><?=$am->name. ' ['.$am->am_code.']'?></option>
-    
-                                                    <?php
-                                                }
-                                                
-                                            }else{
-                                                
-                                                foreach($acc_masters as $am){
-                                                    ?>
-    
-                                                    <option value="<?=$am->offer_id?>"><?=$am->offer_name. ' ['.$am->offer_fz_number.']'?></option>
-    
-                                                    <?php
-                                                }
-                                                
+                                        if($user_details[0]->usertype == 4){
+                                            echo '<label for="acc_masters" class="control-label">Permission (Buyer/Supplier)</label>';
+                                            echo '<select title="If none selected then permission for all" multiple="" name="acc_masters[]" id="acc_masters" class="form-control select2">';    
+                                            foreach($acc_masters as $am){
+                                                ?>
+                                                <option value="<?=$am->offer_id?>"><?=$am->offer_name. ' ['.$am->offer_fz_number.']'?></option>
+                                                <?php
                                             }
-                                                
-                                            ?>
                                             
+                                        }else if($user_details[0]->usertype == 1 or $user_details[0]->usertype == 2 or $user_details[0]->usertype == 3){
+                                            echo '<label for="acc_masters" class="control-label">Permission (Buyer/Supplier)</label>';
+                                            echo '<select title="If none selected then permission for all" multiple="" name="acc_masters[]" id="acc_masters" class="form-control select2">';
+                                            foreach($acc_masters as $am){
+                                                ?>
+                                                <option value="<?=$am->am_id?>"><?=$am->name. ' ['.$am->am_code.']'?></option>
+                                                <?php
+                                            }
+                                            
+                                        }else{
+                                            
+                                        }
+                                        ?>
                                         </select>
                                     </div>
                                     
@@ -330,6 +321,11 @@
             
             $(".acc_masters_values").hide();
             $(".offer_values").show();
+            
+        }else if($usertype == 6 || $usertype == 5){
+            
+            $(".acc_masters_values").hide();
+            $(".offer_values").hide();
             
         }else{
             

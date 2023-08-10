@@ -84,8 +84,12 @@ class user_m extends CI_Model {
                 $type = "Resource Developer";
             }elseif($val->usertype == 3){
                 $type = "Marketing";
-            }else{
+            }elseif($val->usertype == 4){
                 $type = "Exporter";
+            }elseif($val->usertype == 5){
+                $type = "Doc. Manager";
+            }elseif($val->usertype == 6){
+                $type = "Task Operator";
             }
 
             $nestedData['usertype'] = $type;

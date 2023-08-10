@@ -237,6 +237,20 @@ $user_type = $this->session->usertype;
                     </li>
                 </ul>
             </li>
+            
+            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
+                <ul class="child-list">
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_group')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-group"><i class="fa fa-caret-right"></i> Task Group</a>
+                    </li>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-list"><i class="fa fa-caret-right"></i> Task List</a>
+                    </li>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                    </li>
+                </ul>
+            </li>
             <?php } 
             // <!-- ONLY RESOURCE RIGHTS -->
             else if($user_type == 2){ ?>
