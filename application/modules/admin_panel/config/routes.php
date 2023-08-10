@@ -289,5 +289,5 @@
     $route['admin/task-group'] = 'admin_panel/Task/task_group';
     $route['admin/task-list'] = 'admin_panel/Task/task_list';
     $route['admin/task-activity'] = 'admin_panel/Task/task_activity';
-    
+    $route['admin/task-common-activity'] = 'admin_panel/Task/task_common_activity';
 	
