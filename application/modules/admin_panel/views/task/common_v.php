@@ -25,6 +25,12 @@ endforeach;
 ?>
     <!--  End grocerycrud JS & STYLES  -->
 
+    <?php if($tab_title == 'Task Activity') { ?>
+        <style>
+            .wrapper{padding-top: 0;padding-left: 15px;}
+        </style>
+    <?php } ?>    
+
     <style>
         .form-control{
             height: 30px !important;
@@ -41,14 +47,7 @@ endforeach;
 <body class="sticky-header">
 
 <section>
-    <?php
-if (!isset($state)) {
-	$state = '';
-}
-?>
-
-    <input type="hidden" name="state" value ="<?=(isset($state) ? $state : '')?>" id="state"/>
-    <input type="hidden" name="emp_code" value ="<?=(isset($emp_code) ? $emp_code : '')?>" id="emp_code"/>
+    
 
     <!-- sidebar left start (Menu)-->
     <?php $this->load->view('components/left_sidebar'); //left side menu ?>
@@ -90,9 +89,9 @@ if (!isset($state)) {
                 <li>
                     <a href="javascript:;" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <?php
-$user_row = $this->db->get_where('user_details', array('user_id' => $this->session->user_id))->row();
-$profile_img = isset($user_row->img) ? $user_row->img : 'default.png';
-?>
+                        $user_row = $this->db->get_where('user_details', array('user_id' => $this->session->user_id))->row();
+                        $profile_img = isset($user_row->img) ? $user_row->img : 'default.png';
+                        ?>
                         <img class="profile_img" src="<?=base_url();?>assets/admin_panel/img/profile_img/<?=$profile_img;?>" />
                         <span class="lastname"><?=$this->session->name; //user lastname?></span>
                         <span class=" fa fa-angle-down"></span>
@@ -110,6 +109,46 @@ $profile_img = isset($user_row->img) ? $user_row->img : 'default.png';
         <!-- header section end-->
         <!--body wrapper start-->
         <div class="wrapper">
+            <div class="row" style="background: #d3f4d7;margin-bottom: 15px;padding-bottom: 15px;color: #000;">
+                <?php
+                if($tab_title == 'Task Activity') {
+                    ?>
+                    <div class="col-lg-12">
+                        <h4>Main task filters</h4>
+                        <hr style="border-color: #5d5960">
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Start date</label>
+                        <input type="date" class="form-control" value="" name="start_date"/>
+                    </div>
+                    <div class="col-lg-3">
+                        <label>End date</label>
+                        <input type="date" class="form-control" value="" name="end_date"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Status</label>
+                        <select class="form-control">
+                            <option value="Completed"> Completed </option>
+                            <option value="Ongoing"> Ongoing </option>
+                            <option value="Postponed"> Postponed </option>
+                            <option value="Stopped"> Stopped </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Order</label>
+                        <select class="form-control">
+                            <option value="asc"> Ascending </option>
+                            <option value="desc"> Descending </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="">Action</label><br>
+                        <input type="submit" name="search" class ="btn btn-primary" value="Search"/>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <section class="panel">
@@ -136,33 +175,15 @@ $profile_img = isset($user_row->img) ? $user_row->img : 'default.png';
     <!-- body content end-->
 </section>
 
-<!-- Placed js at the end of the document so the pages load faster -->
-<!--<script src="--><?//=base_url();?><!--assets/admin_panel/js/jquery-1.10.2.min.js"></script>-->
-<!--<script src="--><?//=base_url();?><!--assets/admin_panel/js/jquery-migrate.js"></script>-->
-
 <!-- common js -->
 <?php $this->load->view('components/_common_js'); //left side menu ?>
 <!-- /common js -->
 
-<?php
-//open print page
-if (isset($print)) {
-	?>
-    <script>window.open("<?=base_url($print);?>");</script>
-    <?php
-}
-?>
+
 
 <script>
     //making required fields label color red
     $("span.required").parents('div.form-display-as-box').css("color", "red");
-
-    $(window).on('load',function(){
-        if($("#state").val() == 'add'){
-            // alert();
-            $("#field-e_code").val($("#emp_code").val());
-        }
-    })
 
 </script>
 

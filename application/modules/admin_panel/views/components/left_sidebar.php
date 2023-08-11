@@ -284,10 +284,22 @@ $user_type = $this->session->usertype;
                 </ul>
             </li>
 
+            <!-- TASK STARTS -->
+            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
+                <ul class="child-list">
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                    </li>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
+                    </li>
+                </ul>
+            </li>
+             <!-- TASK ENDS    -->
 
+            <?php } 
             // <!-- ONLY MARKETING RIGHTS -->
-
-            <?php } else if($user_type == 3){ ?>
+            else if($user_type == 3){ ?>
 
             <li><h3 class="navigation-title">Menu</h3></li>
             <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
@@ -308,7 +320,22 @@ $user_type = $this->session->usertype;
                 </ul>
             </li>
 
-            <?php } else{ ?>
+            <!-- TASK STARTS -->
+            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
+                <ul class="child-list">
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                    </li>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
+                    </li>
+                </ul>
+            </li>
+             <!-- TASK ENDS    -->
+
+            <?php } 
+            // <!-- ALL RIGHTS -->
+            else{ ?>
                 
             <li><h3 class="navigation-title">Menu</h3></li>
             <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
@@ -330,8 +357,20 @@ $user_type = $this->session->usertype;
                         <a href="<?=base_url();?>admin/report_filter_export"><i class="fa fa-caret-right"></i> <span>Offer/Export Report</span></a>
                     </li>
                 </ul>
-            </li>    
-                
+            </li> 
+            
+            <!-- TASK STARTS -->
+            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
+                <ul class="child-list">
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                    </li>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
+                    </li>
+                </ul>
+            </li>
+             <!-- TASK ENDS    -->
             <?php } ?>
 
             <!-- For Document manager types user -->            

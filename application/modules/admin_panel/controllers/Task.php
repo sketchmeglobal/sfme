@@ -90,4 +90,14 @@ class Task extends My_Controller {
 
     }
 
+    public function edit_user_task_activity($id){
+        
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->edit_user_task_activity($id);
+            $this->load->view($data['page'], $data['data']);
+        }
+
+    }
+
 }

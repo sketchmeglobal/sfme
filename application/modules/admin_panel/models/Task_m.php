@@ -145,6 +145,12 @@ class Task_m extends CI_Model {
             $crud->set_theme('flexigrid');
             $crud->set_subject('Task');
             $crud->set_table('task_activity');
+            if($user_id != 1){
+                $crud->where('activity_member', $user_id);
+                $crud->unset_delete();
+                $crud->unset_edit();
+                $crud->add_action('Edit', 'https://www.grocerycrud.com/v1.x/assets/grocery_crud/themes/flexigrid/css/images/edit.png', 'admin/edit-user-task-activity');
+            }
             $crud->unset_read();
             $crud->unset_clone();
 
@@ -153,13 +159,14 @@ class Task_m extends CI_Model {
             
             $crud->unset_columns('created_date','modified_date','status');
             $crud->unset_fields('created_date','modified_date','status');
-            $crud->required_fields('activity_task_id','activity_title','activity_member','activity_status');
+            $crud->required_fields('task_header_id','activity_title','activity_member','activity_status');
             // $crud->unique_fields(array('task_title'));
 
-            $crud->set_relation('activity_task_id', 'task_header', 'task_title', array());
+            $crud->set_relation('task_header_id', 'task_header', 'task_title', array());
             $crud->set_relation('activity_member', 'users', 'username', array());
             $crud->set_field_upload('activity_document','assets/task/');
 
+            $crud->display_as('task_header_id', 'Main task');
             
             $crud->field_type('user_id', 'hidden', $user_id);
 
@@ -211,6 +218,29 @@ class Task_m extends CI_Model {
         }
     }
 
+    public function edit_user_task_activity($task_activity_id){
+        
+        $data['title'] = 'Edit task activity';
+        $data['menu'] = 'Task';
+        $user_id = $this->session->user_id;
+
+        $task_header_id = $this->db->get_where('task_activity', array('ta_id' => $task_activity_id))->row()->task_header_id;
+
+        $data['task_details'] = $this->db->get_where('task_header', array('th_id' => $task_header_id))->row();
+        $task_group_type = $data['task_details']->task_group_type;
+        if($task_group_type == 1){ // Fetch all common questions
+            $data['common_activities'] = $this->db->order_by('pattern')->get_where('common_task_activity', array('status' => 1))->result();
+        }else{
+            $data['common_activities'] = '';
+        }
+
+        $data['task_activity'] = $this->db->get_where('task_activity', array('ta_id' => $task_activity_id))->result();
+
+
+        return array('page'=>'task/edit_user_task_activity', 'data'=>$data);
+
+    }
+
     public function task_communication() {
         $user_id = $this->session->user_id;
 
@@ -220,6 +250,11 @@ class Task_m extends CI_Model {
             $crud->set_theme('flexigrid');
             $crud->set_subject('Task Communication');
             $crud->set_table('task_communication');
+            if($user_id != 1){
+                $crud->where('to_id', $user_id);
+                $crud->or_where('from_id', $user_id);
+            }
+            
             $crud->unset_read();
             $crud->unset_clone();
 
