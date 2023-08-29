@@ -40,7 +40,15 @@
 
         <!--body wrapper start-->
         <div class="wrapper">
-
+            <?php
+            if(!empty($msg)){
+                ?>
+                <div class="col-lg-12">
+                    <h5 class="btn-warning pull-right" style="padding:1%"><?=$msg?></h5>
+                </div>
+                <?php
+            }
+            ?>
             <div class="col-lg-12">
                 <h5 class="highlight">
                     Task <b><?= $task_details->task_title?></b>, started on <u><?=date('d-m-Y', strtotime($task_details->task_start_date))?> </u>
@@ -55,52 +63,61 @@
                         </span>
                     </header>
                     <div class="panel-body" style="display: block;">
-                    
-                        <?php 
-                        if(!empty($common_activities)){
-                            $common_activity_iter = 1;
-                            foreach($common_activities as $ca){
-                                if($ca->pattern == 'yes-no'){
-                                    ?>
+                        <form class="" id="common_form" method="post">
+                            <?php 
+                            if(!empty($common_activities)){
+                                $common_activity_iter = 1;
+                                foreach($common_activities as $ca){
+                                    if($ca->pattern == 'yes-no'){
+                                        ?>
 
-                                    <div class="form-group row">
-                                        <div class="col-lg-1">
-                                            <?= $common_activity_iter++ ?>.
-                                        </div>
-                                        <div class="col-lg-8">
-                                            <?= $ca->common_question ?>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select name="common_question_ans[]" class="form-control">
-                                                <option value="yes">Yes</option>
-                                                <option value="no">No</option>
-                                            </select>
-                                        </div>
-                                    </div> 
+                                        <div class="form-group row">
+                                            <div class="col-lg-1">
+                                                <?= $common_activity_iter++ ?>.
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input type="hidden" name="task_common_id[]" value="<?=$ca->cta_id?>"/>
+                                                <?= $ca->common_question ?>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <select name="task_value[]" class="form-control">
+                                                    <option <?= ($ca->task_value == 'Yes') ? 'selected' : '' ?> value="Yes">Yes</option>
+                                                    <option <?= ($ca->task_value == 'No') ? 'selected' : '' ?> value="No">No</option>
+                                                </select>
+                                            </div>
+                                        </div> 
 
-                                    <?php
-                                }else if($ca->pattern == 'descriptive'){
-                                    ?>
-                                    <div class="form-group row">
-                                        <div class="col-lg-1">
-                                            <?= $common_activity_iter++ ?>.
-                                        </div>
-                                        <div class="col-lg-11">
-                                            <textarea name="common_question_ans[]" class="form-control ckeditor"><?= $ca->common_question ?></textarea>
-                                        </div>
-                                    </div> 
-                                    <?php
-                                }
-                            }   
-                        }
-                        ?>
+                                        <?php
+                                    }else if($ca->pattern == 'descriptive'){
+                                        ?>
+                                        <div class="form-group row">
+                                            <div class="col-lg-1">
+                                                <?= $common_activity_iter++ ?>.
+                                            </div>
+                                            <div class="col-lg-3">
+                                            <input type="hidden" name="task_common_id[]" value="<?=$ca->cta_id?>"/>
 
-                        <div class="form-group row">
-                            <div class="col-lg-3">
-                                <input type="submit" name="submit" class="btn btn-success" value="Update">
-                            </div>
-                        </div>  
+                                                <?= $ca->common_question ?> (descriptive)
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <textarea name="task_value[]" class="form-control ckeditor">
+                                                    <?=$ca->task_value?>
+                                                </textarea>
+                                            </div>
+                                        </div> 
+                                        <?php
+                                    }
+                                }   
+                            }
+                            ?>
 
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <input type="hidden" name="task_activity_id" value="<?=$task_activity_id?>"/>
+                                    <input type="submit" name="commonsubmit" class="btn btn-success" value="Update">
+                                </div>
+                            </div>  
+                        </form>
                     </div>
                 </section>
 
@@ -112,57 +129,60 @@
                         </span>
                     </header>
                     <div class="panel-body" style="display: block;">
-                    
-                        <?php 
-                        if(count($task_activity) > 0){
-                            $general_activity_iter = 1;
-                            foreach($task_activity as $ta){
-                                ?>
+                        <form id="general_form" method="post">
+                            <?php 
+                            if(count($task_activity) > 0){
+                                $general_activity_iter = 1;
+                                foreach($task_activity as $ta){
+                                    ?>
 
-                                    <div class="form-group row">
-                                        <div class="col-lg-1">
-                                            <?= $general_activity_iter++ ?>.
+                                        <div class="form-group row">
+                                            <div class="col-lg-1">
+                                                <?= $general_activity_iter++ ?>.
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <b>Title:</b> <br>
+                                                <?= $ta->activity_title ?>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <b>Start Date:</b> <br>
+                                                <?= (!empty($ta->activity_start_date)) ? date('d-m-Y', strtotime($ta->activity_start_date)) : '' ?>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <b>End Date:</b> <br>
+                                                <?= (!empty($ta->activity_end_date)) ? date('d-m-Y', strtotime($ta->activity_end_date)) : ''?>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <b>Current Status: </b><br>
+                                                <select name="activity_status" class="form-control">
+                                                    <!-- <option value="Completed"> Completed </option>
+                                                    <option value="Ongoing"> Ongoing </option>
+                                                    <option value="Postponed"> Postponed </option>
+                                                    <option value="Stopped"> Stopped </option> -->
+                                                    <option <?= ($ta->activity_status == 'Open') ? 'selected' : '' ?> value="Open">Open</option>
+                                                    <option <?= ($ta->activity_status == 'Closed') ? 'selected' : '' ?> value="Closed">Closed</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-3">
-                                            <b>Title:</b> <br>
-                                            <?= $ta->activity_title ?>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <b>Start Date:</b> <br>
-                                            <?= (!empty($ta->activity_start_date)) ? date('d-m-Y', strtotime($ta->activity_start_date)) : '' ?>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <b>End Date:</b> <br>
-                                            <?= (!empty($ta->activity_end_date)) ? date('d-m-Y', strtotime($ta->activity_end_date)) : ''?>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <b>Current Status: </b><br>
-                                            <select name="activity_status" class="form-control">
-                                                <option value="Completed"> Completed </option>
-                                                <option value="Ongoing"> Ongoing </option>
-                                                <option value="Postponed"> Postponed </option>
-                                                <option value="Stopped"> Stopped </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">    
-                                        <div class="col-lg-12">
-                                            <textarea name="common_question_ans[]" class="form-control ckeditor"><?= $ta->activity_details ?></textarea>
-                                        </div>
-                                    </div> 
+                                        <div class="form-group row">    
+                                            <div class="col-lg-12">
+                                                <textarea name="activity_question_ans" class="form-control ckeditor"><?= $ta->activity_details ?></textarea>
+                                            </div>
+                                        </div> 
 
-                                <?php
-                            
-                            }   
-                        }
-                        ?>
+                                    <?php
+                                
+                                }   
+                            }
+                            ?>
 
-                        <div class="form-group row">
-                            <div class="col-lg-3">
-                                <input type="submit" name="submit" class="btn btn-success" value="Update">
-                            </div>
-                        </div>  
-
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <input type="hidden" name="task_activity_id" value="<?=$task_activity_id?>"/>
+                                    <input type="submit" name="generalsubmit" class="btn btn-success" value="Update">
+                                </div>
+                            </div>  
+                        </form>    
                     </div>
                 </section>
             </div>

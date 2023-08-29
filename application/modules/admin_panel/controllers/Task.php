@@ -49,32 +49,62 @@ class Task extends My_Controller {
         }
 
     }
-    
-    public function task_list(){
+
+    public function task_template(){
         
         if($this->check_permission(array()) == true) {
             $this->load->model('Task_m');
-            $data = $this->Task_m->task_list();
+            $data = $this->Task_m->task_template();
             $this->load->view($data['page'], $data['data']);
         }
 
     }
     
-    public function task_activity(){
+    public function task_list_open(){
         
         if($this->check_permission(array()) == true) {
             $this->load->model('Task_m');
-            $data = $this->Task_m->task_activity();
+            $data = $this->Task_m->task_list_open();
             $this->load->view($data['page'], $data['data']);
         }
 
     }
 
-    public function task_common_activity(){
+    public function task_list_closed(){
         
         if($this->check_permission(array()) == true) {
             $this->load->model('Task_m');
-            $data = $this->Task_m->task_common_activity();
+            $data = $this->Task_m->task_list_closed();
+            $this->load->view($data['page'], $data['data']);
+        }
+
+    }
+    
+    public function task_activity_all(){
+        
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->task_activity_all();
+            $this->load->view($data['page'], $data['data']);
+        }
+
+    }
+    
+    public function task_activity($theader){
+        
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->task_activity($theader);
+            $this->load->view($data['page'], $data['data']);
+        }
+
+    }
+
+    public function task_common_activity($tca){
+        
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->task_common_activity($tca);
             $this->load->view($data['page'], $data['data']);
         }
 
@@ -85,6 +115,16 @@ class Task extends My_Controller {
         if($this->check_permission(array()) == true) {
             $this->load->model('Task_m');
             $data = $this->Task_m->task_communication();
+            $this->load->view($data['page'], $data['data']);
+        }
+
+    }
+
+    public function task_communication_details($td_id){
+        
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->task_communication_details($td_id);
             $this->load->view($data['page'], $data['data']);
         }
 

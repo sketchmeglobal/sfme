@@ -287,10 +287,25 @@
     // TASK
     
     $route['admin/task-group'] = 'admin_panel/Task/task_group';
-    $route['admin/task-list'] = 'admin_panel/Task/task_list';
+	
+	$route['admin/task-template'] = 'admin_panel/Task/task_template';
     
-	$route['admin/task-activity'] = 'admin_panel/Task/task_activity';
-    $route['admin/task-common-activity'] = 'admin_panel/Task/task_common_activity';
+	$route['admin/task-list-open'] = 'admin_panel/Task/task_list_open';
+	$route['admin/task-list-closed'] = 'admin_panel/Task/task_list_closed';
+	
+	$route['admin/task-activity-all'] = 'admin_panel/Task/task_activity_all';
+
+	$route['admin/task-activity/(:num)'] = 'admin_panel/Task/task_activity/$1';
+	$route['admin/task-activity/(:num)/(:any)'] = 'admin_panel/Task/task_activity/$1';
+	$route['admin/task-activity/(:num)/(:any)/(:any)'] = 'admin_panel/Task/task_activity/$1';
+	$route['admin/task-activity/(:num)/(:any)/(:any)/(:any)'] = 'admin_panel/Task/task_activity/$1';
+
+    $route['admin/task-common-activity/(:num)'] = 'admin_panel/Task/task_common_activity/$1';
+	$route['admin/task-common-activity/(:num)/(:any)'] = 'admin_panel/Task/task_common_activity/$1';
+	$route['admin/task-common-activity/(:num)/(:any)/(:any)'] = 'admin_panel/Task/task_common_activity/$1';
+	$route['admin/task-common-activity/(:num)/(:any)/(:any)/(:any)'] = 'admin_panel/Task/task_common_activity/$1';
+
 	$route['admin/edit-user-task-activity/(:num)'] = 'admin_panel/Task/edit_user_task_activity/$1';
 
 	$route['admin/task-communication'] = 'admin_panel/Task/task_communication';
+	$route['admin/task-communication-details/(:num)'] = 'admin_panel/Task/task_communication_details/$1';

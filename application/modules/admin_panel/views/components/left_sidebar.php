@@ -243,15 +243,21 @@ $user_type = $this->session->usertype;
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_group')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-group"><i class="fa fa-caret-right"></i> Task Group</a>
                     </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_common_activity')) ? 'active' : ''; ?>">
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_template')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-template"><i class="fa fa-caret-right"></i> Task Template</a>
+                    </li>
+                    <!-- <li class="<?=(($class_name == 'Task') && ($method_name == 'task_common_activity')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-common-activity"><i class="fa fa-caret-right"></i> Common Activity</a>
+                    </li> -->
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_open')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-list-open"><i class="fa fa-caret-right"></i> Task List (Opened)</a>
                     </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list"><i class="fa fa-caret-right"></i> Task List</a>
+                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_closed')) ? 'active' : ''; ?>">
+                        <a href="<?=base_url();?>admin/task-list-closed"><i class="fa fa-caret-right"></i> Task List (Closed)</a>
                     </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
-                    </li>
+                    <!-- <li class="< ?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
+                        <a href="< ?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                    </li> -->
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
                     </li>
@@ -288,7 +294,7 @@ $user_type = $this->session->usertype;
             <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
                 <ul class="child-list">
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                        <a href="<?=base_url();?>admin/task-activity-all"><i class="fa fa-caret-right"></i> Task Activity</a>
                     </li>
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
@@ -324,7 +330,7 @@ $user_type = $this->session->usertype;
             <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
                 <ul class="child-list">
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                        <a href="<?=base_url();?>admin/task-activity-all"><i class="fa fa-caret-right"></i> Task Activity</a>
                     </li>
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
@@ -363,7 +369,7 @@ $user_type = $this->session->usertype;
             <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
                 <ul class="child-list">
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
+                        <a href="<?=base_url();?>admin/task-activity-all"><i class="fa fa-caret-right"></i> Task Activity</a>
                     </li>
                     <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
                         <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>

@@ -41,6 +41,11 @@ endforeach;
             font-size: 15px !important;
             /*color: #24af10 !important;*/
         }
+        .ui-icon-activity-details{
+            background: url('<?=base_url() ?>assets/grocery_crud/themes/flexigrid/css/images/load.png'); 
+            background-repeat: no-repeat;
+            margin-top: 12px;
+        }
     </style>
 </head>
 
