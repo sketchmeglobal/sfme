@@ -40,6 +40,14 @@ class Task extends My_Controller {
         }
     }
 
+    public function task_dashboard() {
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Task_m');
+            $data = $this->Task_m->task_dashboard();
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
+
     public function task_group(){
         
         if($this->check_permission(array()) == true) {
@@ -140,4 +148,25 @@ class Task extends My_Controller {
 
     }
 
+    // search area
+    public function ajax_fetch_activity_on_task($task_id){
+        
+        $this->load->model('Task_m');
+        $data['all_activities'] = $this->Task_m->ajax_fetch_activity_on_task($task_id);
+        return $data;
+
+    }
+
+    // notification area
+    public function ajax_update_activity_notification($ta_id) {
+        $this->load->model('Task_m');
+        $data['msg'] = $this->Task_m->ajax_update_activity_notification($ta_id);
+        return $data;
+    }
+
+    public function ajax_update_mail_notification($ta_id) {
+        $this->load->model('Task_m');
+        $data['msg'] = $this->Task_m->ajax_update_mail_notification($ta_id);
+        return $data;
+    }
 }

@@ -286,6 +286,10 @@
 
     // TASK
     
+	$route['admin/task-dashboard'] = 'admin_panel/Task/task_dashboard';
+	$route['admin/ajax-fetch-activity-on-task/(:num)'] = 'admin_panel/Task/ajax_fetch_activity_on_task/$1';
+	$route['admin/ajax-update-activity-notification/(:num)'] = 'admin_panel/Task/ajax_update_activity_notification/$1';
+
     $route['admin/task-group'] = 'admin_panel/Task/task_group';
 	
 	$route['admin/task-template'] = 'admin_panel/Task/task_template';
@@ -309,3 +313,4 @@
 
 	$route['admin/task-communication'] = 'admin_panel/Task/task_communication';
 	$route['admin/task-communication-details/(:num)'] = 'admin_panel/Task/task_communication_details/$1';
+	$route['admin/ajax-update-mail-notification/(:num)'] = 'admin_panel/Task/ajax_update_mail_notification/$1';

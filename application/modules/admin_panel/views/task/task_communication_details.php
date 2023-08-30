@@ -87,10 +87,10 @@
                             </h5>
                         </div>
                     </div>
-                    <div class="col-lg-6 highlight">
-                        <h5>
-                            <b>Details:</b> <?=$task_details->task_details?>
-                        </h5>
+                    <div class="col-lg-6">
+                        <!-- <h5>
+                            <b>Details:</b> < ?=$task_details->task_details?>
+                        </h5> -->
                     </div>
                 </div>    
 
@@ -245,7 +245,17 @@
         });
         
         
-        
+    $(window).load(function(){
+        $tc_id = "<?=$task_details->tc_id?>";
+        $.ajax({
+            url: "<?= base_url('admin/ajax-update-mail-notification') ?>/"+$tc_id,
+            dataType: 'json',
+            type: 'POST',
+            success: function (returnData) {
+                console.log(returnData);
+            }
+        })
+    });
 
     </script>
 

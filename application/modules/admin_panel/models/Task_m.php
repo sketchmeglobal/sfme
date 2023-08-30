@@ -52,6 +52,100 @@ class Task_m extends CI_Model {
         }
     }
 
+    public function task_dashboard() {
+        $user_id = $this->session->user_id;
+        $data =array();
+        $data['title'] = 'Edit task activity';
+        $data['menu'] = 'Task';
+
+        if($this->input->post('filter_submit')){
+
+            $start_date = ($this->input->post('start_date') == '') ? START_DATE : $this->input->post('start_date');
+            $end_date = ($this->input->post('end_date') == '') ? '' : $this->input->post('end_date');
+            $task = ($this->input->post('task') == '') ? '' : $this->input->post('task');
+            $task_status = ($this->input->post('task_status') == '') ? '' : $this->input->post('task_status');
+            $activity = ($this->input->post('activity') == '') ? '' : $this->input->post('activity');
+            $activity_status = ($this->input->post('activity_status') == '') ? '' : $this->input->post('activity_status');
+            $priority = ($this->input->post('priority') == '') ? '' : $this->input->post('priority');                        
+            $task_initiator = ($this->input->post('task_initiator') == '') ? '' : $this->input->post('task_initiator');
+            
+            $query1= "SELECT * FROM task_header LEFT JOIN task_activity ON th_id=task_header_id"; 
+            $where0 = " WHERE task_start_date >= '" .$start_date. "'";
+            $where1 = ($end_date == '') ? '' :  " AND task_end_date <='".$end_date."'";
+            $where2 = ($task == '') ? '' :  " AND task_header_id ='".$task."'";
+            $where3 = ($activity == '') ? '' :  " AND ta_id ='".$activity."'";
+            $where4 = ($priority == '') ? '' :  " AND task_priority ='".$priority."'";
+            $where5 = ($task_status == '') ? '' : " AND task_status = '".$task_status."'"; 
+            $where6 = ($activity_status == '') ? '' : " AND activity_status = '".$activity_status."'";
+            $where6 = ($task_initiator == '') ? '' : " AND task_initiator = '".$task_initiator."'"; 
+
+            $query = $query1.$where0.$where1.$where2.$where3.$where4.$where5.$where6;
+            $filter_result = $this->db->query($query)->result();
+            $data['fitler_result'] = $filter_result;
+
+        }
+
+        $data['all_users'] = $this->db->get_where('users', array('verified' => 1, 'blocked' => 0))->result();
+
+        $data['all_tasks'] = $this->db
+            ->get_where('task_header', array('task_status' => 'Open'))->result();
+
+        if($user_id == 1){
+            
+            $data['activity_notification'] = $this->db
+                ->select('th_id,ta_id,task_title,task_initiator,task_priority,activity_title')
+                ->join('task_header', 'th_id=task_header_id','left')
+                ->get_where('task_activity', array('has_seen' => 0))->result();
+
+            $data['mail_notification'] = $this->db
+                ->select('th_id,tc_id,task_title,task_initiator,task_priority,from_id,to_id,thread_status')
+                ->join('task_header', 'th_id=task_header_id','left')
+                ->get_where('task_communication', array('has_seen' => 0))->result();    
+
+        }else{
+            
+            $data['activity_notification'] = $this->db
+                ->select('th_id,ta_id,task_title,task_initiator,task_priority,activity_title')
+                ->join('task_header', 'th_id=task_header_id','left')
+                ->get_where('task_activity', array('has_seen' => 0, 'activity_member' => $user_id))->result();
+            
+            $data['mail_notification'] = $this->db
+                ->select('th_id,tc_id,task_title,task_initiator,task_priority,from_id,to_id,thread_status')
+                ->join('task_header', 'th_id=task_header_id','left')
+                ->get_where('task_communication', array('has_seen' => 0, 'to_id' => $user_id))->result();
+            
+        }
+        
+        return array('page'=>'task/task_dashboard', 'data'=>$data); //loading common view page
+    }
+
+    // search area
+    public function ajax_fetch_activity_on_task($task_id){
+        
+       $rdata = $this->db
+            ->select('ta_id,activity_title')
+            ->get_where('task_activity', array('task_header_id' => $task_id))->result();
+       echo json_encode($rdata);
+
+    }
+
+    public function ajax_update_activity_notification($ta_id){
+        $user_id = $this->session->user_id;
+        $nr = $this->db
+            ->get_where('task_activity',array('ta_id' => $ta_id, 'activity_member' => $user_id))->num_rows();
+
+        if($nr > 0){
+            $update_array = array(
+                'has_seen' =>  1
+            );
+            if($this->db->update('task_activity', $update_array, array('ta_id' => $ta_id))){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failure');
+            } 
+        }
+    }
+
     public function task_group() {
         $user_id = $this->session->user_id;
 
@@ -145,13 +239,21 @@ class Task_m extends CI_Model {
 
             $this->table_name = 'task_header';
             $crud->callback_before_update(array($this,'log_before_update'));
-            
-            $crud->unset_columns('task_status','task_details','task_members','task_start_date','documents','created_date','modified_date','status');
-            $crud->unset_fields('created_date','modified_date','status');
-            $crud->required_fields('task_title','task_initiator','task_start_date','task_end_date','task_priority');
+            $crud->callback_column('task_members',array($this,'callback_activity_member'));
+
+            $crud->unset_columns('documents','task_status','task_details','task_start_date','documents','created_date','modified_date','status');
+            $crud->required_fields('task_title','task_initiator','task_start_date','task_end_date','task_priority'); // 'task_members',
             $crud->unique_fields(array('task_title'));
 
-            $crud->set_relation('task_initiator', 'users', 'username', array());
+            if($user_id == 1){
+                $crud->unset_fields('documents','created_date','modified_date','status');
+                $crud->set_relation('task_initiator', 'users', 'username', array());
+            }else{
+                $crud->unset_fields('documents','created_date','modified_date','status','task_status');
+                $crud->unset_delete();
+                $crud->set_relation('task_initiator', 'users', 'username', array('user_id' => $user_id));
+            }
+            
             $crud->set_field_upload('documents','assets/task/');
 
             $this->db->select('user_id, username');
@@ -203,13 +305,17 @@ class Task_m extends CI_Model {
             $crud->where('task_status', 'Closed');
             
             $crud->unset_read();
+            $crud->unset_add();
+            $crud->unset_edit();
             $crud->unset_clone();
+            $crud->unset_delete();
+            
 
             $this->table_name = 'task_header';
             $crud->callback_before_update(array($this,'log_before_update'));
             
-            $crud->unset_columns('task_status','task_details','tast_start_date','created_date','modified_date','status');
-            $crud->unset_fields('created_date','modified_date','status');
+            $crud->unset_columns('documents','task_status','task_details','tast_start_date','created_date','modified_date','status');
+            $crud->unset_fields('documents','created_date','modified_date','status');
             $crud->required_fields('task_title','task_initiator','task_start_date','task_end_date','task_priority');
             $crud->unique_fields(array('task_title'));
 
@@ -294,54 +400,87 @@ class Task_m extends CI_Model {
         $user_id = $this->session->user_id;
         $header = $this->db->get_where('task_header', array('th_id' => $theader))->row();
         $header_title = "Task Activity <small>(Add / Edit / Delete)</small><hr>";
-        $header_title .= "<div style='border-left:5px solid #8fb9e3;padding: 10px;'>" . $header->task_title . ': ' . $header->task_details . "</div>";
+        $header_title .= "<div style='border-left:5px solid #8fb9e3;padding: 10px;'>" . $header->task_title . "</div>";
 
         try{
             $crud = new grocery_CRUD();
             // $crud->set_crud_url_path(base_url('admin_panel/Task/task_activity'));
             $crud->set_theme('flexigrid');
-            $crud->set_subject('Task');
+            $crud->set_subject('Activity');
             $crud->set_table('task_activity');
 
             $crud->where('task_header_id', $theader);
             if($user_id != 1){
-                $crud->where('activity_member', $user_id);
+                $where = "FIND_IN_SET(".$user_id.", activity_member)";
+                $crud->where($where);
                 $crud->unset_delete();
-                $crud->unset_edit();
-                $crud->add_action('Edit', 'https://www.grocerycrud.com/v1.x/assets/grocery_crud/themes/flexigrid/css/images/edit.png', 'admin/edit-user-task-activity');
             }
 
             $crud->unset_read();
             $crud->unset_clone();
 
             $this->table_name = 'task_activity';
+
+            $crud->add_action('Edit', base_url() . 'assets/grocery_crud/themes/flexigrid/css/images/activity.png', 'admin/edit-user-task-activity');
+
             $crud->callback_before_update(array($this,'log_before_update'));
+            $crud->callback_column('activity_initiator',array($this,'callback_activity_initiator'));
+            $crud->callback_column('activity_member',array($this,'callback_activity_member'));
+
+            $crud->columns('task_template_id','activity_title','activity_initiator','activity_member','activity_document','activity_status');
+            $crud->unset_fields('activity_start_date','activity_end_date','has_seen','created_date','modified_date','status','activity_permission','activity_remarks');
+            $crud->required_fields('activity_title','activity_status'); //'activity_member',
             
-            $crud->unset_columns('task_header_id','activity_details','activity_start_date','activity_remarks','created_date','modified_date','status');
-            $crud->unset_fields('created_date','modified_date','status');
-            $crud->required_fields('activity_title','activity_member','activity_status');
             // $crud->unique_fields(array('task_title'));
+            // $crud->add_fields('task_template_id','activity_title','activity_details','activity_member','activity_document','activity_status');
+            // $crud->edit_fields('activity_permission','activity_remarks');
+            // $crud->set_relation('activity_member', 'users', 'username', array());
 
             $crud->set_relation('task_template_id', 'task_template', 'template_name', array());
-            $crud->set_relation('activity_member', 'users', 'username', array());
+            
+            $tmembers = explode(",",$this->db->get_where('task_header', array('th_id' => $theader))->row()->task_members);
+            
+            foreach($tmembers as $userid){
+                $username = $this->db->get_where('users', array('user_id' => $userid))->row()->username;
+                $user_arr[$userid] = $username;
+            }
             
             $crud->set_field_upload('activity_document','assets/task/');
+
+            $crud->field_type('activity_member','dropdown', $user_arr);
             $crud->field_type('task_header_id', 'hidden', $theader);
             $crud->field_type('user_id', 'hidden', $user_id);
 
             $crud->display_as('task_template_id','Template Type'); 
+            // $crud->display_as('activity_permission','Request change permission'); 
+            // $crud->display_as('activity_remarks','Change reason');
             
             $output = $crud->render();
             //rending extra value to $output
-            $output->tab_title = 'Task Activity';
+            $output->tab_title = 'Activity';
             $output->section_heading = $header_title;
-            $output->menu_name = 'Task Activity';
+            $output->menu_name = 'Activity';
             $output->add_button = '';
 
             return array('page'=>'task/common_v', 'data'=>$output); //loading common view page
         } catch(Exception $e) {
             show_error($e->getMessage().'<br>'.$e->getTraceAsString());
         }
+    }
+
+    public function callback_activity_member($value, $row) {
+        $tmembers = explode(",",$value);
+        $username = '';    
+        foreach($tmembers as $userid){
+            $username .= $this->db->get_where('users', array('user_id' => $userid))->row()->username . ', ';
+        }
+        return rtrim($username, ", ");
+    }
+
+    public function callback_activity_initiator($value, $row) {
+        $task_header_id = $row->task_header_id;
+        $task_initiator = $this->db->get_where('task_header', array('th_id' => $task_header_id))->row()->task_initiator;
+        return $this->db->get_where('users', array('user_id' => $task_initiator))->row()->username;
     }
 
     public function task_common_activity($template_id) {
@@ -361,13 +500,14 @@ class Task_m extends CI_Model {
             $this->table_name = 'common_task_activity';
             $crud->callback_before_update(array($this,'log_before_update'));
             
-            $crud->unset_columns('created_date','modified_date','status');
-            $crud->unset_fields('created_date','modified_date','status');
-            $crud->required_fields('common_question','tempalte_id');
+            $crud->unset_columns('template_id','common_info','created_date','modified_date','status');
+            $crud->unset_fields('common_info','created_date','modified_date','status');
+            $crud->required_fields('common_question','tempalte_id','pattern');
             $crud->unique_fields(array('common_question'));
             
-            $crud->set_relation('template_id','task_template','template_name',array('task_template.status' => 1));
+            // $crud->set_relation('template_id','task_template','template_name',array('task_template.status' => 1));
 
+            $crud->field_type('template_id', 'hidden', $template_id);
             $crud->field_type('user_id', 'hidden', $user_id);
 
             $output = $crud->render();
@@ -436,8 +576,13 @@ class Task_m extends CI_Model {
 
         }
         
-
-        $task_header_id = $this->db->get_where('task_activity', array('ta_id' => $task_activity_id))->row()->task_header_id;
+        $row_val = $this->db->get_where('task_activity', array('ta_id' => $task_activity_id))->row();
+        if(count($row_val) > 0){
+            $task_header_id = $this->db->get_where('task_activity', array('ta_id' => $task_activity_id))->row()->task_header_id;
+        }else{
+            die('Task activity not set. <a href="'.base_url().'">Go Back</a>');
+        }
+        
 
         $data['task_details'] = $this->db->get_where('task_header', array('th_id' => $task_header_id))->row();
         $task_template_type = $this->db->get_where('task_activity', array('ta_id' => $task_activity_id))->row()->task_template_id;
@@ -552,7 +697,7 @@ class Task_m extends CI_Model {
         $to_members = '';
 
         $task_details= $this->db
-            ->select('users.username, task_title, task_details, task_start_date, task_end_date, task_priority, task_status, task_header.documents, task_communication.*')
+            ->select('users.username, task_title, task_start_date, task_end_date, task_priority, task_status, task_header.documents, task_communication.*')
             ->join('task_header','task_header.th_id=task_header_id','left')
             ->join('users','users.user_id=from_id','left')
             ->get_where('task_communication', array('tc_id' => $tcid))->row();
@@ -635,6 +780,23 @@ class Task_m extends CI_Model {
         //     ->result();    
 
         return array('page'=>'task/task_communication_details', 'data'=>$data); 
+    }
+
+    public function ajax_update_mail_notification($tc_id){
+        $user_id = $this->session->user_id;
+        $nr = $this->db
+            ->get_where('task_communication',array('tc_id' => $tc_id, 'to_id' => $user_id))->num_rows();
+
+        if($nr > 0){
+            $update_array = array(
+                'has_seen' =>  1
+            );
+            if($this->db->update('task_communication', $update_array, array('tc_id' => $tc_id))){
+                echo json_encode('success');
+            }else{
+                echo json_encode('failure');
+            } 
+        }
     }
 
 }

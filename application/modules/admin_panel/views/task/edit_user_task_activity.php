@@ -225,9 +225,7 @@
 
     $(document).ready(function() {
         $('.select2').select2();
-
         CKEDITOR.replaceClass = 'ckeditor';
-
     });
 
 
@@ -266,7 +264,17 @@
         }
     });
     
-    
+    $(window).load(function(){
+        $ta_id = "<?=$task_activity_id?>";
+        $.ajax({
+            url: "<?= base_url('admin/ajax-update-activity-notification') ?>/"+$ta_id,
+            dataType: 'json',
+            type: 'POST',
+            success: function (returnData) {
+                console.log(returnData);
+            }
+        })
+    });
      
 
 </script>
