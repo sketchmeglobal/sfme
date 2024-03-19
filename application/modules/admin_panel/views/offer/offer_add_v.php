@@ -256,11 +256,11 @@
 
                                             <?php
 
-                                            $supplier_payment_terms = array("05% upon Inspection; 05% upon Loading; 90% upon Scan Copy of Final Docs", "10% Advance; 90% upon Scan Copy of Final Docs", "20% Advance; 80% upon Scan Copy of Final Docs", "25% Advance; 75% upon Scan Copy of Final Docs", "30% Advance; 70% upon Scan Copy of Final Docs", "70% upon loading; 30% after 7 days from Loading", "TT Against Scan Final Docs", "Cash against Documents", "Cash against Documents via Bank", "30 Days from BL Date", "45 Days from BL Date", "60 Days from BL Date", "100% Advance Payment");
+                                            // $supplier_payment_terms = array("05% upon Inspection; 05% upon Loading; 90% upon Scan Copy of Final Docs", "10% Advance; 90% upon Scan Copy of Final Docs", "20% Advance; 80% upon Scan Copy of Final Docs", "25% Advance; 75% upon Scan Copy of Final Docs", "30% Advance; 70% upon Scan Copy of Final Docs", "70% upon loading; 30% after 7 days from Loading", "TT Against Scan Final Docs", "Cash against Documents", "Cash against Documents via Bank", "30 Days from BL Date", "45 Days from BL Date", "60 Days from BL Date", "100% Advance Payment");
                                             foreach ($supplier_payment_terms as $key => $supplier_payment_term) {
                                             ?>
 
-                                            <option value="<?=$supplier_payment_term?>"><?=$supplier_payment_term?></option>
+                                            <option value="<?=$supplier_payment_term->pt_id?>"><?=$supplier_payment_term->payment_terms?></option>
 
                                             <?php } ?>
                                             

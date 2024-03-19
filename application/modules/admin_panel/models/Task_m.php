@@ -233,6 +233,11 @@ class Task_m extends CI_Model {
             $crud->set_subject('Task');
             $crud->set_table('task_header');
             $crud->where('task_status', 'Open');
+            if($user_id != 1){
+                $where = "FIND_IN_SET(".$user_id.", task_members)";
+                $crud->where($where);
+                $crud->unset_delete();
+            }
             
             $crud->unset_read();
             $crud->unset_clone();
@@ -441,7 +446,13 @@ class Task_m extends CI_Model {
             $tmembers = explode(",",$this->db->get_where('task_header', array('th_id' => $theader))->row()->task_members);
             
             foreach($tmembers as $userid){
-                $username = $this->db->get_where('users', array('user_id' => $userid))->row()->username;
+                $rs = $this->db->get_where('users', array('user_id' => $userid))->row();
+                if(count($rs) > 0){
+                    $username = $rs->username;
+                }else{
+                    $username = '<i><small>No username provided</small></i>';
+                }
+                
                 $user_arr[$userid] = $username;
             }
             
@@ -471,10 +482,18 @@ class Task_m extends CI_Model {
     public function callback_activity_member($value, $row) {
         $tmembers = explode(",",$value);
         $username = '';    
-        foreach($tmembers as $userid){
-            $username .= $this->db->get_where('users', array('user_id' => $userid))->row()->username . ', ';
+        if(count($tmembers) > 0){
+            foreach($tmembers as $userid){
+                $rr = $this->db->get_where('users', array('user_id' => $userid))->row();
+                if(!empty($rr)){
+                    $username .= $this->db->get_where('users', array('user_id' => $userid))->row()->username . ', ';
+                }
+            }
+            return rtrim($username, ", ");
+        }else{
+            return '-';
         }
-        return rtrim($username, ", ");
+        
     }
 
     public function callback_activity_initiator($value, $row) {
@@ -614,6 +633,7 @@ class Task_m extends CI_Model {
 
     public function task_communication() {
         $user_id = $this->session->user_id;
+        $user_role = $this->session->usertype;
 
         try{
             $crud = new grocery_CRUD();
@@ -647,8 +667,18 @@ class Task_m extends CI_Model {
             
             $crud->set_relation('task_header_id', 'task_header', 'task_title', array());
             
-            $this->db->select('user_id, username');
-            $results = $this->db->where('verified', 1)->where('user_id !=', $user_id)->get('users')->result();
+            // Resource and marketer can't communicate
+            
+            if($user_role == '2'){
+                $results = $this->db->where('verified', 1)->where('usertype !=', '3')->where('user_id !=', $user_id)->get('users')->result();
+            } else if($user_role == '3'){
+                $results = $this->db->where('verified', 1)->where('usertype !=', '2')->where('user_id !=', $user_id)->get('users')->result();
+            }else{
+                $results = $this->db->where('verified', 1)->where('user_id !=', $user_id)->get('users')->result();
+            }
+
+            // echo $this->db->last_query(); die;
+            
             $user_arr = array();
             foreach ($results as $result) {
                 $user_arr[$result->user_id] = $result->username;

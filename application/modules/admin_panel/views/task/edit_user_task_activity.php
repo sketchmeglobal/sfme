@@ -21,6 +21,7 @@
         .form-control, select,.select2-drop-mask{border:1px solid green;}
         .form-group{border-bottom: 1px solid #dedede;padding-bottom: 15px;}
         .highlight{background: beige;padding: 1%;border: 1px solid;margin-bottom: 0px;box-shadow: -1px 0px 1px 1px #ddd;}
+        /* i small{color: red} */
     </style>
 </head>
 
@@ -51,9 +52,10 @@
             ?>
             <div class="col-lg-12">
                 <h5 class="highlight">
-                    Task <b><?= $task_details->task_title?></b>, started on <u><?=date('d-m-Y', strtotime($task_details->task_start_date))?> </u>
-                    and about to be closed on <u><?=date('d-m-Y', strtotime($task_details->task_end_date))?></u> 
-                    still have <u><?=$task_details->task_priority?></u> priority.
+                    Task <b><?= (isset($task_details->task_title)) ? $task_details->task_title : '<i><small>No Task title provided</small></i>' ?></b>, 
+                    started on <?= (isset($task_details->task_title)) ? "<u><?=date('d-m-Y', strtotime($task_details->task_start_date))?> </u> " : '<i><small>No start date provided</small></i>' ?>
+                    and about to be closed on <?= (isset($task_details->task_title)) ? "<u><?=date('d-m-Y', strtotime($task_details->task_end_date))?> </u> " : '<i><small>No end date provided</small></i>' ?>
+                    still have <?= (isset($task_details->task_title)) ? "<u><?=$task_details->task_priority?></u> priority" : '<i><small>No priority provided</small></i>' ?>
                 </h5>
                 <section class="panel">
                     <header class="panel-heading" id="common_activities" style="background-color: rgb(100, 174, 100); color: white;">

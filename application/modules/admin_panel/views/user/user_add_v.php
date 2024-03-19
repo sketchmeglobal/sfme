@@ -55,12 +55,14 @@
                                         <label for="user_type" class="control-label text-danger">User type *</label>
                                         <select required="" name="user_type" id="user_type" class="form-control select2">
                                             <option value="" selected="" disabled="">Select User Type</option>
-                                            <option value="1">Trader</option>
+                                            <option value="1">Admin</option>
                                             <option value="2">Resource Developer</option>
                                             <option value="3">Marketing Personnel</option>
                                             <option value="4">Exporter</option>
                                             <option value="5">Document Manager</option>
                                             <option value="6">Task Operator</option>
+                                            <option value="7">Accounts</option>
+                                            <option value="8">Trader</option>
                                         </select>
 
                                     </div>

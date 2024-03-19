@@ -3,8 +3,11 @@
 $class_name = $this->router->fetch_class();
 $method_name = $this->router->fetch_method();
 $user_type = $this->session->usertype;
+$pr_rs = $this->db->get_where('users', array('user_id' => $this->session->user_id))->row();
+$pr = isset($pr_rs->payment_role) ? $pr_rs->payment_role : 0;
 ?>
 <style>
+    li a span b{color: #fff453}
     .affix{width:240px;height: 100%;overflow:scroll;}
      .affix::-webkit-scrollbar {
       width: 10px;
@@ -44,348 +47,88 @@ $user_type = $this->session->usertype;
         <!--sidebar nav start-->
         <ul class="nav nav-pills nav-stacked side-navigation">
 
-            <!-- ONLY ADMIN RIGHTS -->
-            <?php if($user_type == 1){?>
-
+            <!-- top common area -->
             <li><h3 class="navigation-title">Menu</h3></li>
-            <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a>
-            </li>
+            <?php 
+            if($user_type == 1){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Admin</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 2){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Resource</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 3){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Marketing</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 4){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Export</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 5){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Documentor</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 6){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Task</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 7){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Account</b> Dashboard</span></a>
+                </li>
+                <?php
+            } else if($user_type == 8){ 
+                ?>
+                <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
+                    <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span><b>Trader</b> Dashboard</span></a>
+                </li>
+                <?php
+            }
+            ?>
+            
+            
 
             <li class="<?= (($class_name == 'Profile') && ($method_name == 'profile')) ? 'active' : ''; ?>">
                 <a href="<?=base_url();?>admin/profile"><i class="fa fa-vcard-o"></i> <span>Profile</span></a>
-            </li>
-
-            <li class="menu-list <?=($class_name == 'Master') ? 'active' : ''; ?>"><a href=""><i class="fa fa-wrench"></i> <span>Master Tables</span></a>
-                <ul class="child-list">
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'account_master')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/account_master"><i class="fa fa-caret-right"></i> Account Masters</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'bank')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/bank"><i class="fa fa-caret-right"></i> Bank </a>
-                    </li>
-
-                     <li class="<?=(($class_name == 'Master') && ($method_name == 'company')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/company"><i class="fa fa-caret-right"></i> Company </a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'units')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/units"><i class="fa fa-caret-right"></i> Units</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'color')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/colors"><i class="fa fa-caret-right"></i> Colors</a>
-                    </li>
-                    
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'word_color')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/word-colors"><i class="fa fa-caret-right"></i> Word Colors</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'responsible_purchase')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/responsible-purchase"><i class="fa fa-caret-right"></i> Responsible Purchase</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'responsible_sales')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/responsible-sales"><i class="fa fa-caret-right"></i> Responsible Sales</a>
-                    </li>
-
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'responsible_logistic')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/responsible-logistic"><i class="fa fa-caret-right"></i> Responsible Logistic</a>
-                    </li>
-
-                    
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'incoterms')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/incoterms"><i class="fa fa-caret-right"></i> Incoterms</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'countries')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/countries"><i class="fa fa-caret-right"></i> Countries</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'ports')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/ports"><i class="fa fa-caret-right"></i> Ports</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'freezing')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/freezing"><i class="fa fa-caret-right"></i> Freezing</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'packing_types')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/packing_types"><i class="fa fa-caret-right"></i> Packing Types</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'packing_sizes')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/packing_sizes"><i class="fa fa-caret-right"></i> Packing Sizes</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'glazing')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/glazing"><i class="fa fa-caret-right"></i> Glazing</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'blocks')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/blocks"><i class="fa fa-caret-right"></i> Blocks</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'sizes')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/sizes"><i class="fa fa-caret-right"></i> Sizes</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'currencies')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/currencies"><i class="fa fa-caret-right"></i> Currencies</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'products')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/products"><i class="fa fa-caret-right"></i> Products</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'remark1_offer_validity')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/remark1_offer_validity"><i class="fa fa-caret-right"></i> Offer Validity (Remark 1)</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'line_items')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/line_items"><i class="fa fa-caret-right"></i> Line items</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'freight_master')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/freight_master"><i class="fa fa-caret-right"></i> Freight Master</a>
-                    </li>
-
-                     <li class="<?=(($class_name == 'Master') && ($method_name == 'offer_status')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offer_status"><i class="fa fa-caret-right"></i> Offer Status</a>
-                    </li>
-                    
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'payment_terms')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/payment_terms"><i class="fa fa-caret-right"></i> Payment Terms</a>
-                    </li>
-                    
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'all_clauses')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/all_clauses"><i class="fa fa-caret-right"></i> All Clauses</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Master') && ($method_name == 'all_remakrs')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/all-remarks"><i class="fa fa-caret-right"></i> All Remarks</a>
-                    </li>
-                    
-                </ul>
-            </li>
-            
-            <li class="menu-list <?=($class_name == 'Offer') ? 'active' : ''; ?>"><a href=""><i class="fa fa-refresh"></i> <span>Offers</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($this->uri->segment(2) == 'offers')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offers"><i class="fa fa-caret-right"></i> <span>Offer Details</span></a>
-                    </li>
-        
-                    <li class="<?=(($this->uri->segment(2) == 'offer-comments')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offer-comments"><i class="fa fa-caret-right"></i> <span>Offer Comments</span></a>
-                    </li>
-                    <li class="<?=(($this->uri->segment(2) == 'offer-report')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offer-report"><i class="fa fa-caret-right"></i> <span>Offer Report</span></a>
-                    </li>
-
-                    <li class="<?=(($this->uri->segment(2) == 'report_filter')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/report_filter"><i class="fa fa-caret-right"></i> <span>Offer Filter</span></a>
-                    </li>
-                </ul>
-            </li>
-            
-            <li class="menu-list <?=($class_name == 'Accounts') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-text-o"></i> <span>Accounts</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Accounts')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/sale-contract"><i class="fa fa-caret-right"></i> <span>Sale Contract</span></a>
-                    </li>
-        
-                    <li class="<?=(($class_name == 'Accounts')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/purchase-order"><i class="fa fa-caret-right"></i> <span>Purchase Order</span></a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-pdf-o"></i> <span>Templates</span></a>
-                <ul class="child-list">
-                    
-                    <li class="<?=(($class_name == 'Settings') && ($method_name == '')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/view-templates"><i class="fa fa-caret-right"></i> Templates Report (Offer)</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Settings') && ($method_name == '')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/view-templates-report"><i class="fa fa-caret-right"></i> Templates Report (Export)</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Settings') && ($method_name == 'account_templates')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/account_templates"><i class="fa fa-caret-right"></i> Template Report (SC/PO)</a>
-                    </li>
-
-                    <li class="<?=(($class_name == 'Settings') && ($method_name == 'view_report_filter_templates')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/view_report_filter_templates"><i class="fa fa-caret-right"></i> Template Report (Offer/Export)</a>
-                    </li>
-                    
-                   <!-- <li class="< ?=(($class_name == 'Settings') && ($method_name == 'mail_templates')) ? 'active' : ''; ?>">
-                        <a href="< ?=base_url();?>admin/mail_templates"><i class="fa fa-caret-right"></i> Mail Template</a>
-                    </li>-->
-                    
-                </ul>
             </li>    
+            <!-- top common area ends-->
 
-            <li class="menu-list <?=($class_name == 'Settings') ? 'active' : ''; ?>"><a href=""><i class="fa fa-cog"></i> <span>Settings</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'User') && ($method_name == 'user_managemnt')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/user-management"><i class="fa fa-caret-right"></i> User Management</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Settings') && ($method_name == '')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/database-backup"><i class="fa fa-caret-right"></i> Database Backup</a>
-                    </li>
-                </ul>
-            </li>
-            
-            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_dashboard')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-dashboard"><i class="fa fa-caret-right"></i> Task Dashboard</a>
-                    </li>
-                    <!-- <li class="< ?=(($class_name == 'Task') && ($method_name == 'task_group')) ? 'active' : ''; ?>">
-                        <a href="< ?=base_url();?>admin/task-group"><i class="fa fa-caret-right"></i> Task Group</a>
-                    </li> -->
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_template')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-template"><i class="fa fa-caret-right"></i> Task Template</a>
-                    </li>
-                    <!-- <li class="<?=(($class_name == 'Task') && ($method_name == 'task_common_activity')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-common-activity"><i class="fa fa-caret-right"></i> Common Activity</a>
-                    </li> -->
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_open')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list-open"><i class="fa fa-caret-right"></i> Task List (Opened)</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_closed')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list-closed"><i class="fa fa-caret-right"></i> Task List (Closed)</a>
-                    </li>
-                    <!-- <li class="< ?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="< ?=base_url();?>admin/task-activity"><i class="fa fa-caret-right"></i> Task Activity</a>
-                    </li> -->
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
-                    </li>
-                </ul>
-            </li>
-            <?php } 
-            // <!-- ONLY RESOURCE RIGHTS -->
-            else if($user_type == 2){ ?>
+            <?php 
+            if($user_type == 1){ 
+                include_once('sidebar/admin.php');
+            } else if($user_type == 2){ 
+                include_once('sidebar/resource.php');
+            } else if($user_type == 3){ 
+                include_once('sidebar/marketing.php');
+            } else if($user_type == 4){ 
+                include_once('sidebar/export.php');
+            } else if($user_type == 5){ 
+                include_once('sidebar/doc_manager.php');
+            } else if($user_type == 6){ 
+                include_once('sidebar/task_manager.php');
+            } else if($user_type == 7){ 
+                include_once('sidebar/account.php');
+            } else if($user_type == 8){ 
+                include_once('sidebar/trader.php');
+            }
+            ?>
 
-            <li><h3 class="navigation-title">Menu</h3></li>
-            <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a>
-            </li>
-
-            <li class="<?= (($class_name == 'Profile') && ($method_name == 'profile')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/profile"><i class="fa fa-vcard-o"></i> <span>Profile</span></a>
-            </li>
-            
-            <li class="menu-list <?=($class_name == 'Offer') ? 'active' : ''; ?>"><a href=""><i class="fa fa-refresh"></i> <span>Offers</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Offer')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offers"><i class="fa fa-caret-right"></i> <span>Offer Details</span></a>
-                    </li>
-                    <li class="<?=(($this->uri->segment(2) == 'offer-report')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offer-report"><i class="fa fa-caret-right"></i> <span>Offer Report</span></a>
-                    </li>
-                    <li class="<?=(($class_name == 'Offer')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offer-comments"><i class="fa fa-caret-right"></i> <span>Offer Comments</span></a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- TASK STARTS -->
-            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_dashboard')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-dashboard"><i class="fa fa-caret-right"></i> Task Dashboard</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_open')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list-open"><i class="fa fa-caret-right"></i> Task List (Opened)</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_closed')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list-closed"><i class="fa fa-caret-right"></i> Task List (Closed)</a>
-                    </li>
-                    <!-- <li class="< ?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="< ?=base_url();?>admin/task-activity-all"><i class="fa fa-caret-right"></i> Task Activity</a>
-                    </li> -->
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
-                    </li>
-                </ul>
-            </li>
-             <!-- TASK ENDS    -->
-
-            <?php } 
-            // <!-- ONLY MARKETING RIGHTS -->
-            else if($user_type == 3){ ?>
-
-            <li><h3 class="navigation-title">Menu</h3></li>
-            <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a>
-            </li>
-            <li class="<?= (($class_name == 'Profile') && ($method_name == 'profile')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/profile"><i class="fa fa-vcard-o"></i> <span>Profile</span></a>
-            </li>
-            <li class="menu-list <?=($class_name == 'Offer') ? 'active' : ''; ?>"><a href=""><i class="fa fa-refresh"></i> <span>Offers</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Offer')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offers-marketing"><i class="fa fa-caret-right"></i> <span>Offer Details</span></a>
-                    </li>
-        
-                    <li class="<?=(($class_name == 'Offer')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/offer-comments"><i class="fa fa-caret-right"></i> <span>Offer Comments</span></a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- TASK STARTS -->
-            <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_dashboard')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-dashboard"><i class="fa fa-caret-right"></i> Task Dashboard</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_open')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list-open"><i class="fa fa-caret-right"></i> Task List (Opened)</a>
-                    </li>
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_list_closed')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-list-closed"><i class="fa fa-caret-right"></i> Task List (Closed)</a>
-                    </li>
-                    <!-- <li class="< ?=(($class_name == 'Task') && ($method_name == 'task_activity')) ? 'active' : ''; ?>">
-                        <a href="< ?=base_url();?>admin/task-activity-all"><i class="fa fa-caret-right"></i> Task Activity</a>
-                    </li> -->
-                    <li class="<?=(($class_name == 'Task') && ($method_name == 'task_communication')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/task-communication"><i class="fa fa-caret-right"></i> Task Communication</a>
-                    </li>
-                </ul>
-            </li>
-             <!-- TASK ENDS    -->
-
-            <?php } 
-            // <!-- ALL RIGHTS -->
-            else{ ?>
-                
-            <li><h3 class="navigation-title">Menu</h3></li>
-            <li class="<?=(($class_name == 'Dashboard')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/dashboard"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a>
-            </li>
-            <li class="<?= (($class_name == 'Profile') && ($method_name == 'profile')) ? 'active' : ''; ?>">
-                <a href="<?=base_url();?>admin/profile"><i class="fa fa-vcard-o"></i> <span>Profile</span></a>
-            </li>
-            <li class="menu-list <?=($class_name == 'Export') ? 'active' : ''; ?>"><a href=""><i class="fa fa-refresh"></i> <span>Export</span></a>
-                <ul class="child-list">
-                    <li class="<?=(($class_name == 'Export') and ($this->uri->segment(2) == 'export-list')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/export-list"><i class="fa fa-caret-right"></i> <span>Export List</span></a>
-                        <!-- export-listing -->
-                    </li>
-                    <li class="<?=(($class_name == 'Export') and ($this->uri->segment(2) == 'report')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/report"><i class="fa fa-caret-right"></i> <span>Export Report</span></a>
-                    </li>
-                    <li class="<?=(($this->uri->segment(2) == 'report_filter_export')) ? 'active' : ''; ?>">
-                        <a href="<?=base_url();?>admin/report_filter_export"><i class="fa fa-caret-right"></i> <span>Offer/Export Report</span></a>
-                    </li>
-                </ul>
-            </li> 
-            
+            <!-- bottom common area -->
             <!-- TASK STARTS -->
             <li class="menu-list <?=($class_name == 'Task') ? 'active' : ''; ?>"><a href=""><i class="fa fa-tasks"></i> <span>Task</span></a>
                 <ul class="child-list">
@@ -406,10 +149,7 @@ $user_type = $this->session->usertype;
                     </li>
                 </ul>
             </li>
-             <!-- TASK ENDS    -->
-            <?php } ?>
-
-            <!-- For Document manager types user -->            
+                          
             <li class="menu-list <?=($class_name == 'Documents' || $class_name == 'SharedWithMe') ? 'active' : ''; ?>"><a href=""><i class="fa fa-file-text-o"></i> <span>Documents</span></a>
                 <ul class="child-list">
                     <li class="<?=(($class_name == 'Documents')) ? 'active' : ''; ?>">
@@ -421,30 +161,43 @@ $user_type = $this->session->usertype;
                     </li>
                 </ul>
             </li>
-            <!-- For Document manager types user -->
-
-
+            
+            <div class="sidebar-widget">
+                <h4>Account Information</h4>
+                <ul class="list-group">
+                    <li style="background: #faf5a7;">
+                        
+                        <?php 
+                        if($pr == '1') {
+                            echo '<p style="color: #616364;text-align: center;padding: 5px;letter-spacing: 2px;font-size: 13px;font-weight: bold;">';
+                            echo 'Role: Junior Accountant';
+                            echo '</p>';
+                        } else if($pr == '2'){ 
+                            echo '<p style="color: #616364;text-align: center;padding: 5px;letter-spacing: 2px;font-size: 13px;font-weight: bold;">';
+                            echo 'Role: Senior Accountant'; 
+                            echo '</p>';
+                        }else if ($pr == '3'){
+                            echo '<p style="color: #616364;text-align: center;padding: 5px;letter-spacing: 2px;font-size: 13px;font-weight: bold;">';
+                            echo 'Role: Head Accountant';
+                            echo '</p>';
+                        }
+                        ?>
+                        
+                    </li>
+                    <li>
+                        <p>
+                            <strong><i class="fa fa-user-circle-o"></i> <span class="username"><?=$this->session->username;?></span></strong>
+                            <br/>
+                            <strong><i class="fa fa-envelope"></i> <?=$this->session->email;?></strong>
+                        </p>
+                    </li>
+                    
+                    <li>
+                        <a href="<?=base_url();?>admin/profile" class="btn btn-info btn-sm addon-btn">Edit Info. <i class="fa fa-vcard pull-left"></i></a>
+                    </li>
+                </ul>
+            </div>  
         </ul>
-        <!--sidebar nav end-->
-
-        <!--sidebar widget start-->
-        <div class="sidebar-widget">
-            <h4>Account Information</h4>
-            <ul class="list-group">
-                <li>
-                    <p>
-                        <strong><i class="fa fa-user-circle-o"></i> <span class="username"><?=$this->session->username;?></span></strong>
-                        <br/>
-                        <strong><i class="fa fa-envelope"></i> <?=$this->session->email;?></strong>
-                    </p>
-                </li>
-                
-                <li>
-                    <a href="<?=base_url();?>admin/profile" class="btn btn-info btn-sm addon-btn">Edit Info. <i class="fa fa-vcard pull-left"></i></a>
-                </li>
-            </ul>
-        </div>
-        <!--sidebar widget end-->
 
     </div>
 </div>

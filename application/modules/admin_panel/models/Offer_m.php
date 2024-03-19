@@ -394,7 +394,7 @@ class Offer_m extends CI_Model {
 
     private function _offer_common_query($offer_type,$usertype, $user_id){
 
-        if($usertype == 1){
+        if(($usertype == 1 or $usertype == 8)){
 
             #for admin
 
@@ -479,13 +479,13 @@ class Offer_m extends CI_Model {
             <a href="'. base_url('admin/view-offer/'.$offer_id) .'/1" class="btn bg-yellow" target="_blank"><i class="fa fa-eye"></i> View</a>
             <button data-offer_id="'.$offer_id.'" class="btn bg-beige clone"><i class="fa fa-refresh"></i> Clone</button>
             <a data-toggle="modal" data-target="#myModal" data-offer_id="'.$offer_id.'" href="javascript:void(0)" class="btn bg-green request"><i class="fa fa-universal-access"></i> Request Access</a>';
-        } else if($edit_status == 1 and $usertype == 1){
+        } else if($edit_status == 1 and ($usertype == 1 or $usertype == 8)){
             # trader not Finalise
             $nestedData = '
             <a href="javascript:void(0)" data-offer_id="'.$offer_id.'" class="btn bg-yellow slt_view_ofr"><i class="fa fa-eye"></i> View</a>
             <a href="'. base_url('admin/edit-offer/'.$offer_id) .'" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
             <a data-offer_id="'.$offer_id.'" href="javascript:void(0)" class="btn btn-danger delete"><i class="fa fa-times"></i> Delete</a>';
-        }else if($edit_status == 0 and $usertype == 1){
+        }else if($edit_status == 0 and ($usertype == 1 or $usertype == 8)){
             /* href="'. base_url('admin/view-offer/'.$offer_id) .'"  */
             # trader Finalise -> ALREADY FINALISED
             $nestedData = '
@@ -603,19 +603,15 @@ class Offer_m extends CI_Model {
         $data['offer_status'] = $this->db->select('offer_status_id, offer_status')->get_where('offer_status', array('status' => 1))->result();
         $data['company'] = $this->db->select('company_id, company_name')->get_where('company', array('status' => 'Active'))->result();
         $data['suppliers'] = $this->db->select('am_id, name, am_code')->get_where('acc_master', array('status' => 1, 'supplier_buyer' => 0))->result(); 
-        $data['permitted_suppliers'] = $this->db->select('acc_masters')->get_where('users', array('users.user_id' => $this->session->user_id))->row(); 
-        
+        $data['permitted_suppliers'] = $this->db->select('acc_masters')->get_where('users', array('users.user_id' => $this->session->user_id))->row();        
         $data['currencies'] = $this->db->select('c_id, currency, code, symbol')->get_where('currencies', array('status' => 1))->result();
-
         $data['countries'] = $this->db->select('country_id, iso, name')->get_where('countries', array('status' => 1))->result(); 
-
         $data['ports'] = $this->db->select('p_id, port_name')->get_where('ports', array('status' => 1))->result(); 
-        
         $data['remark1_offer_validity'] = $this->db->get_where('remark1_offer_validity', array('status' => 1))->result();
-
         $data['incoterms'] = $this->db->select('it_id, incoterm, information')->get_where('incoterms', array('status' => 1))->result(); 
+        $data['supplier_payment_terms'] = $this->db->get("payment_terms")->result();
 
-        if($usertype == 1){
+        if(($usertype == 1 or $usertype == 8)){
             # if admin
             $data['resources'] = $this->db->select('users.user_id, users.username, firstname, lastname')->join('user_details', 'users.user_id = user_details.user_id', 'left')->get_where('users', array('users.verified' => 1, 'users.blocked' => 0, 'users.usertype' => 2))->result();
         }else{
@@ -949,7 +945,7 @@ class Offer_m extends CI_Model {
 
         /*This offer list for offer detail export section*/
 
-        if($usertype == 1){
+        if(($usertype == 1 or $usertype == 8)){
             $data['offers'] = $this->db->get_where('offers', array('status' => 1))->result();
         }else{
             $data['offers'] = $this->db->get_where('offers_resource', array('status' => 1, 'resource_id' => $user_id))->result();
@@ -975,10 +971,9 @@ class Offer_m extends CI_Model {
         $data['company'] = $this->db->select('company_id, company_name')->get_where('company', array('status' => 'Active'))->result();
 
         $data['suppliers'] = $this->db->select('am_id, name, am_code')->get_where('acc_master', array('status' => 1, 'supplier_buyer' => 0))->result(); 
-
+        $data['supplier_payment_terms'] = $this->db->get("payment_terms")->result();
 
         $data['permitted_suppliers'] = $this->db->select('acc_masters')->get_where('users', array('users.user_id' => $this->session->user_id))->row(); 
-        
         $data['currencies'] = $this->db->select('c_id, currency, code, symbol')->get_where('currencies', array('status' => 1))->result(); 
 
         $data['countries'] = $this->db->select('country_id, iso, name')->get_where('countries', array('status' => 1))->result(); 
@@ -994,7 +989,7 @@ class Offer_m extends CI_Model {
 
         /*This for Offer header*/
 
-        if($usertype == 1){
+        if(($usertype == 1 or $usertype == 8)){
             # if admin
             $data['resources'] = $this->db->select('users.user_id, users.username, firstname, lastname')->join('user_details', 'users.user_id = user_details.user_id', 'left')->get_where('users', array('users.verified' => 1, 'users.blocked' => 0, 'users.usertype' => 2))->result(); 
             $data['offer_details'] =$this->db->select('offers.*,currencies.currency, currencies.symbol')->join('currencies', 'currencies.c_id = offers.c_id', 'left')->get_where('offers', array('offer_id' => $offer_id))->result();
@@ -1098,7 +1093,7 @@ class Offer_m extends CI_Model {
         
         // print_r($updateArray);die;
         
-        if($this->session->usertype == 1){
+        if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
             
             $updateOfferStatus = array(
                 'offer_status_id' => $this->input->post('offer_status_id')
@@ -1235,7 +1230,7 @@ class Offer_m extends CI_Model {
 
         // echo $this->session->usertype; die();
 
-        if ($this->session->usertype == 1) {
+        if (($this->session->usertype == 1) or ($this->session->usertype == 8)) {
             // when user admin means trader
             $offer_id = $this->input->post('offer_id');
         //actual db table column names
@@ -1335,7 +1330,7 @@ class Offer_m extends CI_Model {
             $nestedData['price'] = $val->product_price;
             $nestedData['total_price'] = $val->product_price * $val->quantity_offered;
 
-            if($this->session->usertype == 1){
+            if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
 
                 $nestedData['action'] = '<a href="javascript:void(0)" data-od_id="'.$val->od_id.'" class="offer_details_edit_btn btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
                 <a title="Intra-Copy (Current Offer Details)" href="javascript:void(0)" data-od_id="'.$val->od_id.'" class="offer_details_clone_btn btn bg-beige"><i class="fa fa-clone"></i> Clone</a>
@@ -1460,7 +1455,7 @@ class Offer_m extends CI_Model {
             $nestedData['price'] = $val->product_price;
             $nestedData['total_price'] = $val->product_price * $val->quantity_offered;
 
-            if($this->session->usertype == 1){
+            if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
 
                 $nestedData['action'] = '<a href="javascript:void(0)" data-od_id="'.$val->odr_id.'" class="offer_details_edit_btn btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
                 <a title="Intra-Copy (Current Offer Details)" href="javascript:void(0)" data-od_id="'.$val->odr_id.'" class="offer_details_clone_btn btn bg-beige"><i class="fa fa-clone"></i> Clone</a>
@@ -1650,7 +1645,7 @@ class Offer_m extends CI_Model {
         );
         // echo '<pre>', print_r($insertArray), '</pre>';die;
 
-        if ($this->session->usertype == 1) {
+        if (($this->session->usertype == 1) or ($this->session->usertype == 8)) {
             // when trader
             $this->db->insert('offer_details', $insertArray);
         
@@ -1724,7 +1719,7 @@ class Offer_m extends CI_Model {
     
     public function fetch_offer_details_on_pk(){
 
-        if ($this->session->usertype == 1) {
+        if (($this->session->usertype == 1) or ($this->session->usertype == 8)) {
             $od_id = $this->input->post('pk');
             $rs = $this->db->get_where('offer_details', array('od_id' => $od_id))->result();
         }elseif ($this->session->usertype == 2) {
@@ -1780,7 +1775,7 @@ class Offer_m extends CI_Model {
 
 
 
-         if ($this->session->usertype == 1) {
+         if (($this->session->usertype == 1) or ($this->session->usertype == 8)) {
 
             // echo '<pre>', print_r($updateArray), '</pre>';die;
             $this->db->update('offer_details', $updateArray, array('od_id' => $od_id));
@@ -1848,14 +1843,14 @@ class Offer_m extends CI_Model {
         
         // echo '<pre>', print_r($insertArray), '</pre>';die;
         
-      /*  if($this->session->usertype == 1){
+      /*  if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
             $this->db->insert('offer_details', $insertArray);    
         }else{
             $this->db->insert('offer_details_resource', $insertArray);
         }*/
 
 
-                if ($this->session->usertype == 1) {
+                if (($this->session->usertype == 1) or ($this->session->usertype == 8)) {
             // when trader
             $this->db->insert('offer_details', $insertArray);
         
@@ -1957,7 +1952,7 @@ class Offer_m extends CI_Model {
 
         $on = '"OFFER/'.date('dmY').'/'.date('his').'"';
         
-        if($this->session->usertype == 1){
+        if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
         
             $query = "
                 INSERT INTO offers(
@@ -2018,7 +2013,7 @@ class Offer_m extends CI_Model {
                 'cloned_offer_id' => $offer_id                    
             );
             
-            if($this->session->usertype == 1){
+            if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
                 
                 $this->db->update('offers',$updateArray, array('offer_id' => $new_offer_id));   
                 
@@ -2117,7 +2112,7 @@ class Offer_m extends CI_Model {
 
         $op_id = $this->input->post('pk');
 
-        if($this->session->usertype == 1){
+        if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
             $this->db->where('op_id', $op_id)->delete('offer_files');    
         }else{
             $this->db->where('op_id', $op_id)->delete('offer_files_resource');
@@ -2569,7 +2564,7 @@ class Offer_m extends CI_Model {
         $id = $this->input->post('pk');
 
         $check = false;
-        if($this->session->usertype == 1){
+        if(($this->session->usertype == 1) or ($this->session->usertype == 8)){
             $this->db->where('od_id', $id)->delete('offer_details');
             $check = true;
         }elseif ($this->session->usertype == 2) {
@@ -2592,7 +2587,7 @@ class Offer_m extends CI_Model {
     public function view_offer($offer_id,$com_id){
 
 
-        if($this->session->usertype == 1 || $this->session->usertype == 3){
+        if(($this->session->usertype == 1) or ($this->session->usertype == 8) || $this->session->usertype == 3){
             
             $this->db->select('offers.*, DATE_FORMAT(offers.offer_date, "%d-%m-%Y") as offer_date,acc_master.name as supplier_name, acc_master.am_code as supplier_code, currencies.currency, currencies.symbol as currency_code, users.username, firstname, lastname, countries.iso, countries.name, incoterms.incoterm, ports.port_name,remark1_offer_validity.remark');
             $this->db->join('acc_master', 'acc_master.am_id = offers.am_id', 'left');
@@ -2647,7 +2642,7 @@ class Offer_m extends CI_Model {
         }
 
 
-        if($this->session->usertype == 1 || $this->session->usertype == 3){
+        if(($this->session->usertype == 1) or ($this->session->usertype == 8) || $this->session->usertype == 3){
             
             $this->db->select('offer_details.*, offer_details.od_id,quantity_offered, cartons_offered, product_price, product_name, scientific_name, f1.freezing_type,f2.freezing_type as freezing_method, ptp.packing_type, pts.packing_type as pts, packing_size, glazing, block_size,sizes.size,units.unit, size_before_glaze, size_after_glaze');
             $this->db->join('products', 'products.pr_id = offer_details.product_id', 'left');

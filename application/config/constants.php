@@ -102,11 +102,14 @@ define('COMP2', $comp2);
 define('FIN_YEAR', '2023-24');
 define('START_DATE','2023-01-01');
 
+// SUFFIX - BILL
+define('PAYMENT_BILL_NO', 'PBN/');
+
 //mailing details
 define('default_smtp_host', 'mail.hnm.djx.mybluehost.me');
 define('default_smtp_port', '587');
-define('default_smtp_user', 'support@hnm.djx.mybluehost.me');
-define('default_smtp_pass', 'yD.U{P;&6h6I');
-define('default_mail_from', 'support@hnm.djx.mybluehost.me');
+define('default_smtp_user', 'marketing@seafoodmiddleeast.com');
+define('default_smtp_pass', 'Tujo5550');
+define('default_mail_from', 'marketing@seafoodmiddleeast.com');
 define('default_mailer_name', WEBSITE_NAME_SHORT.' System Bot');
 define('default_mail_sub', 'System Notification');

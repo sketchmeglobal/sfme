@@ -18,6 +18,13 @@ class Accounts extends My_Controller {
         redirect(base_url('admin/proforma_invoice'));
     }
 
+    public function account_dashboard(){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->account_dashboard();
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
 
     public function purchase_order()
     {
@@ -180,8 +187,95 @@ class Accounts extends My_Controller {
          $this->load->view('accounts/temp_view_po');
     }
 
+    public function payment_intent(){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->payment_intent();
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
 
+    public function payment_intent_edit($pbno){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->payment_intent_edit($pbno);
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
     
+    public function payment_intent_print($pbno){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->payment_intent_print($pbno);
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
 
+    public function fz_ref_no_from_offer_id($offer_id){
+        $this->load->model('Accounts_m');
+        $data = $this->Accounts_m->fz_ref_no_from_offer_id($offer_id);
+        echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+        exit();
+    }
+
+    public function amount_from_export_id($export_id){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->amount_from_export_id($export_id);
+            echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+            exit();
+        }
+    }
+
+    public function delete_payment_bill_details(){
+        $this->load->model('Accounts_m');
+        $data = $this->Accounts_m->delete_payment_bill_details();
+        echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+        exit();
+    }
+
+    public function delete_payment_bill(){
+        $this->load->model('Accounts_m');
+        $data = $this->Accounts_m->delete_payment_bill();
+        echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+        exit();
+    }
+
+    public function payment_intent_edit_ntrade($pbno){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->payment_intent_edit_ntrade($pbno);
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
+
+    public function payment_intent_print_ntrade($pbno){
+        if($this->check_permission(array()) == true) {
+            $this->load->model('Accounts_m');
+            $data = $this->Accounts_m->payment_intent_print_ntrade($pbno);
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
+
+    public function delete_payment_bill_details_ntrade(){
+        $this->load->model('Accounts_m');
+        $data = $this->Accounts_m->delete_payment_bill_details_ntrade();
+        echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+        exit();
+    }
+
+    public function delete_payment_bill_ntrade(){
+        $this->load->model('Accounts_m');
+        $data = $this->Accounts_m->delete_payment_bill_ntrade();
+        echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+        exit();
+    }
+
+    public function delete_payment_bill_file(){
+        $this->load->model('Accounts_m');
+        $data = $this->Accounts_m->delete_payment_bill_file();
+        echo json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
+        exit();
+    }
     
 }

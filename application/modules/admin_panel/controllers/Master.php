@@ -139,6 +139,14 @@ class Master extends My_Controller {
             $this->load->view($data['page'], $data['data']);
         }
     }
+
+    public function payment_types() {
+        if($this->check_permission(array(1)) == true) {
+            $this->load->model('Master_m');
+            $data = $this->Master_m->payment_types();
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
     
     public function all_clauses() {
         if($this->check_permission(array(1)) == true) {

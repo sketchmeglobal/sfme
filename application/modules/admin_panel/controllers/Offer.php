@@ -460,23 +460,19 @@ class Offer extends My_Controller {
                // echo $this->_send_mail($fresult); die();
                 if($this->_send_mail($fresult) == true){
 
-
-                    // die();
-
-                     
                     $insertArray = array(
                         'offer_id' => $offer_id,
                         'final_mail_send_status' => 1,
                     );
 
-                    $this->session->set_flashdata('msg','Mail Send Successfully');
+                    $this->session->set_flashdata('msg','Mail Sent Successfully');
 
                 }else{
                     $insertArray = array(
                         'offer_id' => $offer_id,
                         'final_mail_send_status' => 0,
                     );
-                    $this->session->set_flashdata('msg','Oops! somthing went wrong. Mail not send');
+                    $this->session->set_flashdata('msg','Oops! somthing went wrong. Mail not sent');
                 }
                 $this->Offer_m->final_mail_status($insertArray);
 
@@ -604,27 +600,22 @@ class Offer extends My_Controller {
 
     private function _send_mail($array){
 
-
-
         // echo '<pre>'; print_r($array); die();
 
         $rt_data = '';
         foreach($array as $arr){
 
             $content = "";
-
-            //;
-
             foreach($arr as $ar){
                 
                 $content .= "Product name: " . $ar['product_name'] . '<br />';
                 $content .= "Incoterm: " . $ar["incoterm"] . '<br />';
                 $content .= "Price: " . number_format($ar["final_selling_price"],2) . '('. $ar["currency"] .')<hr />';
-               $to = $ar['client_email'];
+                $to = $ar['client_email'];
 
             }
 
-            $rt_data = $this->sendmail($to,$content,'STS - Welcome to the family!');
+            $rt_data = $this->sendmail($to,$content,'Welcome to the family!');
 
         }
        
@@ -634,58 +625,34 @@ class Offer extends My_Controller {
     private function sendmail($mail_to,$msg,$mail_sub='',$mail_from='',$mailer_name='',$smtp_host='',$smtp_port='',$smtp_user='',$smtp_pass='') {
 
         if($mail_from == '') $mail_from=default_mail_from; else $mail_from=$mail_from;
-
         if($mailer_name == '') $mailer_name=default_mailer_name; else $mailer_name=$mailer_name;
-
         if($mail_sub == '') $mail_sub=default_mail_sub; else $mail_sub=$mail_sub;
-
         if($smtp_host == '') $smtp_host=default_smtp_host; else $smtp_host=$smtp_host;
-
         if($smtp_port == '') $smtp_port=default_smtp_port; else $smtp_port=$smtp_port;
-
         if($smtp_user == '') $smtp_user=default_smtp_user; else $smtp_user=$smtp_user;
-
         if($smtp_pass == '') $smtp_pass=default_smtp_pass; else $smtp_pass=$smtp_pass;
 
-
-
         $config = Array(
-
             'smtp_host' => $smtp_host,
-
             'smtp_port' => $smtp_port,
-
             'smtp_user' => $smtp_user,
-
             'smtp_pass' => $smtp_pass,
-
             'protocol' => 'smtp',
-
             'mailtype' => 'html',
-
             'charset' => 'utf-8',
-
             'wordwrap' => TRUE
-
         );
 
         $this->load->library('email', $config);
-
         $this->email->from($mail_from, $mailer_name);
-
         $this->email->to($mail_to);
-
         $this->email->subject($mail_sub);
-
         $this->email->message($msg);
-
         if($this->email->send()){
             return true;
         }else{
             return false;
         }
-
-        
 
     }
 

@@ -22,6 +22,7 @@
 	$route['admin/bank'] = 'admin_panel/Master/bank';
 	$route['admin/offer_status'] = 'admin_panel/Master/offer_status';
 	$route['admin/payment_terms'] = 'admin_panel/Master/payment_terms';
+	$route['admin/payment_types'] = 'admin_panel/Master/payment_types';
 	$route['admin/all_clauses'] = 'admin_panel/Master/all_clauses';
 	
 	$route['admin/account_master'] = 'admin_panel/Master/account_master';
@@ -226,6 +227,7 @@
 
     // ACCOUNTS AREA
 
+	$route['admin/account-dashboard'] = 'admin_panel/Accounts/account_dashboard';
     $route['admin/sale-contract'] = 'admin_panel/Accounts/proforma_invoice';
     $route['admin/print-sale-contract'] = 'admin_panel/Accounts/proforma_invoice_print';
     $route['admin/add_sale_contract'] = 'admin_panel/Accounts/add_sale_contract';
@@ -238,28 +240,35 @@
     $route['admin/ajax-clause-on-customer'] = 'admin_panel/Accounts/ajax_clause_on_customer';
 
     /*purchase order area*/
-    	
-
     $route['admin/purchase-order'] = 'admin_panel/Accounts/purchase_order';
-
     $route['admin/purchase_order_add'] = 'admin_panel/Accounts/purchase_order_add';
-
     $route['admin/form_add_purchase_order'] = 'admin_panel/Accounts/form_add_purchase_order';
 
-
-    
-
     $route['admin/edit_purchase_order/(:num)'] = 'admin_panel/Accounts/edit_purchase_order/$1';
-
     $route['admin/form_edit_purchase_order'] = 'admin_panel/Accounts/form_edit_purchase_order';
 
     $route['admin/print_purchase_order'] = 'admin_panel/Accounts/print_purchase_order';
-
     $route['admin/show_sc_template/(:num)'] = 'admin_panel/Accounts/show_sc_template/$1';
-
     $route['admin/show_po_template/(:num)'] = 'admin_panel/Accounts/show_po_template/$1';
-
     
+	// PAYMENT INTENT AND RECEIVE AREA
+	$route['admin/payment-intent'] = 'admin_panel/Accounts/payment_intent';
+	$route['admin/payment-intent-edit/(:num)'] = 'admin_panel/Accounts/payment_intent_edit/$1';
+	$route['admin/payment-intent-print/(:num)'] = 'admin_panel/Accounts/payment_intent_print/$1';
+
+	$route['admin/fz_ref_no_from_offer_id/(:num)'] = 'admin_panel/Accounts/fz_ref_no_from_offer_id/$1';
+	$route['admin/amount_from_export_id/(:num)'] = 'admin_panel/Accounts/amount_from_export_id/$1';
+
+	$route['admin/delete_payment_bill_details'] = 'admin_panel/Accounts/delete_payment_bill_details';
+	$route['admin/delete_payment_bill'] = 'admin_panel/Accounts/delete_payment_bill';
+
+	$route['admin/payment-intent-edit-ntrade/(:num)'] = 'admin_panel/Accounts/payment_intent_edit_ntrade/$1';
+	$route['admin/delete_payment_bill_details_ntrade'] = 'admin_panel/Accounts/delete_payment_bill_details_ntrade';
+	$route['admin/delete_payment_bill_ntrade'] = 'admin_panel/Accounts/delete_payment_bill_ntrade';
+	$route['admin/delete_payment_bill_file'] = 'admin_panel/Accounts/delete_payment_bill_file';
+	$route['admin/payment-intent-print-ntrade/(:num)'] = 'admin_panel/Accounts/payment_intent_print_ntrade/$1';
+	// $route['admin/payment-breakup/(:num)'] = 'admin_panel/Accounts/payment_breakup/$1';
+
 	//Settings Area
 	$route['admin/database-backup'] = 'admin_panel/Settings/database_backup_m';
 	$route['admin/view-templates'] = 'admin_panel/Settings/view_templates';

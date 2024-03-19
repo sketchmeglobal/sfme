@@ -300,8 +300,8 @@ function fetch_origin_country($offer_id){
                                         <input  id="correc_appr_vend_date" name="correc_appr_vend_date" value="<?=$export_details->correc_appr_vend_date?>" type="date"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="docs_sent_to_sgs_for_clean_cer" class="control-label"> DOCS TO SGS/ITS (CEAN CERT) </label>
-                                        <input  id="docs_sent_to_sgs_for_clean_cer" value="<?=$export_details->docs_sent_to_sgs_for_clean_cer?>" name="docs_sent_to_sgs_for_clean_cer" type="text" placeholder="DOCS TO SGS/ITS (CEAN CERT)"  class="form-control " />
+                                        <label for="docs_sent_to_sgs_for_clean_cer" class="control-label"> Prod Name </label>
+                                        <input  id="docs_sent_to_sgs_for_clean_cer" value="<?=$export_details->docs_sent_to_sgs_for_clean_cer?>" name="docs_sent_to_sgs_for_clean_cer" type="text" placeholder="Prod Name"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="draft_docs_recd" class="control-label"> Draft Docs Recd  </label>
@@ -523,7 +523,7 @@ function fetch_origin_country($offer_id){
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="3rd_insp_upload" class="control-label">3rd INSP Upload</label>
-                                        <input  id="3rd_insp_upload" value="" name="3rd_insp_upload" type="date" placeholder="3rd INSP Upload" class="form-control " />
+                                        <input  id="3rd_insp_upload" value="<?php $is = "3rd_insp_upload";echo $export_details->$is?>" name="3rd_insp_upload" type="date" placeholder="3rd INSP Upload" class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="insp_aoc_coc" class="control-label">Insp. AOC / COC</label>
@@ -589,9 +589,9 @@ function fetch_origin_country($offer_id){
                                         <label for="besc_cert" class="control-label"> BESC Cert </label>
                                         <select name="besc_cert" id="besc_cert" class="form-control">
                                             <option value=""> Select Besc Cert </option>
-                                            <option value="Yes" <?php echo ($export_details->besc_cert == 'Yes')?'selected':''; ?> >Yes</option>
-                                            <option value="No" <?php echo ($export_details->besc_cert == 'No')?'selected':''; ?> >No</option>
-                                            <option value="NA" <?php echo ($export_details->besc_cert == 'NA')?'selected':''; ?> >N/A</option>
+                                            <option value="Yes" <?php echo ($export_details->besc_cert == 'Yes') ? ' selected' : '' ?> >Yes</option>
+                                            <option value="No" <?php echo ($export_details->besc_cert == 'No') ? ' selected' : '' ?> >No</option>
+                                            <option value="NA" <?php echo ($export_details->besc_cert == 'NA') ? ' selected' : '' ?> >N/A</option>
                                         </select>
                                         
                                     </div>
@@ -824,7 +824,7 @@ function fetch_origin_country($offer_id){
                             <div class="form-group row" id="payment">
                                 <div class="col-lg-3">
                                         <label for="adv_amt_from_cust" class="control-label">Adv Amt from Cust</label>
-                                        <input  id="adv_amt_from_cust" name="adv_amt_from_cust" value="<?=$export_details->adv_paid_to_vendor?>" type="number" pattern="[0-9]{10}" title="Enter number" placeholder="Adv Amt from Cust" class="form-control" />
+                                        <input  id="adv_amt_from_cust" name="adv_amt_from_cust" value="<?=$export_details->adv_amt_from_cust?>" type="number" pattern="[0-9]{10}" title="Enter number" placeholder="Adv Amt from Cust" class="form-control" />
                                     </div>
 
 
@@ -856,7 +856,7 @@ function fetch_origin_country($offer_id){
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="adv_amt_to_vendor" class="control-label">Adv Amt to Vendor</label>
+                                        <label for="adv_amt_to_vendor" class="control-label">Bal paid to vend</label>
                                         <input  id="adv_amt_to_vendor" value="<?=$export_details->adv_amt_to_vendor?>" name="adv_amt_to_vendor" type="number" pattern="[0-9]{10}" title="Enter number" placeholder=" Adv Amt to Vendor" class="form-control" />
                                     </div>
 
@@ -870,8 +870,8 @@ function fetch_origin_country($offer_id){
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="adv_recd_from_cust" class="control-label">Adv Recd from Cust</label>
-                                        <input  id="adv_recd_from_cust" name="adv_recd_from_cust" value="<?=$export_details->adv_paid_to_vendor?>" type="number" pattern="[0-9]{10}" title="Enter number" placeholder="Adv Amt from Cust" class="form-control" />
+                                        <label for="adv_recd_from_cust" class="control-label">Bal Recd From Cust</label>
+                                        <input  id="adv_recd_from_cust" name="adv_recd_from_cust" value="<?=$export_details->adv_recd_from_cust?>" type="number" pattern="[0-9]{10}" title="Enter number" placeholder="Adv Amt from Cust" class="form-control" />
                                     </div>
 
 
@@ -901,8 +901,8 @@ function fetch_origin_country($offer_id){
                                         <input  id="dbt_note_to_supp" value="<?=$export_details->dbt_note_to_supp?>" name="dbt_note_to_supp" type="text" placeholder="DBT NOTE TO SUPP"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="dbt_note_cust_comm" class="control-label"> DBT NOTE CUST(COMM) </label>
-                                        <input  id="dbt_note_cust_comm" value="<?=$export_details->dbt_note_cust_comm?>" name="dbt_note_cust_comm" type="text" placeholder="DBT NOTE CUST(COMM)"  class="form-control " />
+                                        <label for="dbt_note_cust_comm" class="control-label"> POL </label>
+                                        <input  id="dbt_note_cust_comm" value="<?=$export_details->dbt_note_cust_comm?>" name="dbt_note_cust_comm" type="text" placeholder="POL"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="lc_amt_recd" class="control-label"> LC AMD RECD </label>
@@ -938,8 +938,8 @@ function fetch_origin_country($offer_id){
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="payment_by_supplier_comm" class="control-label"> PAYT BY SUPP (COMM) </label>
-                                        <input  id="payment_by_supplier_comm" value="<?=$export_details->payment_by_supplier_comm?>" name="payment_by_supplier_comm" type="text" placeholder="PAYT BY SUPP (COMM)"  class="form-control " />
+                                        <label for="payment_by_supplier_comm" class="control-label"> POD </label>
+                                        <input  id="payment_by_supplier_comm" value="<?=$export_details->payment_by_supplier_comm?>" name="payment_by_supplier_comm" type="text" placeholder="POD"  class="form-control " />
                                     </div>
                                 <!-- <div class="form-group row">
                                     <div class="col-lg-3">
@@ -974,7 +974,7 @@ function fetch_origin_country($offer_id){
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="admin_appr" class="control-label"> Admin Appr </label>
+                                        <label for="admin_appr" class="control-label"> Navision No. </label>
                                         <input  id="admin_appr" name="admin_appr" value="<?=$export_details->admin_appr?>" type="text" placeholder="Admin Appr"  class="form-control " />
                                     </div>
                                     <div class="col-lg-3">
@@ -1086,7 +1086,9 @@ function fetch_origin_country($offer_id){
                             </div>
                                 <div class="form-group row">
                                     <div class="col-lg-3">
-                                        <input type="submit" name="submit" class="btn btn-success" value="Update">
+                                        <?php if($usertype == 4){ // only exporters
+                                            echo '<input type="submit" name="submit" class="btn btn-success" value="Update">';
+                                        } ?>
                                     </div>
                                 </div>                               
                         </div>
@@ -1108,12 +1110,13 @@ function fetch_origin_country($offer_id){
                         <div class="panel-body">
                              <form autocomplete="off" id="form_export_product_qty" method="post" action="<?=base_url('admin/add-export-product-qty')?>" enctype="multipart/form-data" class="cmxform form-horizontal tasi-form" autocomplete="on">
                                 <hr>
-                                     <div class="form-group row text-right">
+                                <?php if($usertype == 4){ // only exporters ?>
+                                    <div class="form-group row text-right">
                                          <div class="col-lg-12">
                                             <input type="submit" name="submit" class="btn btn-success" value="Export save">
                                         </div>
                                     </div>  
-
+                                <?php } ?>    
                                     <input type="hidden" value="<?=@count($export_details_products)?>" name="product_count" id="product_count">
 
                                     <input type="hidden" value="<?=$export_details->export_id?>" name="export_id" id="export_id">
@@ -1190,11 +1193,13 @@ function fetch_origin_country($offer_id){
                                     <br><br><br><br><br>
                             <?php } ?>
                             <hr>
+                            <?php if($usertype == 4){ // only exporters ?>
                                      <div class="form-group row">
                                          <div class="col-lg-3">
                                             <input type="submit" name="submit" class="btn btn-success" value="Export save">
                                         </div>
                                     </div>  
+                            <?php } ?>
                             </form>
                         </div>
                     </section>
@@ -1497,7 +1502,7 @@ function fetch_origin_country($offer_id){
 
 
     $(document).ready(function () {
-var offer_id_pd = $("#offer_id").val();
+        var offer_id_pd = $("#offer_id").val();
         $("#offer_id_pd").val(offer_id_pd) 
 
 
@@ -1509,12 +1514,13 @@ var offer_id_pd = $("#offer_id").val();
             type: "post",
             data:{"offer_id":$offer_id},
             success: function(data){
+                
                $('#fz_ref_no').val(data.fz_number);
-
                $('#sc_qty').val(data.sc_qty);
 
-
-               $('#sale_contract').val(data.sale_contract_no);
+               if($('#sale_contract').val() == ''){
+                    $('#sale_contract').val(data.sale_contract_no);
+               }
 
                // $customer
 
@@ -1776,14 +1782,9 @@ var offer_id_pd = $("#offer_id").val();
     $(document).ready(function(){
         if($("#besc_applied").val() == 'NA'){
             $(".besc_applied").prop("readonly", true);
-            $(".besc_applied").val('N/A');
-            $("#besc_cert").val("N/A").change();
-            // $('#besc_cert option[value=val2]').attr('selected','selected');
-
+            $(".besc_applied").val('NA');
+            $("#besc_cert").val("NA").change();
         }else{
-            $(".besc_applied").val('');
-             $("#besc_cert").val("").change();
-            
             $(".besc_applied").prop("readonly", false);
         }   
     });
@@ -1793,14 +1794,9 @@ var offer_id_pd = $("#offer_id").val();
         // alert();
         if($(this).val() == 'NA'){
             $(".besc_applied").prop("readonly", true);
-            $(".besc_applied").val('N/A');
-            $("#besc_cert").val("N/A").change();
-            // $('#besc_cert option[value=val2]').attr('selected','selected');
-
+            $(".besc_applied").val('NA');
+            $("#besc_cert").val("NA").change();
         }else{
-            $(".besc_applied").val('');
-             $("#besc_cert").val("").change();
-            
             $(".besc_applied").prop("readonly", false);
         }   
     });

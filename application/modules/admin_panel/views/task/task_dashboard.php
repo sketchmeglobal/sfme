@@ -3,17 +3,28 @@
     
     function username_from_userid($str){
         $CI =& get_instance();
-        $userids = explode(",", $str);
-        $fstr = '';
-        foreach($userids as $ui){
-            $fstr .= '#<u>' . $CI->db->get_where('users', array('user_id' => $ui))->row()->username . '</u>';
+        if(!empty($str)){
+            $userids = explode(",", $str);
+            $fstr = '';
+            foreach($userids as $ui){
+                $fstr .= '#<u>' . $CI->db->get_where('users', array('user_id' => $ui))->row()->username . '</u>';
+            }
+            return substr($fstr, 1);
+        } else{
+            echo '-';
         }
-        return substr($fstr, 1);
+        
     }
     
     function first_mail_thread_from_header($thid){
         $CI =& get_instance();
-        return $CI->db->get_where('task_communication', array('task_header_id' => $thid, 'thread_status' => 'first'))->row()->tc_id;
+        $mt = $CI->db->get_where('task_communication', array('task_header_id' => $thid, 'thread_status' => 'first'))->row();
+        if(!empty($mt)){
+            echo $mt->tc_id;
+        }else{
+            echo '-';
+        }
+        return ;
     }
 ?>
 <!DOCTYPE html>
@@ -70,7 +81,7 @@
                         <div class="col-lg-6">
                             <div class="col-sm-12" style="border: 1px solid #000;border-radius:10px">
                                 <h4>Activity Notification</h4>
-                                <table class="table table-bordered table-condensed">
+                                <table id="activity_notification" class="table table-bordered table-condensed">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -110,7 +121,7 @@
                         <div class="col-lg-6">
                             <div class="col-sm-12" style="border: 1px solid #000;border-radius:10px">
                                 <h4>Mail Notification</h4>
-                                <table class="table table-bordered table-condensed">
+                                <table id="mail_notification" class="table table-bordered table-condensed">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -124,6 +135,8 @@
                                 <?php 
                                 $iter= 1;
                                 foreach($mail_notification as $mn){
+                                    $fmtfh = first_mail_thread_from_header($mn->th_id); 
+                                    if(!empty($fmtfh)){
                                 ?>
 
                                     <tr>
@@ -138,11 +151,12 @@
                                             <b>Mail Type:</b> <?=($mn->thread_status == 'first') ? 'First mail' : 'Reply mail'?>
                                         </td>
                                         <td>
-                                            <a class="btn btn-success" href="<?=base_url('admin/task-communication-details')?>/<?=first_mail_thread_from_header($mn->th_id)?>">View</a>
+                                            <a class="btn btn-success" href="<?=base_url('admin/task-communication-details')?>/<?=$fmtfh?>">View</a>
                                         </td>
                                     </tr>
                                 
                                 <?php    
+                                    }
                                 } 
                                 ?>
                                     </tbody>
@@ -327,7 +341,7 @@
 
     $(document).ready(function() {
         
-        $('#filter_results').DataTable( {
+        $('#filter_results, #activity_notification, #mail_notification').DataTable( {
             dom: 'Bfrtip',
             buttons: [
                 'excel', 'print'

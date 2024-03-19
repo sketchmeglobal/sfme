@@ -1,4 +1,3 @@
-<?php  ?>
 <?php
 // print_r($buyer_details);die;
 ?>
@@ -286,10 +285,10 @@
                                                 <label for="correc_appr_vend_date" class="control-label"> Sent Date </label>
                                                 <input  id="correc_appr_vend_date" name="correc_appr_vend_date" type="date"  class="form-control " />
                                             </div>
-                                            <!-- DOCS TO SGS/ITS (CEAN CERT) -->
+                                            <!-- Prod Name -->
                                             <div class="col-lg-3">
-                                                <label for="docs_sent_to_sgs_for_clean_cer" class="control-label"> DOCS TO SGS/ITS (CEAN CERT) </label>
-                                                <input  id="docs_sent_to_sgs_for_clean_cer" name="docs_sent_to_sgs_for_clean_cer" type="text" placeholder="DOCS TO SGS/ITS (CEAN CERT)"  class="form-control " />
+                                                <label for="docs_sent_to_sgs_for_clean_cer" class="control-label"> Prod Name </label>
+                                                <input  id="docs_sent_to_sgs_for_clean_cer" name="docs_sent_to_sgs_for_clean_cer" type="text" placeholder="Prod Name"  class="form-control " />
                                             </div>
                                             <!-- Draft Docs Recd -->
                                             <div class="col-lg-3">
@@ -768,9 +767,9 @@
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            <!-- Adv Amt to Vendor -->
+                                            <!-- Bal paid to vend -->
                                             <div class="col-lg-3">
-                                                <label for="adv_amt_to_vendor" class="control-label">Adv Amt to Vendor</label>
+                                                <label for="adv_amt_to_vendor" class="control-label">Bal paid to vend</label>
                                                 <input  id="adv_amt_to_vendor" name="adv_amt_to_vendor" type="number" pattern="[0-9]{10}" title="Enter number" placeholder=" Adv Amt to Vendor" class="form-control" />
                                             </div>
                                             <!-- Currency -->
@@ -783,9 +782,9 @@
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            <!-- Adv Recd from Cust -->
+                                            <!-- Bal Recd from Cust -->
                                             <div class="col-lg-3">
-                                                <label for="adv_recd_from_cust" class="control-label">Adv Recd from Cust</label>
+                                                <label for="adv_recd_from_cust" class="control-label">Bal Recd from Cust</label>
                                                 <input  id="adv_recd_from_cust" name="adv_recd_from_cust" type="number" pattern="[0-9]{10}" title="Enter number" placeholder="Adv Amt from Cust" class="form-control" />
                                             </div>
                                             <!-- Currency -->
@@ -818,10 +817,10 @@
                                                 <label for="dbt_note_to_supp" class="control-label"> DBT NOTE TO SUPP </label>
                                                 <input  id="dbt_note_to_supp" name="dbt_note_to_supp" type="text" placeholder="DBT NOTE TO SUPP"  class="form-control " />
                                             </div>
-                                            <!-- DBT NOTE CUST(COMM) -->
+                                            <!-- POL -->
                                             <div class="col-lg-3">
-                                                <label for="dbt_note_cust_comm" class="control-label"> DBT NOTE CUST(COMM) </label>
-                                                <input  id="dbt_note_cust_comm" name="dbt_note_cust_comm" type="text" placeholder="DBT NOTE CUST(COMM)"  class="form-control " />
+                                                <label for="dbt_note_cust_comm" class="control-label"> POL </label>
+                                                <input  id="dbt_note_cust_comm" name="dbt_note_cust_comm" type="text" placeholder="POL"  class="form-control " />
                                             </div>
                                             <!-- LC AMD RECD -->
                                             <div class="col-lg-3">
@@ -863,10 +862,10 @@
                                                     <option value="N/A">N/A</option>
                                                 </select>
                                             </div>
-                                            <!-- PAYT BY SUPP (COMM) -->
+                                            <!-- POD -->
                                             <div class="col-lg-3">
-                                                <label for="payment_by_supplier_comm" class="control-label"> PAYT BY SUPP (COMM) </label>
-                                                <input  id="payment_by_supplier_comm" name="payment_by_supplier_comm" type="text" placeholder="PAYT BY SUPP (COMM)"  class="form-control " />
+                                                <label for="payment_by_supplier_comm" class="control-label"> POD </label>
+                                                <input  id="payment_by_supplier_comm" name="payment_by_supplier_comm" type="text" placeholder="POD"  class="form-control " />
                                             </div>
                                         </div>
                                         <!-- <div class="form-group row">
@@ -902,9 +901,9 @@
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            <!-- Admin Appr -->
+                                            <!-- Navision No. -->
                                             <div class="col-lg-3">
-                                                <label for="admin_appr" class="control-label"> Admin Appr </label>
+                                                <label for="admin_appr" class="control-label"> Navision No. </label>
                                                 <input  id="admin_appr" name="admin_appr" type="text" placeholder="Admin Appr"  class="form-control " />
                                             </div>
                                             <!-- Last Remark -->

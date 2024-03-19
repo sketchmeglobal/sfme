@@ -18,7 +18,7 @@
     <?php $this->load->view('components/_common_head'); ?>
     <!-- /common head -->
     
-     <style>
+    <style>
         .acc_masters_values, .offer_values{display: none}
     </style>
     
@@ -53,12 +53,14 @@
                                         
                                         <label for="user_type" class="control-label text-danger">User type *</label>
                                         <select required="" name="user_type" id="user_type" class="form-control select2">
-                                            <option <?=($user_details[0]->usertype == 1) ? 'selected'  : ''?> value="1">Trader</option>
+                                            <option <?=($user_details[0]->usertype == 1) ? 'selected'  : ''?> value="1">Admin</option>
                                             <option <?=($user_details[0]->usertype == 2) ? 'selected'  : ''?> value="2">Resource Developer</option>
                                             <option <?=($user_details[0]->usertype == 3) ? 'selected'  : ''?> value="3">Marketing Personnel</option>
-                                            <option <?=($user_details[0]->usertype == 4) ? 'selected'  : ''?> value="4">Exorter</option>
+                                            <option <?=($user_details[0]->usertype == 4) ? 'selected'  : ''?> value="4">Exporter</option>
                                             <option <?=($user_details[0]->usertype == 5) ? 'selected'  : ''?> value="5">Document Manager</option>
                                             <option <?=($user_details[0]->usertype == 6) ? 'selected'  : ''?> value="6">Task Operator</option>
+                                            <option <?=($user_details[0]->usertype == 7) ? 'selected'  : ''?> value="7">Accounting</option>
+                                            <option <?=($user_details[0]->usertype == 8) ? 'selected'  : ''?> value="8">Trader</option>
                                         </select>
 
                                     </div>
@@ -94,6 +96,16 @@
                                     <div class="col-lg-3">
                                         <label for="pass" class="control-label text-danger">Password*</label>
                                         <input value="" id="pass" name="pass" type="password" placeholder="Password" class="form-control round-input" />
+                                    </div> 
+
+                                    <div class="col-lg-3">
+                                        <label for="payment_role" class="control-label text-danger">Payment Role?</label>
+                                        <select name="payment_role" id="payment_role" class="form-control">
+                                            <option <?=($user_details[0]->payment_role == '1') ? 'selected' : '' ?> value="1">Junior</option>
+                                            <option <?=($user_details[0]->payment_role == '2') ? 'selected' : '' ?> value="2">Senior</option>
+                                            <option <?=($user_details[0]->payment_role == '3') ? 'selected' : '' ?> value="3">Head</option>
+                                            <option <?=($user_details[0]->payment_role == '' or $user_details[0]->payment_role == null) ? 'selected' : '' ?> value="null">No Permission</option>
+                                        </select>
                                     </div> 
 
                                     <div class="col-lg-12 acc_masters_values">
@@ -164,7 +176,7 @@
                                     </div>                                    
 
                                 </div>
-                               
+                            
                                 <div class="form-group">
                                     <div class="col-lg-3">
                                         <label for="blocked" class="control-label text-danger">Block User?</label>
@@ -177,7 +189,7 @@
                                     <div class="col-lg-3">
                                         <label for="" class="control-label">Upload User Picture</label>
                                         <input type="file" name="userfile" id="userfile" accept=".jpg,.jpeg,.png,.bmp" class="file">
-                                     </div>
+                                    </div>
                                                                         
                                 </div>    
 
@@ -240,7 +252,7 @@
                     type: "post",
                     data: {
                         username: function() {
-                          return $("#username").val();
+                        return $("#username").val();
                         },
                         user_id: function() {
                             return $("#user_id").val();
@@ -250,10 +262,7 @@
             },            
             user_type:{
                 required: true
-            },
-            pass : {
-                required: true
-            }   
+            }  
         },
         messages: {
 
@@ -314,7 +323,7 @@
     
     $("#user_type").on('change', function(){
         
-         $usertype = $(this).val();
+        $usertype = $(this).val();
         // console.log($val);
         
         if($usertype == 4){
@@ -349,23 +358,23 @@
                 if($usertype == 4){
                     
                     $.each(returnData, function (index, itemData) {
-                       $str = '<option value="'+itemData.offer_id+'">'+itemData.offer_name + ' ['+ itemData.offer_fz_number +']' +'</option>';
-                       $("#offer_values").append($str);
+                    $str = '<option value="'+itemData.offer_id+'">'+itemData.offer_name + ' ['+ itemData.offer_fz_number +']' +'</option>';
+                    $("#offer_values").append($str);
                     });
                     
                     $('#offer_values').select2({
-                      placeholder: 'Select an option'
+                    placeholder: 'Select an option'
                     });
                     
                 }else{
                 
                     $.each(returnData, function (index, itemData) {
-                       $str = '<option value="'+itemData.am_id+'">'+itemData.name + ' ['+ itemData.am_code +']' +'</option>';
-                       $("#acc_masters").append($str);
+                    $str = '<option value="'+itemData.am_id+'">'+itemData.name + ' ['+ itemData.am_code +']' +'</option>';
+                    $("#acc_masters").append($str);
                     });
                     
                     $('#acc_masters').select2({
-                      placeholder: 'Select an option'
+                    placeholder: 'Select an option'
                     });
                     
                 }

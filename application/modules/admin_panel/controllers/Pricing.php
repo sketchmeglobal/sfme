@@ -43,7 +43,7 @@ class Pricing extends My_Controller {
     // BUYING PRICING AREA
 
     public function offer_buying_price($offer_id, $od_id) {
-        if($this->check_permission(array(1)) == true) {
+        if($this->check_permission(array(1,8)) == true) {
             $this->load->model('Pricing_m');
 
             $data['offer_id'] = $offer_id;
@@ -173,7 +173,7 @@ class Pricing extends My_Controller {
     //Selling Price 
 
      public function offer_selling_price($offer_id, $od_id) {
-        if($this->check_permission(array(1)) == true) {
+        if($this->check_permission(array(1,8)) == true) {
             $this->load->model('Pricing_m');
 
             $data['offer_id'] = $offer_id;

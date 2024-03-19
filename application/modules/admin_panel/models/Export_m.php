@@ -227,7 +227,8 @@ class Export_m extends CI_Model {
     public function export_list()
     {
         $user_id = $this->session->user_id;
-
+        $usertype = $this->session->usertype;
+        
         try{
             $crud = new grocery_CRUD();
             // $crud->set_crud_url_path(base_url('admin_panel/Master/units'));
@@ -243,11 +244,10 @@ class Export_m extends CI_Model {
             $crud->add_action('Edit Export Data', '', '', 'fa fa-edit editex',array($this,'_callback_editpage_url'));
             $crud->add_action('View Offer', '', '', 'fa fa-eye vewofr',array($this,'_callback_webpage_url'));
             
-            $offers =  $this->get_offer_list($user_id);
-            
             $this->table_name = 'Export List';
             $crud->callback_before_update(array($this,'log_before_update'));
             
+            $crud->callback_column('country_id',array($this,'_callback_country'));
             $crud->callback_column('customer',array($this,'_callback_customer'));
             $crud->callback_column('freight',array($this,'_callback_freight'));
             $crud->callback_column('rlink_for_bl_to_appear',array($this,'_callback_rlink_for_bl_to_appear'));
@@ -281,11 +281,25 @@ class Export_m extends CI_Model {
                 }
                 
             }else {
-                $crud->unset_columns('user_id', 'c_id');
+                $crud->unset_columns('user_id', 'c_id','freight','freight_currency','insurance','latest_doc_lc');
                 // $crud->columns('row_colour');
             }
             
-            $crud->set_relation('offer_id','offers','offer_name','offer_id IN ('.$offers.')');
+            $accpetable_usertype = array(1,4,7); // admin/exporter/accnts
+            if(!in_array($usertype, $accpetable_usertype)){ 
+                die('You don\'t have permission. Please contact admin');   
+            }else if($usertype == 1 or $usertype == 7){
+                $crud->set_relation('offer_id','offers','offer_name');
+            }else{
+                $offers =  $this->get_offer_list($user_id);
+                if(empty($offers)){
+                    die('Sorry, no offer permission is given to you.');
+                }else{
+                    $crud->set_relation('offer_id','offers','offer_name','offer_id IN ('.$offers.')');
+                }
+            }
+        
+
             // $crud->set_relation('customer','acc_master','name');
             $crud->set_relation('supplier_id','acc_master','name');
             $crud->set_relation('vend_inv_amt_currency','currencies','currency');
@@ -301,7 +315,7 @@ class Export_m extends CI_Model {
             $crud->set_relation('adv_recd_from_cust_currency','currencies','currency');
             $crud->set_relation('actual_sales_amt_currency','currencies','currency');
             $crud->set_relation('insurance_currency','currencies','currency');
-            $crud->set_relation('country_id','countries','name');
+            // $crud->set_relation('country_id','countries','name');
             $crud->set_relation('created_by','users','username');
             $crud->set_relation('last_edited_by','users','username');
             $crud->set_relation('row_colour','colors','color_hex_code');
@@ -331,7 +345,13 @@ class Export_m extends CI_Model {
             $crud->display_as('fz_ref_no', 'FZ No.');
             $crud->display_as('customer', 'Customers');
             $crud->display_as('actual_sale_amt', 'Actual Ammount (sale)');
-            $crud->display_as('admin_appr', 'Admin Appear');
+            $crud->display_as('admin_appr', 'Navision No.');
+            $crud->display_as('adv_amt_to_vendor', 'Bal paid to vend');
+            $crud->display_as('adv_recd_from_cust', 'Bal recd from cust');
+            $crud->display_as('adv_recd_from_cust', 'Bal recd from cust');
+            $crud->display_as('docs_sent_to_sgs_for_clean_cer', 'Prod Name');
+            $crud->display_as('dbt_note_cust_comm', 'POL');
+            $crud->display_as('payment_by_supplier_comm', 'POD');
 
             //$crud->field_type('user_id', 'hidden', $user_id);
 
@@ -455,7 +475,12 @@ class Export_m extends CI_Model {
             $crud->display_as('fz_ref_no', 'FZ No.');
             $crud->display_as('customer', 'Customers');
             $crud->display_as('actual_sale_amt', 'Actual Ammount (sale)');
-            $crud->display_as('admin_appr', 'Admin Appear');
+            $crud->display_as('admin_appr', 'Navision No.');
+            $crud->display_as('adv_amt_to_vendor', 'Bal paid to vend');
+            $crud->display_as('adv_recd_from_cust', 'Bal recd from cust');
+            $crud->display_as('docs_sent_to_sgs_for_clean_cer', 'Prod Name');
+            $crud->display_as('dbt_note_cust_comm', 'POL');
+            $crud->display_as('payment_by_supplier_comm', 'POD');
 
             //$crud->field_type('user_id', 'hidden', $user_id);
             $crud->callback_before_update(array($this,'log_before_update'));
@@ -487,6 +512,23 @@ class Export_m extends CI_Model {
         return "<a href=$value target='_new'>$value</a>";
     }
     
+    public function _callback_country($value, $row) {
+        
+        $sql = "SELECT countries.name FROM `offers` 
+        LEFT JOIN countries ON countries.country_id=offers.country_id
+        WHERE offer_id =".$row->offer_id;
+        
+        if(!empty($this->db->query($sql)->row())){
+            $spd = $this->db->query($sql)->row()->name;
+        }else{
+            $spd = 'Not set';
+        }
+        
+        
+        return $spd;
+        
+    }
+
     public function _callback_customer($value, $row) {
         
         $sql = "SELECT acc_master.name FROM `sell_price_details` 
@@ -1227,14 +1269,30 @@ class Export_m extends CI_Model {
 
     public function export_edit($export_id) {
        
-       $usertype = $this->session->usertype;
-       $user_id = $this->session->user_id;
+        $usertype = $this->session->usertype;
+        $user_id = $this->session->user_id;
 
         $data['title'] = 'Edit Export';
         $data['menu'] = 'Export';
 
-        $offers =  $this->get_offer_list($user_id);
-        $data['offers'] = $this->db->query("SELECT * FROM offers WHERE offer_id IN ($offers)")->result();
+        $accpetable_usertype = array(1,4,7); // admin/exporter/accnts
+        if(!in_array($usertype, $accpetable_usertype)){ 
+            die('You don\'t have permission. Please contact admin');   
+        }
+
+        if($usertype == 1 or $usertype == 7){ // admin/account permission
+            $data['usertype'] = $usertype;
+            $data['offers'] = $this->db->query("SELECT * FROM offers WHERE offer_id")->result();    
+        }else { // exporter permission
+            $offers =  $this->get_offer_list($user_id);
+            if(empty($offers)){
+                die('Sorry, no offer permission is given to you.');
+            }else{
+                $data['usertype'] = $usertype;
+                $data['offers'] = $this->db->query("SELECT * FROM offers WHERE offer_id IN ($offers)")->result();
+            }
+        }
+        
         $data['incoterms'] = $this->db->query("SELECT * FROM incoterms WHERE status=1")->result();
 
         $data['currencies'] = $this->db->query("SELECT * FROM currencies WHERE status=1")->result();
@@ -1252,41 +1310,17 @@ class Export_m extends CI_Model {
             ->get_where('exportdata', array('export_id' => $export_id))->row();
 
         $offer_id = $data['export_details']->offer_id;
-
-
-
         $this->db->where('export_id',$export_id);
         $data['loaded_qty1'] = $this->db->get('export_details ')->result_array();
 
-
-
-
         $this->db->select('od_id, product_name, pieces, grade, quantity_offered , symbol, currency, packing_sizes.packing_size , offer_details.quantity_offered, offer_details.cartons_offered');
-
-        /*c_id*/
-
-
         $this->db->join('products', 'products.pr_id = offer_details.product_id', 'left');
-
         $this->db->join('offers', 'offers.offer_id = offer_details.offer_id', 'left');
-
         $this->db->join('packing_sizes', 'packing_sizes.ps_id = offer_details.packing_size_id', 'left');
-
-
         $this->db->join('currencies', 'currencies.c_id = offers.c_id', 'left');
-
         $data['export_details_products'] = $this->db->get_where('offer_details', array('offer_details.offer_id' => $offer_id))->result_array();
-
         $data['all_remarks'] = $this->db->get_where('remarks_master', array('remarks_master.status' => 1))->result();
-        //$data['export_details_product'] = $this->db->get_where('offer_details', array('offer_id' => $offer_id))->result_array();
-
-        /*
-        echo "<pre>";
-
-        print_r($data['export_details_products']);
-
-        die();*/
-
+        
         return array('page'=>'export/export_edit_v', 'data'=>$data);
     }
 

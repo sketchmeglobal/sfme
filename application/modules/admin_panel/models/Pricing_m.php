@@ -201,11 +201,7 @@ class Pricing_m extends CI_Model {
 
     private function _buying_table_common_query($usertype, $user_id, $od_id){
 
-        if($usertype == 1){
-
-            #for admin
-
-            $query = "
+        $query = "
                 SELECT
                 `buying_price`.*,
                 `line_items`.`line_item_name`,
@@ -226,10 +222,6 @@ class Pricing_m extends CI_Model {
             // echo '<pre>', print_r($rs), '</pre>';die;
             // echo $this->db->get_compiled_select('buying_price');
             // exit();
-
-        }else{
-            die('Operation died: no permission');
-        }
 
         return $rs;
     }
@@ -628,11 +620,7 @@ class Pricing_m extends CI_Model {
 
     private function _selling_table_common_query($usertype, $user_id, $od_id){
 
-        if($usertype == 1){
-
-            #for admin
-
-            $query = "
+        $query = "
                 SELECT
                 `selling_price`.*,
                 CONCAT(countries.name, ' [', countries.iso3,']') AS country_name,
@@ -655,16 +643,6 @@ class Pricing_m extends CI_Model {
                 ORDER BY selling_price.selling_incoterm_id
             ";
             $rs = $this->db->query($query)->result();
-           
-            // echo $this->db->last_query();
-
-            // echo '<pre>', print_r($rs), '</pre>';die;
-            // echo $this->db->get_compiled_select('selling_price');
-            // exit();
-
-        }else{
-            die('Operation died: no permission');
-        }
 
         return $rs;
     }
@@ -763,11 +741,7 @@ class Pricing_m extends CI_Model {
 
     private function _selling_table_details_common_query($usertype,$offer_id, $od_id){
 
-        if($usertype == 1){
-
-            #for admin
-
-            $query = "
+        $query = "
                 SELECT
                 `sell_price_details`.*,
                 CONCAT(countries.name, ' [', countries.iso3,']') AS country_name,
@@ -785,16 +759,6 @@ class Pricing_m extends CI_Model {
 
             ";
             $rs = $this->db->query($query)->result();
-           
-            // echo $this->db->last_query();
-
-            // echo '<pre>', print_r($rs), '</pre>';die;
-            // echo $this->db->get_compiled_select('selling_price');
-            // exit();
-
-        }else{
-            die('Operation died: no permission');
-        }
 
         return $rs;
     }

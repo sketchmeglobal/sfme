@@ -433,6 +433,41 @@ class Master_m extends CI_Model {
             show_error($e->getMessage().'<br>'.$e->getTraceAsString());
         }
     }
+
+
+    public function  payment_types(){
+        $user_id = $this->session->user_id;
+        try{
+            $crud = new grocery_CRUD();
+            $crud->set_crud_url_path(base_url('admin_panel/Master/payment_types'));
+            $crud->set_theme('flexigrid');
+            $crud->set_subject('Payment Types');
+            $crud->set_table('payment_types');
+
+            $crud->unset_read();
+            $crud->unset_clone();
+            $crud->unset_delete();
+
+            $this->table_name = 'payment_types';
+            $crud->callback_before_update(array($this,'log_before_update'));
+            
+            $crud->columns('payment_title','status');
+            $crud->unset_fields(array('created_date','modified_date'));
+    
+            $crud->required_fields('payment_title');
+            
+            $output = $crud->render();
+            //rending extra value to $output
+            $output->tab_title = 'Payment Types';
+            $output->section_heading = 'Payment Status <small>(Add / Edit / Delete)</small>';
+            $output->menu_name = 'Payment Types';
+            $output->add_button = '';
+            
+            return array('page'=>'common_v', 'data'=>$output); //loading common view page
+        } catch(Exception $e) {
+            show_error($e->getMessage().'<br>'.$e->getTraceAsString());
+        }
+    }
     
     public function  all_clauses(){
         $user_id = $this->session->user_id;
@@ -500,7 +535,7 @@ class Master_m extends CI_Model {
             $crud->field_type('supplier_buyer', 'true_false', array('0' => 'Supplier', '1' => 'Buyer'));
             
             
-            $crud->display_as('instruction','Sale Contract Instruction');
+            // $crud->display_as('instruction','Sale Contract Instruction');
 
             $output = $crud->render();
             //rending extra value to $output

@@ -79,7 +79,7 @@ class user_m extends CI_Model {
         foreach ($rs as $val) {
 
             if($val->usertype == 1){ 
-                $type = "Trader" ;
+                $type = "Admin" ;
             }elseif($val->usertype == 2){
                 $type = "Resource Developer";
             }elseif($val->usertype == 3){
@@ -90,6 +90,12 @@ class user_m extends CI_Model {
                 $type = "Doc. Manager";
             }elseif($val->usertype == 6){
                 $type = "Task Operator";
+            }elseif($val->usertype == 7){
+                $type = "Accounts";
+            }elseif($val->usertype == 8){
+                $type = "Trader";
+            }else{
+                $type = "Not Set";
             }
 
             $nestedData['usertype'] = $type;
@@ -422,7 +428,7 @@ class user_m extends CI_Model {
         
         
         
-        if( $this->input->post('user_type') == 4){
+        if( $this->input->post('user_type') == 4){ // exporter
             
             if(count($this->input->post('offer_values[]')) > 0){
                 $accn = join(',',$this->input->post('offer_values[]'));
@@ -431,6 +437,12 @@ class user_m extends CI_Model {
             }
          
             $user_id = $this->input->post('user_id');
+
+            if($this->input->post('payment_role') == 'null'){
+                $pr = NULL;
+            }else{
+                $pr = $this->input->post('payment_role');
+            }
     
             if($this->input->post('pass') == ''){
     
@@ -440,6 +452,7 @@ class user_m extends CI_Model {
                     'email' => $this->input->post('email'),
                     'acc_masters' => NULL,
                     'offer_ids' => $accn,
+                    'payment_role' => $pr,
                     'blocked' => $this->input->post('blocked')
                 );
     
@@ -449,8 +462,9 @@ class user_m extends CI_Model {
                     'usertype' => $this->input->post('user_type'),
                     'username' => $this->input->post('username'),
                     'email' => $this->input->post('email'),
-                     'acc_masters' => NULL,
+                    'acc_masters' => NULL,
                     'offer_ids' => $accn,
+                    'payment_role' => $pr,
                     'pass' => hash('sha256', $this->input->post('pass')),
                     'blocked' => $this->input->post('blocked')
                 );
@@ -465,6 +479,12 @@ class user_m extends CI_Model {
             }else{
                 $accn = NULL;
             }
+
+            if($this->input->post('payment_role') == 'null'){
+                $pr = NULL;
+            }else{
+                $pr = $this->input->post('payment_role');
+            }
             
             $user_id = $this->input->post('user_id');
 
@@ -476,6 +496,7 @@ class user_m extends CI_Model {
                     'email' => $this->input->post('email'),
                     'acc_masters' => $accn,
                     'offer_ids' => NULL,
+                    'payment_role' => $pr,
                     'blocked' => $this->input->post('blocked')
                 );
     
@@ -487,6 +508,7 @@ class user_m extends CI_Model {
                     'email' => $this->input->post('email'),
                     'acc_masters' => $accn,
                     'offer_ids' => NULL,
+                    'payment_role' => $pr,
                     'pass' => hash('sha256', $this->input->post('pass')),
                     'blocked' => $this->input->post('blocked')
                 );
