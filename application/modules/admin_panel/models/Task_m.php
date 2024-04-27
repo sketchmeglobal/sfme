@@ -232,9 +232,9 @@ class Task_m extends CI_Model {
             $crud->set_theme('flexigrid');
             $crud->set_subject('Task');
             $crud->set_table('task_header');
-            $crud->where('task_status', 'Open');
+            // $crud->where('task_status', 'Open');
             if($user_id != 1){
-                $where = "FIND_IN_SET(".$user_id.", task_members)";
+                $where = "FIND_IN_SET(".$user_id.", task_members) OR task_initiator = ". $user_id . " AND task_status = 'Open'";
                 $crud->where($where);
                 $crud->unset_delete();
             }
@@ -254,7 +254,7 @@ class Task_m extends CI_Model {
                 $crud->unset_fields('documents','created_date','modified_date','status');
                 $crud->set_relation('task_initiator', 'users', 'username', array());
             }else{
-                $crud->unset_fields('documents','created_date','modified_date','status','task_status');
+                $crud->unset_fields('documents','created_date','modified_date','status');
                 $crud->unset_delete();
                 $crud->set_relation('task_initiator', 'users', 'username', array('user_id' => $user_id));
             }
