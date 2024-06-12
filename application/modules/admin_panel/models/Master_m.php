@@ -499,10 +499,36 @@ class Master_m extends CI_Model {
             $output->menu_name = 'Clause Master';
             $output->add_button = '';
             
-            return array('page'=>'common_v', 'data'=>$output); //loading common view page
+            return array('page'=>'master/clause_v', 'data'=>$output); //loading common view page
         } catch(Exception $e) {
             show_error($e->getMessage().'<br>'.$e->getTraceAsString());
         }
+    }
+
+    public function add_master_clause_multiple(){
+        $data['customers'] = $this->db->get_where('acc_master', array('supplier_buyer' => 1))->result();
+        $data['tab_title'] = 'Clause Master Multiple';
+        $data['section_heading'] = 'Clause Master Multiple <small>(Add)</small>';
+        $data['menu_name'] = 'Clause Master Multiple';
+        $data['insert_flag'] = 0;
+        if($this->input->post()){
+            $num_rows = count($this->input->post('customer_id'));
+            if($num_rows > 0){
+                $arr_values = $this->input->post('customer_id');
+                foreach($arr_values as $av){
+                    $insert_array = array(
+                        'clause_name' => $this->input->post('clause_name'),
+                        'clause_details' => $this->input->post('clause_details'),
+                        'customer_id' => $av
+                    );
+                    $this->db->insert('all_clauses',$insert_array);
+                }
+                $data['insert_flag'] = 1;
+            }
+            
+        }
+
+        return array('page'=>'master/master_clause_multiple_v', 'data'=>$data); //loading common view page
     }
 
     public function account_master(){

@@ -24,6 +24,7 @@
 	$route['admin/payment_terms'] = 'admin_panel/Master/payment_terms';
 	$route['admin/payment_types'] = 'admin_panel/Master/payment_types';
 	$route['admin/all_clauses'] = 'admin_panel/Master/all_clauses';
+	$route['admin/add-master-clause-multiple'] = 'admin_panel/Master/add_master_clause_multiple';
 	
 	$route['admin/account_master'] = 'admin_panel/Master/account_master';
 	$route['admin/ports'] = 'admin_panel/Master/ports';

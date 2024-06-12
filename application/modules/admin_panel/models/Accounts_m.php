@@ -457,7 +457,7 @@ class Accounts_m extends CI_Model {
 
 
         $data['header'] = $this->db
-            ->select('proforma_invoices.*, pi_number,pi_date, am1.owner_name,am1.name, am1.official_address, am1.instruction, am1.shipping_address,am1.place_of_supply, am1.email_id, am2.owner_name as consignee_name,
+            ->select('proforma_invoices.*, pi_number,pi_date, am1.owner_name,am1.name, am1.official_address, am1.purchase_order_instruction as instruction, am1.shipping_address,am1.place_of_supply, am1.email_id, am2.owner_name as consignee_name,
                 am2.name as consignee, am2.shipping_address as consignee_address,am2.shipping_address as consignee_shipping_address,
                 am2.place_of_supply as consignee_place_of_supply,port1.port_name,port2.port_name as shipment_port, offers.offer_id, offers.offer_fz_number,offers.shelf_life, shipping_line,
                 countries.name as country_name, incoterms.incoterm, offers.tolerance, offers.docs_provided, offers.shipment_timing, offers.size_of_container, offers.no_of_container, proforma_invoices.footer_contract, currencies.code, currencies.symbol')

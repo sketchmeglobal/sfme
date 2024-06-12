@@ -156,6 +156,14 @@ class Master extends My_Controller {
         }
     }
 
+    public function add_master_clause_multiple(){
+        if($this->check_permission(array(1)) == true) {
+            $this->load->model('Master_m');
+            $data = $this->Master_m->add_master_clause_multiple();
+            $this->load->view($data['page'], $data['data']);
+        }
+    }
+
     public function countries() {
         if($this->check_permission(array(1)) == true) {
             $this->load->model('Master_m');
